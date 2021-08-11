@@ -1,7 +1,7 @@
 #pos= lambda tree: [n() for n in tree]
 from typing import Iterable
 
-leafy= lambda l: ~(isinstance(l,Iterable) and not isinstance(l,str))
+leafy= lambda l: not isinstance(l,Iterable) or isinstance(l,str)
 jl= lambda l:''.join(['%2s'%s for s in l])
 
 nprint= lambda n,d,i: print('%2s %i %i'%(str(n),d,i))
@@ -80,13 +80,13 @@ print(sacc)
 
 
 #list of index descents per leaf
-def indxs(n,p):
+def indxs(n,p=[]):
 	if leafy(n):
 		indxs.l+= [p]
 	else:
 		for i,n_ in enumerate(n):
 			indxs(n_,p+[i])
 indxs.l= []
-indxs(tr,[])
+indxs(tr)
 print('IND')
 print(indxs.l)
