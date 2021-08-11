@@ -1,0 +1,7 @@
+file = file arg[0]
+#implied type file, variable named file, constructor file
+
+tokens = tokenize '() ' file.readall_utf8
+#implied type equivalent to c++ auto
+
+arr tree

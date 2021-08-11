@@ -1,0 +1,133 @@
+/*
+tysc
+type lispy C pre-pre-processor
+
+transpiles to C
+functor oriented
+inferred type
+immutable
+
+expression types
+	morphism
+		macros of generic functions
+		syntax
+			list of names
+			list of types
+				body
+	litany
+		macros of variable assignments
+		
+
+functions
+	#
+		all operators are either unary or binary, and have no precedence
+		allowing litanies without parenthesis
+
+operators
+	#
+		equivalent to functions
+		delimit words, allowing eg `1+1` instead of requiring `1 + 1`
+		all operators may form 'operator words' which are independent from their composing operators, eg ( += >: .< )
+	reserved
+		\ escape, rest of word
+		# comment, node
+		` multiline string, bracket
+		" string
+		' char
+		_ underscore alias capital-space is considered alphabetical and not an operator
+	default initialized
+		== equality
+		! falsy
+		~ not
+		& and
+		| or
+		^ xor
+		@ at
+		+ plus
+		- minus
+		* mul
+		/ div
+		% mod
+		** pow
+		// log
+		= assign
+
+		( brack_round_open
+		) brack_round_close
+		{ brack_curl_open
+		} brack_curl_close
+		< brack_angle_open
+		> brack_angle_close
+		[ brack_square_open
+		] brack_square_close
+
+		. member
+
+		-> arity
+		.< lift
+
+		λ lambda
+		Σ sum
+		Π prod
+
+	unassigned
+		$ dollar
+		: colon
+		? question
+		; semicolon
+		' tick
+		, comma
+
+
+	definitions
+		list type -> list type
+		->
+			#arity; a morphism between two lists of types, where list is a generic type
+		.< lift; brings a member into current scope; equivalent to #define lift(o,m) auto& m= o.m;
+
+
+
+TODO
+exception via maybe monad
+
+
+
+alias constructor ctor
+alias  destructor dtor
+
+sig f f f >: f
+raii ctor proc dtor >:
+	lambda
+		scope attach ctor ^
+		lambda
+			proc ^
+			lambda
+				dtor ^
+
+
+
+raii mk list op 
+	void void void
+
+ctor(arg[0]);lambda(arg[1]);dtor(arg[2]);
+
+cvar name type
+
+
+
+
+
+
+
+fnT 
+fnT +
+
+var a = 1+1
+var b = ()
+op_plus_int_int
+void op_plus_int_int(int a, int b, int* c){
+	c*= a+b;
+}
+
+
+ad

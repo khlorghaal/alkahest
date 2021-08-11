@@ -1,0 +1,9 @@
+alias ast tree<symbol>
+
+fn read  - str -> ast
+fn eval  - ast -> 
+fn print - str -> void
+
+while true
+	cout '> '
+	cin.getln read eval print

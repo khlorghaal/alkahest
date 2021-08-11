@@ -1,0 +1,193 @@
+-homoiconic macros as priority
+-pure functional
+-static type
+-nodes arrange themselves based on user-specified style instead of freehand
+-strict arrangement allows program structure to be visually inferred, thus self-documenting
+-clear indicators of cyclomatic complexity and coupling
+-interface targeted at keyboard, mouse optional
+-hy (lispy python) as backend, thus blender and scipy compatible
+later features
+-edits to generated hy propagate back onto nodes
+-pyopencl support
+
+binary op
++ab
+a+b
+ab+
++a+bc
+a+b+c
+ab+c+
+++abc
+a++bc
+ab++c
+abc++
+
+def : vec3
+:xyz
+x:yz
+xy:z
+xyz:
+
+def : mat3
+
+abcijkxyz:
+ abcijkxy:z
+  abcijkx:yz
+   abcijk:xyz
+    abcij:kxyz
+     abci:jkxyz
+      abc:ijkxyz
+       ab:cijkxyz
+        a:bcijkxyz
+         :abcijkxyz
+
+
+
+
+
+
+
+
+
+
+
+int a= f(x,g(y,z));
+(f x (g y z))
+
+functor
+	fun obj -> fun
+
+array
+	idx -> obj
+field
+	v idx -> obj
+tex
+	v f ; minmag -> obj
+
+finite_difference
+	field eta -> field
+	alias fdif
+
+gradient
+	field -> field
+	alias grad
+
+divergence
+	functor eta
+def div divergence
+
+def isodiv # 0 divergence constraint, incompressability
+functor combinator 
+	grad div grad 
+
+
+
+
+#particle integrator
+
+struct particle
+	v2 f32 p
+	rgba un8 c
+	v2 f16 v
+
+integral
+	euler
+		forward
+		verlet
+
+
+
+#annealer
+struct 
+f iterate: params, grid, f32 gamma -> params, grid
+
+
+
+
+####
+lang visual comparisons
+
+py
+a = f / m
+v = v + a
+p = p + v
+
+a = f / m
+v+= a
+p+= v
+
+sexpr
+(= a (/ f m))
+(+= v a))
+(+= p v))
+
+(+= p (+= v (= a (/ f m))))))
+
+swexpr infix
+{a += {f / m}}
+{v += a}
+{p += v}
+
+{ p += { v += { a = {f/m}}}}
+
+litany
+f / m = a += v += p
+
+stack
+f/m
+a=^
+v+=^
+p+=^
+
+forth
+f m / a = v += p +=
+
+tree
+set
+a
+/ f m
+
+set
+v
++ v a
+
+set
+p
++ p v
+
+
+
+py
+p= a/2*t*t + v*t + p0
+
+litany
+v * t
+a / 2 * t * t + ^ + p0
+
+
+
+
+
+####
+rejected
+
+lines
+p   +=
+v  +^=
+a +^=
+f/^
+m^
+
+p   =
+p0  +
+v*  +
+a|/ *
+2|^ |
+t^*t^
+
+p 
+p0
+v
+a
+2
+t
