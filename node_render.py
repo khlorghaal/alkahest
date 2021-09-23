@@ -64,9 +64,9 @@ if 1:
   ds as
   aw aw
   '''))
+for i in [0]*32: print()
 
 grid= {}
-(w,h)= (16,16)#window dims
 def blit(rast,p=(0,0)):
   (w,h)= (len(rast),len(rast[0]))
   for y,l in enumerate(rast):
@@ -76,6 +76,9 @@ def flush():
   ps= grid.keys()
   xs=[_[0] for _ in ps]
   ys=[_[1] for _ in ps]
+  if len(grid)==0:
+    print()
+    return
   (w0,h0)= (min(xs),min(ys))#inclusive
   (w1,h1)= (max(xs),max(ys))#exclusive
   w1+= 1
@@ -83,12 +86,18 @@ def flush():
   w= w1-w0
   h= h1-h0
 
-  print(' '.join([str(_) for _ in [w,h,w0,h0,w1,h1]]))
+  #print(' '.join([str(_) for _ in [w,h,w0,h0,w1,h1]]))
   bg= ' '
   rast= [[bg for _ in range(w0,w1)] for __ in range(h0,h1)]
   for p in ps:
     rast[p[1]-h0][p[0]-w0]= grid[p]
-  print(join2d(rast[::-1]))#y up
+
+  gl_backend.blit(rast)
+  gl_backend.invoke()
+
+  COUT=0
+  if COUT:
+    print(join2d(rast[::-1]))#y up
   grid.clear()
 
 #import time
@@ -112,10 +121,11 @@ def flush():
 import gl_backend
 import pygame
 while(1):
-  gl_backend.invoke()
-  for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                exit()
+    blit(['asdf','qwer','zxcv'])
+    flush()
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            exit()
 
 
 
