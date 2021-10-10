@@ -64,7 +64,7 @@ if 1:
   ds as
   aw aw
   '''))
-for i in [0]*32: print()
+for i in ra(32): print()
 
 grid= {}
 def blit(rast,p=(0,0)):
@@ -118,14 +118,14 @@ def flush():
 
 
 
-import gl_backend
-import pygame
-while(1):
-    blit(['asdf','qwer','zxcv'])
-    flush()
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            exit()
+#import gl_backend
+#import pygame
+#while(1):
+#    blit(['asdf','qwer','zxcv'])
+#    flush()
+#    for event in pygame.event.get():
+#        if event.type == pygame.QUIT:
+#            exit()
 
 
 

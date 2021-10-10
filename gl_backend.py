@@ -1,4 +1,4 @@
-import com
+from com import *
 import numpy as np
 import png
 #import exr
@@ -16,7 +16,7 @@ import numpy
 
 
 pygame.init()
-pygame.display.set_mode(com.resolution, DOUBLEBUF | OPENGL )
+pygame.display.set_mode(resolution, DOUBLEBUF | OPENGL )
 pygame.display.set_caption('____________________________')
 
 def setwh(_w,_h):
@@ -29,7 +29,7 @@ def setwh(_w,_h):
 	whmax= max(w,h)
 	whmin= min(w,h)
 	glViewport(0,0,w,h)
-setwh(*com.resolution)
+setwh(*resolution)
 
 z=4#2**z
 def zoomin():
@@ -136,14 +136,10 @@ void main(){
 	uvec2 lid=  gl_LocalInvocationID.xy;
 	uvec2 lsz= gl_WorkGroupSize.xy;
 
-	const vec4 bb= 
-		#if STAGE_FLARE
-			texelFetch(img_basis,ivec2(gid),0)
-		#elif STAGE_TONEMAP
-			texelFetch(img_basis,ivec2(gid),0)
-			+texelFetch(img_i,ivec2(gid),0)
-		#endif
-		;
+	const int I= 6;
+	const int K= 2;
+
+	vec4 bb= texelFetch(img_basis,ivec2(gid),0);
 
 	#if STAGE_FLARE
 	{
@@ -156,34 +152,26 @@ void main(){
 		//n*= 1.-1./(1.+ld*4.);
 		vec2 t= n.yx; t.y=-t.y;
 		col= bb;
-		const int I= 4;
-		const int K= 1;
 		const vec2 KMUL= res_rcp/K;
 		const vec2 rad= 1./res;
 		vec4 flare= vec4(0.);
 
 		count(I){
 			vec2 r= rad*_i;
-			vec4 acc= vec4(0.);
 			for(int x=-K; x<=K; x++){
 				for(int y=-K; y<=K; y++){
 					const vec2 o= vec2(x,y)*KMUL;
-					acc+= 
+					vec4 acc= 
 						+sample(uv + n*r + o )
 						+sample(uv - n*r + o )
 						+sample(uv + t*r + o )
 						+sample(uv - t*r + o );
+					float atten= len(o);
+					flare+= acc*atten;
 				}
 			}
-			//const float l= float(_i);
-			const float mag= 1.;///(1.+l*.1);
-			flare+= acc*mag;
 		}
-		const int KDIA= (1+K*2);
-		flare/= I*KDIA*4;//normalize
-
-		flare*= .2;//exponential decay or explosion
-		col= bb+flare;
+		col= flare;
 	}
 	#elif STAGE___
 	{
@@ -191,6 +179,12 @@ void main(){
 	}
 	#elif STAGE_TONEMAP
 	{
+		const int KDIA= (1+K*2);
+		float ppmag= I*KDIA*4;//normalize
+		ppmag*= .0000004;
+
+		vec4 ppbb= texelFetch(img_i,ivec2(gid),0);
+		bb+= ppbb*ppmag;
 		const float EXPOSURE= 1.;
 		//col= 1.-1./(bb*EXPOSURE+1.);
 		col= 1.-exp(-bb*EXPOSURE);
@@ -204,10 +198,10 @@ void main(){
 	imageStore(img_o, iuv, col);
 }
 '''
-
-PP= 1
+PP= 0
 PPBIG= 1
 if PP:
+	ass(1)#fixme pp broke
 	if PPBIG:
 		STAGES= [
 			*([['STAGE_FLARE']]*2),
@@ -256,8 +250,80 @@ void main(){
 }
 	''')
 
+prog_rune= prog_vf('''
+layout(location=0) uniform ivec4 tr;
+layout(location=1) uniform vec2 res;
+layout(location=0) in ivec2 in_p;
+layout(location=1) in uvec2 in_rune;
+smooth out vec2 vuv;//ints cant smooth
+flat out uvec2 vrune;
+void main(){
+	const ivec2[] lxy= ivec2[](
+		ivec2(-1,-1),
+		ivec2(-1, 1),
+		ivec2( 1, 1),
+		ivec2( 1,-1)
+	);
+	ivec2 xy= lxy[gl_VertexID];
+	vec2 p= in_p + xy - tr.xy;
+	gl_Position.xy= p/res;
+	gl_Position.zw= vec2(0,.5/tr.w);
+	const int W= 8;
+	const vec2[] luv= vec2[](
+		ivec2( 0, 0),
+		ivec2( 0, W),
+		ivec2( W, W),
+		ivec2( W, 0)
+	);
+	vuv= luv[gl_VertexID];
+	vrune= in_rune;
+}
+	''',
+	'''
+uint snake(uvec2 p, uint w){ return p.x+p.y*w; }
 
+smooth in vec2 vuv;
+flat in uvec2 vrune;
+out vec4 col;
+void main(){
+	const int W= 8;
+	ivec2 iuv= ivec2(vuv);
 
+	float lum= 0;
+	uint rune;
+	uint i;
+	if(iuv.y<4){//lower
+		rune= vrune.x;
+		i= snake(iuv,W);
+	}
+	else{//upper
+		rune= vrune.y;
+		i= snake(iuv-uvec2(0,4),W);
+	}
+	lum= float(((1<<i)&rune)!=0);
+
+	col= vec4(lum+.1);
+	//col= vec4(0.,vuv/float(W),1.);
+}
+	''')
+runes=[]#(x,y,dat)
+vbo_runes= glGenBuffers(1)
+glBindBuffer(GL_ARRAY_BUFFER, vbo_runes)
+vao_runes= glGenVertexArrays(1)
+glBindVertexArray(vao_runes)
+glEnableVertexAttribArray(0)
+glEnableVertexAttribArray(1)
+glBindBuffer(GL_ARRAY_BUFFER, vbo_runes)
+s= (2*4)*2
+glVertexAttribIPointer(0, 2, GL_INT,          s, None)
+glVertexAttribIPointer(1, 2, GL_UNSIGNED_INT, s, ct.c_void_p(2*4))
+del s
+glVertexAttribDivisor(0,1)
+glVertexAttribDivisor(1,1)
+glBindVertexArray(0)
+
+def rune(x,y,d):
+	runes.append((x,y,d&0xFFFFFFFF,d>>32))
 
 
 
@@ -285,16 +351,31 @@ glVertexAttribIPointer(1, 3, GL_INT, 3*4, None)
 glVertexAttribDivisor(1,1)
 glBindVertexArray(0)
 
-def quad(q):
-	global quads
-	assert(len(q)==3)
-	quads+= [q]
+def quad(p,t):
+	quads.append((p[0],p[1],t))
 
+def gentex_r8(rast):
+	w= len(rast[0])
+	h= len(rast)
+	r= glGenTextures(1)
+	glActiveTexture(GL_TEXTURE0)
+	glBindTexture(GL_TEXTURE_2D,r)
+	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RED8, w,h)
+	d= numpy.array(rast,dtype='int8').flatten()
+	glTexSubImage2D(GL_TEXTURE_2D, 0, 0,0, w,h, GL_RED, GL_UNSIGNED_BYTE, d)
 
+	return i
 
+def invoke():
 
-#@ds downscale, int
-def invoke(sc=1):
+	#rune test
+	if 1:#!!
+		i=0
+		for y in ra(16):
+			for x in ra(16):
+				rune(x*3,y*3,int(PHI**i)&(0xFFFFFFFFFFFFFFFF))
+				i+=1
+
 	glEnable(GL_FRAMEBUFFER_SRGB)
 	glEnable(GL_BLEND)
 	glDisable(GL_CULL_FACE)
@@ -305,23 +386,39 @@ def invoke(sc=1):
 	else:
 		glBindFramebuffer(GL_FRAMEBUFFER, 0)
 
-	#draw quads
-	glBindBuffer(GL_ARRAY_BUFFER, vbo_quads)
-	qarr= numpy.array(quads,dtype='int32').flatten()
-	glBufferData(GL_ARRAY_BUFFER, qarr, GL_DYNAMIC_DRAW)
+	glClearColor(0,0,0,0)
+	glClear(GL_COLOR_BUFFER_BIT)
 
+	
+	#quads
+	if 0:
+		glBindBuffer(GL_ARRAY_BUFFER, vbo_quads)
+		qarr= numpy.array(quads,dtype='int32').flatten()
+		glBufferData(GL_ARRAY_BUFFER, qarr, GL_DYNAMIC_DRAW)
+		del qarr
 
+		prog_quad.bind()
+		glUniform4i(0,tr[0],tr[1],0,1<<z)
+		glUniform2f(1,w,h)
 
-	prog_quad.bind()
-	global tr
-	glUniform4i(0,tr[0],tr[1],0,1<<z)
-	glUniform2f(1,w,h)
+		glBindVertexArray(vao_quads)
+		glDrawArraysInstanced(GL_TRIANGLE_FAN, 0,4, len(quads))
+		quads.clear()
 
-	glBindVertexArray(vao_quads)
-	glDrawArraysInstanced(GL_TRIANGLE_FAN, 0,4, len(quads))
-	quads.clear()
+	#runes
+	if 1:
+		glBindBuffer(GL_ARRAY_BUFFER, vbo_runes)
+		rarr= numpy.array(runes,dtype='uint32').flatten()
+		glBufferData(GL_ARRAY_BUFFER, rarr, GL_DYNAMIC_DRAW)
+		del rarr
 
+		prog_rune.bind()
+		glUniform4i(0,tr[0],tr[1],0,1<<z)
+		glUniform2f(1,w,h)
 
+		glBindVertexArray(vao_runes)
+		glDrawArraysInstanced(GL_TRIANGLE_FAN, 0,4, len(runes))
+		runes.clear()
 
 	if PP:
 		global _pingpong
@@ -355,5 +452,4 @@ def invoke(sc=1):
 		#glFramebufferTexture2D(GL_READ_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,tex_basis, 0)
 
 	pygame.display.flip()
-	glClearColor(0,0,0,0)
-	glClear(GL_COLOR_BUFFER_BIT)
+
