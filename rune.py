@@ -6,6 +6,8 @@ from math import *
 en=enumerate
 ra=range
 
+Z=5#runes being 8x8 is specified fairly hard
+
 def arrarr_wh(a):
 	return (len(a[0]),len(a))
 
@@ -27,9 +29,7 @@ class rune:
 
 
 
-def combine():
-	w=4#param
-	h=4
+def combine(w=4,h=4):
 	assert(w>=1)
 	assert(h>=1)
 	n=2<<(w*h)

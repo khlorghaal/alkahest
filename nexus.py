@@ -7,10 +7,10 @@ from pygame.locals import *
 import importlib
 
 mods= [
-	#'rune',
+	'rune',
 	'space',
 	'gl_backend',
-]
+]#load order may not be ordered
 mods= {m: importlib.import_module(m) for m in mods}
 
 gl_backend= mods['gl_backend']
@@ -30,10 +30,10 @@ for m in mods:
 
 from space import thrust
 kmap= {
-	K_LEFT: lambda d: thrust(d,(-1, 0)),
-	K_RIGHT:lambda d: thrust(d,( 1, 0)),
-	K_UP:   lambda d: thrust(d,( 0, 1)),
-	K_DOWN: lambda d: thrust(d,( 0,-1))
+	K_LEFT: lambda b: thrust(b,(-1, 0)),
+	K_RIGHT:lambda b: thrust(b,( 1, 0)),
+	K_UP:   lambda b: thrust(b,( 0, 1)),
+	K_DOWN: lambda b: thrust(b,( 0,-1))
 }
 
 def loop():
@@ -62,7 +62,8 @@ def loop():
 		#if change:pass#!!
 		change=0
 
-		for m in mods:
+		for n in mods:
+			m= mods[n]
 			if hasattr(m,'step'):
 				m.step()
 			if hasattr(m,'render'):

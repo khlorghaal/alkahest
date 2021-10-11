@@ -201,7 +201,7 @@ void main(){
 PP= 0
 PPBIG= 1
 if PP:
-	ass(1)#fixme pp broke
+	brek#fixme pp broke
 	if PPBIG:
 		STAGES= [
 			*([['STAGE_FLARE']]*2),
@@ -258,17 +258,18 @@ layout(location=1) in uvec2 in_rune;
 smooth out vec2 vuv;//ints cant smooth
 flat out uvec2 vrune;
 void main(){
+	const int W= 8;
+	const int W2= W/2;
 	const ivec2[] lxy= ivec2[](
-		ivec2(-1,-1),
-		ivec2(-1, 1),
-		ivec2( 1, 1),
-		ivec2( 1,-1)
+		ivec2(-W2,-W2),
+		ivec2(-W2, W2),
+		ivec2( W2, W2),
+		ivec2( W2,-W2)
 	);
 	ivec2 xy= lxy[gl_VertexID];
-	vec2 p= in_p + xy - tr.xy;
+	vec2 p= W*in_p + xy - tr.xy;
 	gl_Position.xy= p/res;
 	gl_Position.zw= vec2(0,.5/tr.w);
-	const int W= 8;
 	const vec2[] luv= vec2[](
 		ivec2( 0, 0),
 		ivec2( 0, W),
@@ -304,6 +305,10 @@ void main(){
 
 	col= vec4(lum+.1);
 	//col= vec4(0.,vuv/float(W),1.);
+	if(maxv(iuv)==W-1)
+		col.b+= .5;
+	if(minv(iuv)==0)
+		col.g+= .1;
 }
 	''')
 runes=[]#(x,y,dat)
@@ -335,7 +340,7 @@ qv= [
 	 0, 1,
 	 1, 1,
 	 1, 0
-]
+]#todo move to shader
 glBindBuffer(GL_ARRAY_BUFFER, vbo_quad)
 glBufferData(GL_ARRAY_BUFFER, numpy.array(qv,dtype='int8'), GL_STATIC_DRAW)
 #quads filled per frame
@@ -371,9 +376,9 @@ def invoke():
 	#rune test
 	if 1:#!!
 		i=0
-		for y in ra(16):
-			for x in ra(16):
-				rune(x*3,y*3,int(PHI**i)&(0xFFFFFFFFFFFFFFFF))
+		for y in ra(-16,16):
+			for x in ra(-16,16):
+				rune(x,y,int(1.05**i)&(0xFFFFFFFFFFFFFFFF))
 				i+=1
 
 	glEnable(GL_FRAMEBUFFER_SRGB)
@@ -389,9 +394,10 @@ def invoke():
 	glClearColor(0,0,0,0)
 	glClear(GL_COLOR_BUFFER_BIT)
 
+	glBlendFunc(GL_SRC_ALPHA,GL_ONE)
 	
 	#quads
-	if 0:
+	if 1:
 		glBindBuffer(GL_ARRAY_BUFFER, vbo_quads)
 		qarr= numpy.array(quads,dtype='int32').flatten()
 		glBufferData(GL_ARRAY_BUFFER, qarr, GL_DYNAMIC_DRAW)

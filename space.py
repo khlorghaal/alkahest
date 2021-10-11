@@ -1,5 +1,6 @@
 from com import *
 from numpy import array
+import gl_backend
 
 class ori:
 	rast=[[1]]
@@ -14,7 +15,10 @@ class cur:
 	]
 	vel_active=0
 
-geoms=[cur,ori]
+geoms=[
+	cur,
+	#ori,
+	]
 shash={}
 
 def step():
@@ -25,12 +29,10 @@ def render():
 	gl_backend.tr= cur.p
 	for g in geoms:
 		gl_backend.quad(g.p,0)
-	print(cur.p)
-	gl_backend.invoke()
 
-
-def thrust(d,b):
-	if d:
+def thrust(b,d):
+	if b:
+		d= array(d)
 		if cur.vel_active:
 			cur.v= d
 		else:
