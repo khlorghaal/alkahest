@@ -6,7 +6,7 @@ PHI= 1.61803398874
 PI= 3.14159265359
 TAU= 2*PI
 
-resolution= (640*4,480*3)
+resolution= (640*2,480*2)
 
 join2d= lambda a: '\n'.join([''.join(s) for s in a])
 

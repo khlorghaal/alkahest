@@ -25,21 +25,24 @@ class rune:
 		self.id= _idit
 		_idit+=1
 
-		self.rune= [['FIXME' for x,b in r] for y,r in en()]
+		self.rune= numpy.sum([[ arrarr[x,y]<<( x+y*8 ) for x,b in r] for y,r in en()],dtype='uint64')
 
 
 
-def combine(w=4,h=4):
+def combine(w=4,h=4,text=False):
 	assert(w>=1)
 	assert(h>=1)
 	n=2<<(w*h)
 
-	#truthy= '■'
-	#falsy= '□'
-	truthy= '▉'
-	falsy= ' '
-	#truthy= 1
-	#falsy= 0
+	if text:
+		#truthy= '■'
+		#falsy= '□'
+		truthy= '▉'
+		falsy= ' '
+	else:
+		truthy= 1
+		falsy= 0
+
 	acc=[]
 	def f(x,y):
 		i=x+y*w
@@ -79,15 +82,10 @@ def combine(w=4,h=4):
 							for kx,kv in en(kl):
 								kv= truthy if kv else falsy
 								rv= t(kx+x-1,ky+y-1)
-								kres&= kv==rv
+								kres&= kv==rv#every
 						if kres:
 							return 0
 			return 1
 		if a():
-			pass
-			#print(join2d(rast)+'\n')
-			#ioplex.body(rast)
-			#gl_backend.blit(rast)
-			#gl_backend.invoke()
-			#acc+= [rast]
+			print(join2d(rast)+'\n')
 

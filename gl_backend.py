@@ -228,28 +228,6 @@ if PP:
 
 
 
-prog_quad= prog_vf('''
-layout(location=0) uniform ivec4 tr;
-layout(location=1) uniform vec2 res;
-layout(location=0) in ivec2 in_qp;
-layout(location=1) in ivec3 in_xyt;
-smooth out vec2 uv;//ints cant smooth
-void main(){
-	vec2 p= in_qp + in_xyt.xy - tr.xy;
-	gl_Position.xy= (p)/res;
-	gl_Position.zw= vec2(0,.5/tr.w);
-	uv= in_qp.xy;
-}
-	''',
-	'''
-//layout(location= )uniform sampler2D atl;
-smooth in vec2 uv;
-out vec4 col;
-void main(){
-	col= vec4(0,uv,1);
-}
-	''')
-
 prog_rune= prog_vf('''
 layout(location=0) uniform ivec4 tr;
 layout(location=1) uniform vec2 res;
@@ -267,8 +245,8 @@ void main(){
 		ivec2( W2,-W2)
 	);
 	ivec2 xy= lxy[gl_VertexID];
-	vec2 p= W*in_p + xy - tr.xy;
-	gl_Position.xy= p/res;
+	ivec2 p= W*in_p + xy - tr.xy;
+	gl_Position.xy= vec2(p)/res;
 	gl_Position.zw= vec2(0,.5/tr.w);
 	const vec2[] luv= vec2[](
 		ivec2( 0, 0),
@@ -332,32 +310,64 @@ def rune(x,y,d):
 
 
 
-quads=[]#(x,y,w,h)
-vbo_quad=  glGenBuffers(1)
+
+
+prog_quad= prog_vf('''
+layout(location=0) uniform ivec4 tr;
+layout(location=1) uniform vec2 res;
+layout(location=0) in ivec4 in_xyzw;
+layout(location=1) in  vec4 in_col;
+smooth out vec2 uv;//ints cant smooth
+flat out vec4 v_col;
+void main(){
+	const ivec2[] lxy= ivec2[](
+		ivec2(0, 0),
+		ivec2(0, 1),
+		ivec2(1, 1),
+		ivec2(1, 0)
+	);
+
+	ivec2 qp= lxy[gl_VertexID];
+	ivec2 p= qp + in_xyzw.xy - tr.xy;
+	gl_Position= vec4(
+		vec2(p)/res,
+		in_xyzw.z,
+		.5/(float(1<<in_xyzw.w)*tr.w)
+		);
+	uv= vec2(qp);
+	v_col= in_col;
+}
+	''',
+	'''
+//layout(location= )uniform sampler2D atl;
+smooth in vec2 uv;
+flat in vec4 v_col;
+out vec4 col;
+void main(){
+	col= v_col;
+}
+	''')
+
+quads=[]#(x,y,z,w,rgba)
 vbo_quads= glGenBuffers(1)
-qv= [
-	 0, 0,
-	 0, 1,
-	 1, 1,
-	 1, 0
-]#todo move to shader
-glBindBuffer(GL_ARRAY_BUFFER, vbo_quad)
-glBufferData(GL_ARRAY_BUFFER, numpy.array(qv,dtype='int8'), GL_STATIC_DRAW)
+glBindBuffer(GL_ARRAY_BUFFER, vbo_quads)
 #quads filled per frame
 
 vao_quads= glGenVertexArrays(1)
 glBindVertexArray(vao_quads)
 glEnableVertexAttribArray(0)
 glEnableVertexAttribArray(1)
-glBindBuffer(GL_ARRAY_BUFFER, vbo_quad)
-glVertexAttribIPointer(0, 2, GL_BYTE, 2*1, None)
 glBindBuffer(GL_ARRAY_BUFFER, vbo_quads)
-glVertexAttribIPointer(1, 3, GL_INT, 3*4, None)
+s= 4*4+4*1
+glVertexAttribIPointer(0, 4, GL_INT,                s, None)
+glVertexAttribPointer( 1, 4, GL_UNSIGNED_BYTE,True, s, ct.c_void_p(4*4))
+del s
+glVertexAttribDivisor(0,1)
 glVertexAttribDivisor(1,1)
 glBindVertexArray(0)
 
-def quad(p,t):
-	quads.append((p[0],p[1],t))
+def quad(p,z,w,c):
+	quads.append((p[0],p[1],z,w,c))
 
 def gentex_r8(rast):
 	w= len(rast[0])
@@ -372,15 +382,6 @@ def gentex_r8(rast):
 	return i
 
 def invoke():
-
-	#rune test
-	if 1:#!!
-		i=0
-		for y in ra(-16,16):
-			for x in ra(-16,16):
-				rune(x,y,int(1.05**i)&(0xFFFFFFFFFFFFFFFF))
-				i+=1
-
 	glEnable(GL_FRAMEBUFFER_SRGB)
 	glEnable(GL_BLEND)
 	glDisable(GL_CULL_FACE)
