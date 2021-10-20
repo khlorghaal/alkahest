@@ -231,7 +231,7 @@ if PP:
 prog_rune= prog_vf('''
 layout(location=0) uniform ivec4 tr;
 layout(location=1) uniform vec2 res;
-layout(location=0) in ivec2 in_p;
+layout(location=0) in ivec3 in_p;
 layout(location=1) in uvec2 in_rune;
 smooth out vec2 vuv;//ints cant smooth
 flat out uvec2 vrune;
@@ -245,9 +245,12 @@ void main(){
 		ivec2( W2,-W2)
 	);
 	ivec2 xy= lxy[gl_VertexID];
-	ivec2 p= W*in_p + xy - tr.xy;
+	int z= in_p.z;
+	ivec2 p= W*in_p.xy + xy;
+	if(z!=-1)
+		 p-= tr.xy;
 	gl_Position.xy= vec2(p)/res;
-	gl_Position.zw= vec2(0,.5/tr.w);
+	gl_Position.zw= vec2(z,.5/tr.w);
 	const vec2[] luv= vec2[](
 		ivec2( 0, 0),
 		ivec2( 0, W),
@@ -297,16 +300,16 @@ glBindVertexArray(vao_runes)
 glEnableVertexAttribArray(0)
 glEnableVertexAttribArray(1)
 glBindBuffer(GL_ARRAY_BUFFER, vbo_runes)
-s= (2*4)*2
-glVertexAttribIPointer(0, 2, GL_INT,          s, None)
-glVertexAttribIPointer(1, 2, GL_UNSIGNED_INT, s, ct.c_void_p(2*4))
+s= 2*4 + 3*4
+glVertexAttribIPointer(0, 3, GL_INT,          s, None)
+glVertexAttribIPointer(1, 2, GL_UNSIGNED_INT, s, ct.c_void_p(3*4))
 del s
 glVertexAttribDivisor(0,1)
 glVertexAttribDivisor(1,1)
 glBindVertexArray(0)
 
-def rune(x,y,d):
-	runes.append((x,y,d&0xFFFFFFFF,d>>32))
+def rune(x,y,z,d):
+	runes.append((x,y,z,d&0xFFFFFFFF,d>>32))
 
 
 

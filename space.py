@@ -5,6 +5,7 @@ import gl_backend
 class ori:
 	rast=[[1]]
 	p= array((0,0))
+	w=0
 class cur:
 	p= array((0,0))
 	v= array((0,0))
@@ -35,7 +36,7 @@ w3= wset(3)
 
 geoms=[
 	cur,
-	#ori,
+	ori,
 	]
 shash={}
 

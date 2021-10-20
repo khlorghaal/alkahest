@@ -4,6 +4,15 @@ from functools import reduce as fold
 from operator import add
 
 
+'''
+imagine playing factorio,
+but youre incredibly stoned so everything is heiroglyphs,
+and youre doing real programming in a visual language
+has homoiconic macros, transpiles to C
+uses an input method that discards all notion of traditional typing
+key chords resemble something between a keyboard and guitar
+and uses vocal input as modifier keys
+'''
 
 class terminal(list):
 	#prevents list descent, lisp quot analogue
