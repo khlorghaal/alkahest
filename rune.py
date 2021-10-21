@@ -1,4 +1,5 @@
 import numpy
+from numpy import array
 #import ioplex
 
 from com  import *
@@ -11,22 +12,36 @@ Z=5#runes being 8x8 is specified fairly hard
 def arrarr_wh(a):
 	return (len(a[0]),len(a))
 
+
 class rune:
-	table={}
 	_idit=0
-	def __init__(self, name, arrarr):
-		assert(arrarr_wh(arrarr)==(8,8))
+	def __init__(self, name, dat):
+		if type(dat)==int:
+			self.bin= dat
+		else:
+			assert(type(dat   )==tuple)
+			assert(type(dat[0])==tuple)
+			assert(arrarr_wh(dat)==(8,8))
 
-		assert(name not in table)
-		table[name]=self
+			l= lambda x,y: dat[y][x]<<( x+y*8 )
+			r= array([([ l(x,y) for x in ra(8)]) for y in ra(8)])
+			self.bin= int(numpy.sum(r,dtype='uint64'))&0xFFFFFFFFFFFFFFFF
 
-		self.arrarr= arrarr.copy()
-		self.np= numpy.array(arrarr, dtype='uint8')
-		self.id= _idit
-		_idit+=1
+		lib= rune.lib
+		assert(name not in lib.__dict__)
+		setattr(lib,name,self)
 
-		self.rune= numpy.sum([[ arrarr[x,y]<<( x+y*8 ) for x,b in r] for y,r in en()],dtype='uint64')
+	class lib:
+		pass
 
+for g in [
+		('solid' ,lambda _: 1),
+		('blank' ,lambda _: 0),
+		('border',lambda p: p.x==0 or p.x==8 or p.y==0 or p.y==8),
+]:
+
+	r= tuple( tuple((g[1](ivec2(x,y)) for x in ra(8) )) for y in ra(8))
+	rune( g[0],r)
 
 
 def combine(w=4,h=4,text=False):

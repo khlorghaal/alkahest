@@ -1,4 +1,8 @@
 from com import *
+
+import rune
+import space
+
 import numpy as np
 import png
 #import exr
@@ -15,10 +19,6 @@ import numpy
 
 
 
-pygame.init()
-pygame.display.set_mode(resolution, DOUBLEBUF | OPENGL )
-pygame.display.set_caption('____________________________')
-
 def setwh(_w,_h):
 	global w
 	global h
@@ -34,14 +34,20 @@ setwh(*resolution)
 z=4#2**z
 def zoomin():
 	global z
-	if 1<<z < whmax//8:#max size percentage of screen
+	if 1<<z < whmax//32:#max size percentage of screen
 		z+=1
 def zoomou():
 	global z
 	if z>0:
 		z-=1
 
-tr= np.array((0,0))#view translation
+
+
+
+
+pygame.init()
+pygame.display.set_mode(resolution, DOUBLEBUF | OPENGL )
+pygame.display.set_caption('____________________________')
 
 import re
 class prog:
@@ -248,7 +254,7 @@ void main(){
 	int z= in_p.z;
 	ivec2 p= W*in_p.xy + xy;
 	if(z!=-1)
-		 p-= tr.xy;
+		 p-= W*tr.xy;
 	gl_Position.xy= vec2(p)/res;
 	gl_Position.zw= vec2(z,.5/tr.w);
 	const vec2[] luv= vec2[](
@@ -292,7 +298,7 @@ void main(){
 		col.g+= .1;
 }
 	''')
-runes=[]#(x,y,dat)
+
 vbo_runes= glGenBuffers(1)
 glBindBuffer(GL_ARRAY_BUFFER, vbo_runes)
 vao_runes= glGenVertexArrays(1)
@@ -308,81 +314,7 @@ glVertexAttribDivisor(0,1)
 glVertexAttribDivisor(1,1)
 glBindVertexArray(0)
 
-def rune(x,y,z,d):
-	runes.append((x,y,z,d&0xFFFFFFFF,d>>32))
 
-
-
-
-
-prog_quad= prog_vf('''
-layout(location=0) uniform ivec4 tr;
-layout(location=1) uniform vec2 res;
-layout(location=0) in ivec4 in_xyzw;
-layout(location=1) in  vec4 in_col;
-smooth out vec2 uv;//ints cant smooth
-flat out vec4 v_col;
-void main(){
-	const ivec2[] lxy= ivec2[](
-		ivec2(0, 0),
-		ivec2(0, 1),
-		ivec2(1, 1),
-		ivec2(1, 0)
-	);
-
-	ivec2 qp= lxy[gl_VertexID];
-	ivec2 p= qp + in_xyzw.xy - tr.xy;
-	gl_Position= vec4(
-		vec2(p)/res,
-		in_xyzw.z,
-		.5/(float(1<<in_xyzw.w)*tr.w)
-		);
-	uv= vec2(qp);
-	v_col= in_col;
-}
-	''',
-	'''
-//layout(location= )uniform sampler2D atl;
-smooth in vec2 uv;
-flat in vec4 v_col;
-out vec4 col;
-void main(){
-	col= v_col;
-}
-	''')
-
-quads=[]#(x,y,z,w,rgba)
-vbo_quads= glGenBuffers(1)
-glBindBuffer(GL_ARRAY_BUFFER, vbo_quads)
-#quads filled per frame
-
-vao_quads= glGenVertexArrays(1)
-glBindVertexArray(vao_quads)
-glEnableVertexAttribArray(0)
-glEnableVertexAttribArray(1)
-glBindBuffer(GL_ARRAY_BUFFER, vbo_quads)
-s= 4*4+4*1
-glVertexAttribIPointer(0, 4, GL_INT,                s, None)
-glVertexAttribPointer( 1, 4, GL_UNSIGNED_BYTE,True, s, ct.c_void_p(4*4))
-del s
-glVertexAttribDivisor(0,1)
-glVertexAttribDivisor(1,1)
-glBindVertexArray(0)
-
-def quad(p,z,w,c):
-	quads.append((p[0],p[1],z,w,c))
-
-def gentex_r8(rast):
-	w= len(rast[0])
-	h= len(rast)
-	r= glGenTextures(1)
-	glActiveTexture(GL_TEXTURE0)
-	glBindTexture(GL_TEXTURE_2D,r)
-	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RED8, w,h)
-	d= numpy.array(rast,dtype='int8').flatten()
-	glTexSubImage2D(GL_TEXTURE_2D, 0, 0,0, w,h, GL_RED, GL_UNSIGNED_BYTE, d)
-
-	return i
 
 def invoke():
 	glEnable(GL_FRAMEBUFFER_SRGB)
@@ -399,37 +331,26 @@ def invoke():
 	glClear(GL_COLOR_BUFFER_BIT)
 
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE)
-	
-	#quads
-	if 1:
-		glBindBuffer(GL_ARRAY_BUFFER, vbo_quads)
-		qarr= numpy.array(quads,dtype='int32').flatten()
-		glBufferData(GL_ARRAY_BUFFER, qarr, GL_DYNAMIC_DRAW)
-		del qarr
-
-		prog_quad.bind()
-		glUniform4i(0,tr[0],tr[1],0,1<<z)
-		glUniform2f(1,w,h)
-
-		glBindVertexArray(vao_quads)
-		glDrawArraysInstanced(GL_TRIANGLE_FAN, 0,4, len(quads))
-		quads.clear()
 
 	#runes
 	if 1:
 		glBindBuffer(GL_ARRAY_BUFFER, vbo_runes)
-		rarr= numpy.array(runes,dtype='uint32').flatten()
+		bodies= space.body.active
+		def rrast(b):
+			r= b.rune.bin
+			return (b.p.x,b.p.y,b.z, r&0xFFFFFFFF,r>>32)
+		bodies= [rrast(b) for b in bodies]
+		rarr= numpy.array(bodies,dtype='uint32').flatten()
 		glBufferData(GL_ARRAY_BUFFER, rarr, GL_DYNAMIC_DRAW)
-		del rarr
 
 		prog_rune.bind()
-		glUniform4i(0,tr[0],tr[1],0,1<<z)
+		tr= space.cursor.prime.body.p
+		glUniform4i(0,tr.x,tr.y,0,1<<z)
 		glUniform2f(1,w,h)
 
 		glBindVertexArray(vao_runes)
-		glDrawArraysInstanced(GL_TRIANGLE_FAN, 0,4, len(runes))
-		runes.clear()
-
+		glDrawArraysInstanced(GL_TRIANGLE_FAN, 0,4, len(bodies))
+		
 	if PP:
 		global _pingpong
 		for p in pp_progs:

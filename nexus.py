@@ -1,4 +1,5 @@
 #nexus is the entry point which handles io and updates
+#logic here should be kept minimal and moved into modules as needed
 
 from com import *
 import pygame
@@ -113,7 +114,7 @@ picks= set.difference(
 	set(kbinds.values()),
 		frets)
 
-thr= lambda d: lambda b: space.thrust(b,d)
+thr= lambda x,y: lambda b: space.thrust(b,ivec2(x,y))
 
 NoFret= object()
 NoPick= object()
@@ -136,15 +137,15 @@ chord=[]#keys pressed currently
 chords=[
 	#condition  : effect
 	#condition is a lambda which exaluates keys currently pressed against its construction here
-	(l_all(l_any(NoFret,f00,f01,f02), d00 ),thr((-1, 1))),
-	(l_all(l_any(NoFret,f00,f01,f02), d01 ),thr(( 0, 1))),
-	(l_all(l_any(NoFret,f00,f01,f02), d02 ),thr(( 1, 1))),
-	(l_all(l_any(NoFret,f00,f01,f02), d10 ),thr((-1, 0))),
-	(l_all(l_any(NoFret,f00,f01,f02), d11 ),thr(( 0, 0))),
-	(l_all(l_any(NoFret,f00,f01,f02), d12 ),thr(( 1, 0))),
-	(l_all(l_any(NoFret,f00,f01,f02), d20 ),thr((-1,-1))),
-	(l_all(l_any(NoFret,f00,f01,f02), d21 ),thr(( 0,-1))),
-	(l_all(l_any(NoFret,f00,f01,f02), d22 ),thr(( 1,-1))),
+	(l_all(l_any(NoFret,f00,f01,f02), d00 ),thr(-1, 1)),
+	(l_all(l_any(NoFret,f00,f01,f02), d01 ),thr( 0, 1)),
+	(l_all(l_any(NoFret,f00,f01,f02), d02 ),thr( 1, 1)),
+	(l_all(l_any(NoFret,f00,f01,f02), d10 ),thr(-1, 0)),
+	(l_all(l_any(NoFret,f00,f01,f02), d11 ),thr( 0, 0)),
+	(l_all(l_any(NoFret,f00,f01,f02), d12 ),thr( 1, 0)),
+	(l_all(l_any(NoFret,f00,f01,f02), d20 ),thr(-1,-1)),
+	(l_all(l_any(NoFret,f00,f01,f02), d21 ),thr( 0,-1)),
+	(l_all(l_any(NoFret,f00,f01,f02), d22 ),thr( 1,-1)),
 ]
 effects={
 	f00:space.w0,
@@ -161,6 +162,7 @@ def keychg(b,s):
 
 	if audio:
 		audio.note(b,symbols.index(k))
+		#todo actual frets
 
 	if b:
 		chord.append(k)
@@ -199,6 +201,16 @@ def bindhelp(b):
 if audio:
 	audio.start()
 
+
+#rune test
+if 0:
+	i=0
+	for y in ra(-16,16):
+		for x in ra(-16,16):
+			r= rune.rune('gen_%i'%i,int(1.05**i)&((1<<32)-1))
+			space.body(x*2,y*2,0,r)
+			i+=1
+
 def loop():
 	while 1:
 		change= 0
@@ -228,15 +240,6 @@ def loop():
 			change=1
 		#if change:pass#!!
 		change=0
-
-
-		#rune test
-		if 1:
-			i=0
-			for y in ra(-16,16):
-				for x in ra(-16,16):
-					gl_backend.rune(x*2,y*2,0,int(1.05**i)&(0xFFFFFFFFFFFFFFFF))
-					i+=1
 
 		for m in mods:
 			if hasattr(m,'step'):
