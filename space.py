@@ -3,16 +3,16 @@ from rune import rune
 
 class body:
 	active=[]
-	def __init__(self,pxy,z,r):
+	def __init__(self,pxy,run,z=0):
 		assert(type(pxy)==ivec2)
 		self.p= pxy
 		self.z= z#z currently only used for UI layer
-		assert(type(r)==rune)
-		self.rune= r
+		assert(type(run)==rune)
+		self.rune= run
 
 		body.active.append(self)
 
-origin= body(ivec2(0,0),0,rune.lib.solid)
+origin= body(ivec2(0,0),rune.lib['solid'])
 
 class cursor:
 	insts=[]
@@ -20,7 +20,7 @@ class cursor:
 	def __init__(self,p):
 		self.v= ivec2(0,0)
 		self.w=0
-		self.body= body(p,0,rune.lib.border)
+		self.body= body(p,rune.lib['border'])
 
 		self.vel_active=0
 		cursor.insts+=[self]

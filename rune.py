@@ -27,21 +27,9 @@ class rune:
 			r= array([([ l(x,y) for x in ra(8)]) for y in ra(8)])
 			self.bin= int(numpy.sum(r,dtype='uint64'))&0xFFFFFFFFFFFFFFFF
 
-		lib= rune.lib
-		assert(name not in lib.__dict__)
-		setattr(lib,name,self)
-
-	class lib:
-		pass
-
-for g in [
-		('solid' ,lambda _: 1),
-		('blank' ,lambda _: 0),
-		('border',lambda p: p.x==0 or p.x==8 or p.y==0 or p.y==8),
-]:
-
-	r= tuple( tuple((g[1](ivec2(x,y)) for x in ra(8) )) for y in ra(8))
-	rune( g[0],r)
+		self.name= name
+		rune.lib[name]=self
+	lib={}
 
 
 def combine(w=4,h=4,text=False):
@@ -104,3 +92,44 @@ def combine(w=4,h=4,text=False):
 		if a():
 			print(join2d(rast)+'\n')
 
+
+def load_font(file):
+	import font
+	from font import rmf
+	f= rmf.load(file)
+
+	for c,g in f.glyphs.items():
+		name= c
+		rast= g.raster
+		#border
+		rast= [[*l]+[0] for l in rast]+[[0]*8]
+		rast= tuple(tuple(l) for l in rast)
+		rune(name,rast)
+
+rune('blank' ,0)
+rune('solid' ,0xFFFFFFFFFFFFFFFF)
+rune('border',0xFF818181818181FF)
+load_font('./font/lunatic.rmf')
+
+def tests():
+	import space
+	#rand
+	if 0:
+		i=0
+		for y in ra(-16,16):
+			for x in ra(-16,16):
+				r= rune('gen_%i'%i,int(1.05**i)&((1<<32)-1))
+				space.body(ivec2(x*2,y*2),r)
+				i+=1
+
+	if 1:
+		i=0
+		l= tuple(rune.lib.values())
+		print(l)
+		W= 8
+		for y in ra(-W,W):
+			for x in ra(-W,W):
+				if i>=len(l):
+					break
+				space.body(ivec2(x*2,y*2),l[i])
+				i+=1

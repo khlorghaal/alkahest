@@ -201,15 +201,7 @@ def bindhelp(b):
 if audio:
 	audio.start()
 
-
-#rune test
-if 0:
-	i=0
-	for y in ra(-16,16):
-		for x in ra(-16,16):
-			r= rune.rune('gen_%i'%i,int(1.05**i)&((1<<32)-1))
-			space.body(x*2,y*2,0,r)
-			i+=1
+rune.tests()
 
 def loop():
 	while 1:
