@@ -290,12 +290,12 @@ void main(){
 	}
 	lum= float(((1<<i)&rune)!=0);
 
-	col= vec4(lum+.1);
+	col= vec4(lum);
 	//col= vec4(0.,vuv/float(W),1.);
+	col.rgb*= .65;
 	if(maxv(iuv)==W-1)
-		col.b+= .5;
-	if(minv(iuv)==0)
-		col.g+= .1;
+		col+= 2./255;
+	col.a= 1.;
 }
 	''')
 
@@ -327,10 +327,12 @@ def invoke():
 	else:
 		glBindFramebuffer(GL_FRAMEBUFFER, 0)
 
-	glClearColor(0,0,0,0)
+	c= 1./255.
+	glClearColor(c,c,c,0.)
+	del c
 	glClear(GL_COLOR_BUFFER_BIT)
 
-	glBlendFunc(GL_SRC_ALPHA,GL_ONE)
+	glBlendFunc(GL_ONE,GL_ONE_MINUS_DST_ALPHA)
 
 	#runes
 	if 1:

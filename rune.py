@@ -125,11 +125,10 @@ def tests():
 	if 1:
 		i=0
 		l= tuple(rune.lib.values())
-		print(l)
 		W= 8
 		for y in ra(-W,W):
 			for x in ra(-W,W):
 				if i>=len(l):
 					break
-				space.body(ivec2(x*2,y*2),l[i])
+				space.body(ivec2(x,y),l[i])
 				i+=1
