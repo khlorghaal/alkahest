@@ -332,7 +332,7 @@ def invoke():
 	del c
 	glClear(GL_COLOR_BUFFER_BIT)
 
-	glBlendFunc(GL_ONE,GL_ONE_MINUS_DST_ALPHA)
+	glBlendFunc(GL_ONE,GL_DST_COLOR)
 
 	#runes
 	if 1:

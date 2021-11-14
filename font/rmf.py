@@ -65,6 +65,8 @@ class glyph:
 class font:
 	def __init__(self, char_wh):
 		self.wh= char_wh
+		assert(0<self.wh[1]<2048)
+		assert(0<self.wh[0]<2048)
 		self.glyphs={}
 
 	#append glyphs into font, with empty rasters
@@ -77,16 +79,6 @@ class font:
 				print('glyph \'{}\' already present',g)
 			else:
 				TODO
-	def validate(self):
-		assert(0<self.wh[0]<2048)
-		assert(0<self.wh[1]<2048)
-		for (ch,g) in self.glyphs.items():
-			assert(g.char!=None or g.name!=None)
-			if g.char!=None:
-				assert(len(g.char)==1)
-			assert(len(g.raster)==self.wh[1])
-			for row in g.raster:
-				assert(len(row )==self.wh[0])
 
 	def print_chars(self,space=False):
 		a= ''
@@ -206,6 +198,15 @@ def load(fname):
 			k= char or name
 			f.glyphs[k]= glyph(char,name,rast)
 
-		f.validate()
+
+	for (ch,g) in f.glyphs.items():
+		#todo LALR validation 
+		assert(g.char!=None or g.name!=None)
+		if g.char!=None:
+			assert(len(g.char)==1)
+		assert(len(g.raster)==f.wh[1])
+		for row in g.raster:
+			assert(len(row )==f.wh[0])
+		#todo move this to loading
 		return f
 

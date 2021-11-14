@@ -72,43 +72,19 @@ del l
 
 #scancode->symbol
 kbinds={
-	  8:f00,
-	 26:f01,
-	 20:f02,
-	  7:f10,
-	 22:f11,
-	  4:f12,
-	  6:f20,
-	 27:f21,
-	 29:f22,
-	 44:nl0,
-	226:nl1,
-	225:nl2,
-	 57:nl3,
-	 95:d00,
-	 96:d01,
-	 97:d02,
-	 92:d10,
-	 93:d11,
-	 94:d12,
-	 89:d20,
-	 90:d21,
-	 91:d22,
-	 98:nr0,
-	 99:nr1,
-	 88:nr2,
-	 87:nr3,
+	  8:f00, 26:f01, 20:f02,
+	  7:f10, 22:f11,  4:f12,
+	  6:f20, 27:f21, 29:f22,
+	 44:nl0,226:nl1,225:nl2, 57:nl3,
+	 95:d00, 96:d01, 97:d02,
+	 92:d10, 93:d11, 94:d12,
+	 89:d20, 90:d21, 91:d22,
+	 98:nr0, 99:nr1, 88:nr2, 87:nr3,
 	}
 frets={
-	f00,
-	f01,
-	f02,
-	f10,
-	f11,
-	f12,
-	f20,
-	f21,
-	f22,
+	f00,f01,f02,
+	f10,f11,f12,
+	f20,f21,f22,
 }
 picks= set.difference(
 	set(kbinds.values()),
@@ -225,6 +201,8 @@ def loop():
 
 				if e.key==K_F1:
 					bindhelp(isdown)
+				if e.key==K_F5:
+					redo()
 
 				sc= e.scancode
 				if sc in kbinds:
