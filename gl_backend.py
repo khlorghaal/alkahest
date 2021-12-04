@@ -31,10 +31,10 @@ def setwh(_w,_h):
 	glViewport(0,0,w,h)
 setwh(*resolution)
 
-z=4#2**z
+z=2#2**z
 def zoomin():
 	global z
-	if 1<<z < whmax//32:#max size percentage of screen
+	if 1<<z < whmax//64:#max size percentage of screen
 		z+=1
 def zoomou():
 	global z

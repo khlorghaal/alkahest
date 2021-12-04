@@ -1,16 +1,16 @@
-imagine playing factorio while so stoned that forms lose their physical shape and become pure heiroglyphs, demonstrating that geometries are ideal symbols
+imagine playing factorio,
+but youre incredibly stoned so everything is heiroglyphs,
+forms lose shape as geometries become pure symbols
 
-this will be used to do real programming in a visual language which transpiles to C
-heavily inspired by lisp, so homoiconic macros and all that
-
-its visual but make no mistake spaghetti is not allowed, the arrangement is a strict and deterministic output of a style function
-
-later on will not even use arabic numerals because fuckit i made a new type of numerals better suited for mathematics and not caveman rock counting
+arrangement is a deterministic style function,
+and youre doing real programming in a visual language
+has homoiconic macros, transpiles to C
+discourages arabic numerals and pointednes
 
 keyboard discards all lexical notions
-since expressions are a vestige of spoken language, their temporal nature being used on a 2d raster is just bastardized
-mathematics absolutely should not involve itself with traditional human language
+expressions are a vestige of spoken language
+temporal nature being used on a 2d raster is bastardized
+mathematics must not involve itself with speech
 
-input as a mix between a piano and guitar
-since a guitar is basically a matrix
-any decent keyboard has N-key rollover anyways
+key chords resemble something between a keyboard and guitar
+and uses vocal input as modifier keys

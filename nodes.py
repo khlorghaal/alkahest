@@ -1,19 +1,11 @@
+
+
+
+'''
 from typing import Iterable
 from itertools import chain
 from functools import reduce as fold
 from operator import add
-
-
-'''
-imagine playing factorio,
-but youre incredibly stoned so everything is heiroglyphs,
-and youre doing real programming in a visual language
-has homoiconic macros, transpiles to C
-uses an input method that discards all notion of traditional typing
-key chords resemble something between a keyboard and guitar
-and uses vocal input as modifier keys
-'''
-
 class terminal(list):
 	#prevents list descent, lisp quot analogue
 	#used if you want leaf content to be trees
@@ -85,7 +77,7 @@ info=lambda n,d=0,i=0,x=[]: terminal(n,d,i,x) if leafy(n) else [info(n_,d+1,i_,x
 ALL= info(tr)
 print(tstrgrid(ALL))
 
-
+```
 #W= tmax(tmap_leafy(lambda n,d,i: ?? ,info))
 #H= tmax(NL)
 #print('W:%i H:%i'%(W,H))
@@ -95,3 +87,4 @@ print(tstrgrid(ALL))
 #print(tstrgrd(rast))
 
 
+'''

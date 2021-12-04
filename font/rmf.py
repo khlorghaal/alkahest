@@ -173,6 +173,8 @@ def load(fname):
 			else:#first tok is name
 				char= None
 				name= m0
+				if name=='NOP':
+					continue
 				tll= 1
 
 			if len(meta)>tll:

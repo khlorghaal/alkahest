@@ -31,32 +31,17 @@ class rune:
 		rune.lib[name]=self
 	lib={}
 
+	def __str__(self):
+		s= self.name
+		i= self.bin
+		for y in ra(8):
+			for x in ra(8):
+				lum= ((1<<(x+y*8))&i)!=0
+				s+= 'X' if lum else '.'
+		return s
 
-def combine(w=4,h=4,text=False):
-	assert(w>=1)
-	assert(h>=1)
-	n=2<<(w*h)
-
-	if text:
-		#truthy= '■'
-		#falsy= '□'
-		truthy= '▉'
-		falsy= ' '
-	else:
-		truthy= 1
-		falsy= 0
-
-	acc=[]
-	def f(x,y):
-		i=x+y*w
-		b=g&(1<<i)
-		return truthy if b else falsy
-	def t(x,y):
-		#boundary condition via 0 padding
-		if x<0 or y<0 or x>=w or y>=h:
-			return falsy
-		return rast[y][x]
-
+bound= lambda x,y,w,h: x>=0 and y>=0 and x<w and y<h
+def gfilter(rast):
 	#rejection cases
 	krn=[[
 	[0,1],
@@ -72,25 +57,45 @@ def combine(w=4,h=4,text=False):
 	[0,1,0],
 	[0,0,0]
 	]]
+	h= len(rast)
+	w= len(rast[0])
+	for y,l in en(rast):
+		for x,rv in en(l):
+			for k in krn:
+				kres=1#kernel result per pixel
+				#reject if any kernel passes on any pixel
+				for ky,kl in en(k):
+					for kx,kv in en(kl):
+						if bound(kx+x-1,ky+y-1,w,h):
+							rv= rast[y][x]
+						else:
+							rv= 0
+						kres&= kv==rv#every
+				if kres:
+					return 0
+	return 1
+
+def combine(w=4,h=4, count=None):
+	assert(w>=1)
+	assert(h>=1)
+	n=2<<(w*h)
+
+	acc=[]
+	def f(x,y):
+		i=x+y*w
+		b=g&(1<<i)
+		return b
+
+	count_=0
 	for g in ra(n):
 		rast= [[f(x,y) for x in ra(w)] for y in ra(h)]
-
-		def a():
-			for y,l in en(rast):
-				for x,rv in en(l):
-					for k in krn:
-						kres=1#kernel result per pixel
-						#reject if any kernel passes on any pixel
-						for ky,kl in en(k):
-							for kx,kv in en(kl):
-								kv= truthy if kv else falsy
-								rv= t(kx+x-1,ky+y-1)
-								kres&= kv==rv#every
-						if kres:
-							return 0
-			return 1
-		if a():
-			print(join2d(rast)+'\n')
+		if gfilter(rast):
+			acc+=[rast]
+			count_+= 1
+			if count_>count:
+				break
+			#print(join2d(rast)+'\n')
+	return acc
 
 
 def load_font(file):
@@ -115,13 +120,25 @@ def tests():
 	import space
 	#rand
 	if 0:
-		i=0
+		i=256
 		for y in ra(-16,16):
 			for x in ra(-16,16):
-				r= rune('gen_%i'%i,int(1.05**i)&((1<<32)-1))
-				space.body(ivec2(x*2,y*2),r)
+				r= rune('gen_%i'%i,int(1.055**i)&((1<<32)-1))
+				space.body(ivec2(x*1,y*1),r)
 				i+=1
 
+	if 0:
+		i= 256
+		for y in ra(-2,2):
+			for x in ra(-2,2):
+				while gfilter():
+					#g= 
+					i+= 256
+				r= rune('gen_%i%i'%(x,y), g)
+				space.body(ivec2(x*1,y*1),r)
+				i+=1
+
+	#font
 	if 1:
 		i=0
 		l= tuple(rune.lib.values())
