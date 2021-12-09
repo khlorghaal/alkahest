@@ -7,11 +7,10 @@ from math import *
 en=enumerate
 ra=range
 
-Z=5#runes being 8x8 is specified fairly hard
+Z=5#runes being (1<<5=8)x8 is specified fairly hard
 
 def arrarr_wh(a):
 	return (len(a[0]),len(a))
-
 
 class rune:
 	_idit=0
@@ -116,12 +115,24 @@ rune('solid' ,0xFFFFFFFFFFFFFFFF)
 rune('border',0xFF818181818181FF)
 load_font('./font/lunatic.rmf')
 
+def text(s,p):
+	import space
+	for y,l in en(s.split('\n')):
+		x=0
+		for c in l:
+			if c=='\t':
+				x+=4
+				continue
+			if c!=' ':
+				space.body(ivec2(x+p.x,y+p.y),rune.lib[c])
+			x+=1
+
 def tests():
 	import space
 	#rand
 	if 0:
 		i=256
-		for y in ra(-16,16):
+		for y in ra(-16,8):
 			for x in ra(-16,16):
 				r= rune('gen_%i'%i,int(1.055**i)&((1<<32)-1))
 				space.body(ivec2(x*1,y*1),r)
@@ -139,7 +150,7 @@ def tests():
 				i+=1
 
 	#font
-	if 1:
+	if 0:
 		i=0
 		l= tuple(rune.lib.values())
 		W= 8
@@ -149,3 +160,78 @@ def tests():
 					break
 				space.body(ivec2(x,y),l[i])
 				i+=1
+
+	#strings
+	if 1:
+		s= '''
+		def load_font(file):
+	import font
+	from font import rmf
+	f= rmf.load(file)
+
+	for c,g in f.glyphs.items():
+		name= c
+		rast= g.raster
+		#border
+		rast= [[*l]+[0] for l in rast]+[[0]*8]
+		rast= tuple(tuple(l) for l in rast)
+		rune(name,rast)
+
+rune('blank' ,0)
+rune('solid' ,0xFFFFFFFFFFFFFFFF)
+rune('border',0xFF818181818181FF)
+load_font('./font/lunatic.rmf')
+
+def text(s,p):
+	import space
+	for y,l in en(s.split('\n')):
+		x=0
+		for c in l:
+			if c=='\t':
+				x+=4
+				continue
+			if c!=' ':
+				space.body(ivec2(x+p.x,y+p.y),rune.lib[c])
+			x+=1
+
+def tests():
+	import space
+	#rand
+	if 0:
+		i=256
+		for y in ra(-16,8):
+			for x in ra(-16,16):
+				r= rune('gen_%i'%i,int(1.055**i)&((1<<32)-1))
+				space.body(ivec2(x*1,y*1),r)
+				i+=1
+
+	if 0:
+		i= 256
+		for y in ra(-2,2):
+			for x in ra(-2,2):
+				while gfilter():
+					#g= 
+					i+= 256
+				r= rune('gen_%i%i'%(x,y), g)
+				space.body(ivec2(x*1,y*1),r)
+				i+=1
+
+	#font
+	if 0:
+		i=0
+		l= tuple(rune.lib.values())
+		W= 8
+		for y in ra(-W,W):
+			for x in ra(-W,W):
+				if i>=len(l):
+					break
+				space.body(ivec2(x,y),l[i])
+				i+=1
+
+	#strings
+	if 1:
+		s= \'\'\'\'\'\'
+		text(s,ivec2(-16,16))
+		'''
+		text(s,ivec2(-16,64))
+
