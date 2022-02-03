@@ -11,6 +11,7 @@ import pygame
 from pygame.locals import *
 
 import ctypes as ct
+void_p= ct.c_void_p
 from OpenGL.GL import *
 from OpenGL.GL import shaders
 from OpenGL.GL.EXT.texture_filter_anisotropic import *
@@ -239,8 +240,10 @@ layout(location=0) uniform ivec4 tr;
 layout(location=1) uniform vec2 res;
 layout(location=0) in ivec3 in_p;
 layout(location=1) in uvec2 in_rune;
+layout(location=2) in uint  in_mod;
 smooth out vec2 vuv;//ints cant smooth
 flat out uvec2 vrune;
+flat out uint  vmod;
 void main(){
 	const int W= 8;
 	const int W2= W/2;
@@ -265,6 +268,7 @@ void main(){
 	);
 	vuv= luv[gl_VertexID];
 	vrune= in_rune;
+	vmod= in_mod;
 }
 	''',
 	'''
@@ -272,6 +276,7 @@ uint snake(uvec2 p, uint w){ return p.x+p.y*w; }
 
 smooth in vec2 vuv;
 flat in uvec2 vrune;
+flat in uint vmod;
 out vec4 col;
 void main(){
 	const int W= 8;
@@ -295,6 +300,20 @@ void main(){
 	col.rgb*= .65;
 	if(maxv(iuv)==W-1)
 		col+= 2./255;
+
+	switch(vmod){
+		case 0:
+			break;
+		case 1:
+			col= 1.-col*1.5;
+			break;
+		case 2:
+			//col.rb*= 0.;
+			break;
+		default:
+			break;
+	}
+
 	col.a= 1.;
 }
 	''')
@@ -305,13 +324,16 @@ vao_runes= glGenVertexArrays(1)
 glBindVertexArray(vao_runes)
 glEnableVertexAttribArray(0)
 glEnableVertexAttribArray(1)
+glEnableVertexAttribArray(2)
 glBindBuffer(GL_ARRAY_BUFFER, vbo_runes)
-s= 2*4 + 3*4
+s= 3*4 + 2*4 + 1*4
 glVertexAttribIPointer(0, 3, GL_INT,          s, None)
-glVertexAttribIPointer(1, 2, GL_UNSIGNED_INT, s, ct.c_void_p(3*4))
+glVertexAttribIPointer(1, 2, GL_UNSIGNED_INT, s, void_p(3*4))
+glVertexAttribIPointer(2, 1, GL_UNSIGNED_INT, s, void_p((3+2)*4))
 del s
 glVertexAttribDivisor(0,1)
 glVertexAttribDivisor(1,1)
+glVertexAttribDivisor(2,1)
 glBindVertexArray(0)
 
 
@@ -340,7 +362,11 @@ def invoke():
 		bodies= space.body.active
 		def rrast(b):
 			r= b.rune.bin
-			return (b.p.x,b.p.y,b.z, r&0xFFFFFFFF,r>>32)
+			return (
+				b.p.x,b.p.y,b.z,
+				r&0xFFFFFFFF,r>>32,
+				b.mod
+				)
 		bodies= [rrast(b) for b in bodies]
 		rarr= numpy.array(bodies,dtype='uint32').flatten()
 		glBufferData(GL_ARRAY_BUFFER, rarr, GL_DYNAMIC_DRAW)

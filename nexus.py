@@ -11,6 +11,7 @@ import time
 import gl_backend
 import rune
 import space
+import node
 if audio_enable:
 	import audio
 else:
@@ -21,6 +22,7 @@ mods= [
 	rune,
 	space,
 	audio,
+	node,
 ]
 
 #ioplexing
@@ -91,6 +93,9 @@ ll= lambda a: [kyes(i) for i in a]
 l_all= lambda *a: lambda : all(ll(a))
 l_any= lambda *a: lambda : any(ll(a))
 
+onhit= lambda l: lambda b: l() if b else  () 
+onrel= lambda l: lambda b:  () if b else l() 
+
 chord=[]#keys pressed currently
 chords=[
 	#condition  : effect
@@ -104,6 +109,8 @@ chords=[
 	(l_all(l_any(NoFret,f00,f01,f02), d20 ),thr(-1,-1)),
 	(l_all(l_any(NoFret,f00,f01,f02), d21 ),thr( 0,-1)),
 	(l_all(l_any(NoFret,f00,f01,f02), d22 ),thr( 1,-1)),
+	((lambda: f10 in chord), onrel(lambda: space.emplace('+'))),
+
 ]
 effects={
 	f00:space.w0,
@@ -160,6 +167,7 @@ if audio:
 	audio.start()
 
 rune.tests()
+node.tests()
 
 def loop():
 	while 1:

@@ -1,4 +1,4 @@
-resolution= (640*2,480*2)
+resolution= (640*3,480*2)
 audio_enable=False
 
 

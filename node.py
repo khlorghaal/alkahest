@@ -2,27 +2,30 @@ from com import *
 
 import rune
 
-
+'''
 class syb:
 	ref:syb
 class typ(syb):
-	mem:list<syb>
+	mem:list:syb
 	#types do not define operations, ops overload upon types
 class fun(syd):
-	inp=list<typ>
-	oup=list<typ>
+	inp:list:typ
+	oup:list:typ
 @dcls
 class lnk:
 	t:typ
 	s:syb
-
-
+'''
 
 
 '''
 
 '''
 
+
+def tests():
+	pass#lol
+	#eval()
 
 
 
