@@ -74,8 +74,6 @@ picks= set.difference(
 	set(kbinds.values()),
 		frets)
 
-thr= lambda x,y: lambda b: space.thrust(b,ivec2(x,y))
-
 NoFret= object()
 NoPick= object()
 def kyes(i):
@@ -98,21 +96,41 @@ onrel= lambda l: lambda b:  () if b else l()
 
 chord=[]#keys pressed currently
 chords=[
-	#condition  : effect
+	#(condition,effect)
 	#condition is a lambda which exaluates keys currently pressed against its construction here
-	(l_all(l_any(NoFret,f00,f01,f02), d00 ),thr(-1, 1)),
-	(l_all(l_any(NoFret,f00,f01,f02), d01 ),thr( 0, 1)),
-	(l_all(l_any(NoFret,f00,f01,f02), d02 ),thr( 1, 1)),
-	(l_all(l_any(NoFret,f00,f01,f02), d10 ),thr(-1, 0)),
-	(l_all(l_any(NoFret,f00,f01,f02), d11 ),thr( 0, 0)),
-	(l_all(l_any(NoFret,f00,f01,f02), d12 ),thr( 1, 0)),
-	(l_all(l_any(NoFret,f00,f01,f02), d20 ),thr(-1,-1)),
-	(l_all(l_any(NoFret,f00,f01,f02), d21 ),thr( 0,-1)),
-	(l_all(l_any(NoFret,f00,f01,f02), d22 ),thr( 1,-1)),
-	((lambda: f10 in chord), onrel(lambda: space.emplace('+'))),
-
+	*[
+		(
+			l_all(l_any(NoFret,f00,f01,f02), k ),
+			lambda b,d=d: space.thrust(b,ivec2(*d))
+		) for k,d in [
+			(d00,(-1, 1)),
+			(d01,( 0, 1)),
+			(d02,( 1, 1)),
+			(d10,(-1, 0)),
+			#(d11,( 0, 0)),
+			(d12,( 1, 0)),
+			(d20,(-1,-1)),
+			(d21,( 0,-1)),
+			(d22,( 1,-1))
+		]
+	],
+	*[
+		(
+			l_all(f,n),
+			onhit(lambda c=c: space.emplace(c))
+		) for f,n,c in [
+			(f10,nr0,'+'  ),
+			(f11,nr0,'*'  ),
+			(f12,nr0,'^'  ),
+			(f10,nr1,'-'  ),
+			(f11,nr1,'div'),
+			(f12,nr1,'log'),
+		]
+	]
 ]
-effects={
+for c in chords:
+	print(c)
+effects={#these always occur when these individual keys are pressed
 	f00:space.w0,
 	f01:space.w1,
 	f02:space.w2,

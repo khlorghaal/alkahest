@@ -1,6 +1,8 @@
 from com import *
 from rune import rune
 
+grid= {}
+
 class body:
 	active=[]
 	def __init__(self,pxy,run,z=0,mod=0):
@@ -13,6 +15,9 @@ class body:
 		self.mod= mod
 
 		body.active.append(self)
+		if pxy in grid:
+			body.active.remove(grid[pxy])
+		grid[pxy]= self
 
 origin= body(ivec2(0,0),rune.lib['empty'])
 
@@ -32,7 +37,7 @@ class cursor:
 			self.v= d if b else -d
 		elif b:
 			self.body.p+= d*(1<<self.w)
-			print(self.body.p)
+			#print(self.body.p)
 	def step():
 		for c in cursor.insts:
 			if c.vel_active:
@@ -61,6 +66,7 @@ def step():
 def thrust(b,d):
 	assert(isinstance(b,bool))
 	assert(isinstance(d,ivec2))
+	print(d)
 	if b:
 		cursor.prime.thrust(b,d)
 
