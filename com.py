@@ -14,11 +14,16 @@ join2d= lambda a: '\n'.join([''.join(s) for s in a])
 
 flatten2= lambda a: [_ for e in a for _ in e]
 
+from copy import copy
+
 #todo this will later be replaced by a more specialised hierarchical space
 @dcls
 class ivec2:
 	x: int
 	y: int
+	def __post_init__(self):
+		self.x= int(self.x)
+		self.y= int(self.y)
 	def __getitem__(self, i): 
 		if i==0:
 			return self.x
@@ -28,7 +33,7 @@ class ivec2:
 	def __iter__(self,i):
 		return iter((x,y))
 	def __eq__(self,other): return self.x==other.x and self.y==other.y
-	def __hash__(self): return hash(self.x)*hash(self.y)
+	def __hash__(self): return hash(self.x)^hash(self.y)
 
 
 def ivec2op(op):

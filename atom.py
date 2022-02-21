@@ -1,6 +1,7 @@
 from com import *
 
 import rune
+from space import *
 
 '''
 class syb:
@@ -22,11 +23,61 @@ class lnk:
 
 '''
 
+control_chars=('\b')
+
+@dcls
+class text(vesc):
+	wrap: bool= True
+		#if wrap is off, the vescicle will attempt expanding +x
+		#if it cannot exapand, it will wrap
+	cur: cursor= cursor(ivec2(0,0))
+	def __post_init__(self):
+		self.cur.p= self.bnd.org #FIXME pend cursor refactor
+
+	def str(self):
+		return str('onyo')
+
+	def inp(self,k):
+		cur= self.cur
+		p= cur.p
+		o= self.bnd.org
+		w= self.bnd.dim.x
+
+		if k=='\b':
+			d= -1
+		elif k=='\n':
+			d=w
+		else:
+			d= 1
+			body(copy(p),rune.lib[k])
+
+		#todo expansion bound checks
+		#todo wrapping
+
+		p= snakent(d+snake(p*ivec2(1,-1)-o,w),w)*ivec2(1,-1)+o
+		#p.x+= d
+		cur.p= p
+
+		if k=='\b':
+			g= grid.get(p)
+			if g:
+				g.kill()
+
+
 
 def tests():
-	pass#lol
-	#eval()
-
+	t= text(bound(ivec2(0,0),ivec2(2,4)))
+	t.inp('a')
+	t.inp('s')
+	t.inp('d')
+	t.inp('f')
+	t.inp('q')
+	t.inp('\b')
+	t.inp('\n')
+	t.inp('z')
+	t.inp('x')
+	t.inp('c')
+	t.inp('v')
 
 
 

@@ -11,7 +11,7 @@ import time
 import gl_backend
 import rune
 import space
-import node
+import atom
 if audio_enable:
 	import audio
 else:
@@ -22,7 +22,7 @@ mods= [
 	rune,
 	space,
 	audio,
-	node,
+	atom,
 ]
 
 #ioplexing
@@ -97,7 +97,7 @@ onrel= lambda l: lambda b:  () if b else l()
 chord=[]#keys pressed currently
 chords=[
 	#(condition,effect)
-	#condition is a lambda which exaluates keys currently pressed against its construction here
+	#condition is a lambda which evaluates keys currently pressed against its construction here
 	*[
 		(
 			l_all(l_any(NoFret,f00,f01,f02), k ),
@@ -119,17 +119,16 @@ chords=[
 			l_all(f,n),
 			onhit(lambda c=c: space.emplace(c))
 		) for f,n,c in [
-			(f10,nr0,'+'  ),
-			(f11,nr0,'*'  ),
-			(f12,nr0,'^'  ),
-			(f10,nr1,'-'  ),
+			(f10,nr0,'add'  ),
+			(f11,nr0,'mul'  ),
+			(f12,nr0,'pow'  ),
+			(f10,nr1,'sub'  ),
 			(f11,nr1,'div'),
 			(f12,nr1,'log'),
 		]
 	]
 ]
-for c in chords:
-	print(c)
+
 effects={#these always occur when these individual keys are pressed
 	f00:space.w0,
 	f01:space.w1,
@@ -184,8 +183,8 @@ def bindhelp(b):
 if audio:
 	audio.start()
 
-rune.tests()
-node.tests()
+#rune.tests()
+atom.tests()
 
 def loop():
 	while 1:

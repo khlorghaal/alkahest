@@ -5,7 +5,7 @@ AUTHOR khlorghaal
 LICENSE CC-NC-AT-SA
 COMMENT special characters full width, alphabetical w-1, lowercase w-1 h-1, numerical w-2, bracket interior padded
 _
-  space
+space
 .......
 .......
 .......
@@ -505,7 +505,7 @@ Z
 .xxxxx.
 ....x..
 ....x..
-..xxx..
+..x.x..
 ..x....
 ..x....
 .xxxxx.
@@ -786,7 +786,7 @@ z
 .......
 .xxxxx.
 ....x..
-..xxx..
+..x.x..
 ..x....
 .xxxxx.
 {

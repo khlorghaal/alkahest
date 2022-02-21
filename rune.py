@@ -39,7 +39,7 @@ class rune:
 				s+= 'X' if lum else '.'
 		return s
 
-bound= lambda x,y,w,h: x>=0 and y>=0 and x<w and y<h
+bounded= lambda x,y,w,h: x>=0 and y>=0 and x<w and y<h
 def gfilter(rast):
 	#rejection cases
 	krn=[[
@@ -65,7 +65,7 @@ def gfilter(rast):
 				#reject if any kernel passes on any pixel
 				for ky,kl in en(k):
 					for kx,kv in en(kl):
-						if bound(kx+x-1,ky+y-1,w,h):
+						if bounded(kx+x-1,ky+y-1,w,h):
 							rv= rast[y][x]
 						else:
 							rv= 0
