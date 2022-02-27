@@ -1,11 +1,14 @@
 resolution= (640*3,480*2)
 audio_enable=False
 
+focus= None
 
 en= enumerate
 ra= range
 
 from dataclasses import dataclass as dcls
+immut= dcls(frozen=True)
+
 PHI= 1.61803398874
 PI= 3.14159265359
 TAU= 2*PI

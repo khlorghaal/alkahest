@@ -8,8 +8,8 @@ from pygame.locals import *
 import time
 
 
-import gl_backend
 import rune
+import gl_backend
 import space
 import atom
 if audio_enable:
@@ -17,26 +17,7 @@ if audio_enable:
 else:
 	global audio
 	audio= None
-mods= [
-	gl_backend,
-	rune,
-	space,
-	audio,
-	atom,
-]
-
-#ioplexing
 import pygame
-
-class inplex:
-	def key(bool_updown, keycode):pass#mouse buttons considered keys
-	def mouse(ivec2):pass
-class inplex_mapped(inplex):
-	pass
-
-for m in mods:
-	if hasattr(m,'ioplex'):
-		m.ioplex.keydown()
 
 
 symbols=[
@@ -107,7 +88,6 @@ chords=[
 			(d01,( 0, 1)),
 			(d02,( 1, 1)),
 			(d10,(-1, 0)),
-			#(d11,( 0, 0)),
 			(d12,( 1, 0)),
 			(d20,(-1,-1)),
 			(d21,( 0,-1)),
@@ -119,72 +99,66 @@ chords=[
 			l_all(f,n),
 			onhit(lambda c=c: space.emplace(c))
 		) for f,n,c in [
-			(f10,nr0,'add'  ),
-			(f11,nr0,'mul'  ),
-			(f12,nr0,'pow'  ),
-			(f10,nr1,'sub'  ),
-			(f11,nr1,'div'),
+			(f10,nr0,'+'),
+			(f11,nr0,'*'),
+			(f12,nr0,'^'),
+			(f10,nr1,'-'),
+			(f11,nr1,'/'),
 			(f12,nr1,'log'),
 		]
-	]
+	],
+	(l_all(d11),onhit(space.aktivat))
 ]
 
-effects={#these always occur when these individual keys are pressed
-	f00:space.w0,
-	f01:space.w1,
-	f02:space.w2,
-}
+class ROOT:
+	def inp(b,ch,sc):
+		if sc not in kbinds:
+			return False
+		k= kbinds[sc]
 
+		if audio:
+			audio.note(b,symbols.index(k))
+			#todo actual frets
 
-def keychg(b,s):
-	global chord
-	if s not in kbinds:
-		return
-	k= kbinds[s]
+		if b:
+			chord.append(k)
 
-	if audio:
-		audio.note(b,symbols.index(k))
-		#todo actual frets
+		for ci in chords:
+			if ci[0]():
+				ci[1](b)
 
-	if b:
-		chord.append(k)
+		if not b:#after chord scan so that keyup still generates events
+			chord.remove(k)
 
-	for ci in chords:
-		if ci[0]():
-			ci[1](b)
+	def bind_remap():
+		acc= {}
+		global kbinds
 
-	if not b:#after chord scan so that keyup still generates events
-		chord.remove(k)
+		def g():
+			while 1:
+				for e in pygame.event.get():
+					if e.type==KEYDOWN:
+						yield e.scancode
+		g=g()
+		i=lambda: next(g)
+		for b in kbinds.values():
+			print(b[0]+':')
+			s=i()
+			print(s)
+			acc.add(s,b)
+		kbinds= acc
+		del acc
+	def bindhelp(b):
+		pass#todo discriptor display
 
-	if k in effects:
-		effects[k](b)
-
-def bind_remap():
-	acc= {}
-	global kbinds
-
-	def g():
-		while 1:
-			for e in pygame.event.get():
-				if e.type==KEYDOWN:
-					yield e.scancode
-	g=g()
-	i=lambda: next(g)
-	for b in kbinds.values():
-		print(b[0]+':')
-		s=i()
-		print(s)
-		acc.add(s,b)
-	kbinds= acc
-	del acc
-def bindhelp(b):
-	pass#todo discriptor display
+focus=ROOT
 
 if audio:
 	audio.start()
 
-#rune.tests()
-atom.tests()
+
+rune.tests()
+#atom.tests()
 
 def loop():
 	while 1:
@@ -206,24 +180,21 @@ def loop():
 			if e.type==KEYDOWN or e.type==KEYUP:
 				isdown= e.type==KEYDOWN
 
-				if e.key==K_F1:
+				k=e.key
+				if k==K_F1:
 					bindhelp(isdown)
-				if e.key==K_F5:
-					redo()
 
 				sc= e.scancode
-				if sc in kbinds:
-					keychg(isdown,sc)
-			change=1
-		#if change:pass#!!
-		change=0
+				ch= e.unicode
 
-		for m in mods:
-			if hasattr(m,'step'):
-				m.step()
-			if hasattr(m,'render'):
-				m.render()
-		gl_backend.invoke()
+				focus.inp(isdown,ch,sc)
+
+			change=1
+		change|= space.step()!=None
+		if change:
+			change=0
+			gl_backend.invoke()
+
 		time.sleep(1./60.)
 loop()
 

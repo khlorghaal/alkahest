@@ -359,7 +359,8 @@ def invoke():
 	#runes
 	if 1:
 		glBindBuffer(GL_ARRAY_BUFFER, vbo_runes)
-		bodies= space.body.active
+		bodies= space.grid.values()
+		cursors= space.cursor.insts
 		def rrast(b):
 			r= b.rune.bin
 			return (
@@ -367,12 +368,12 @@ def invoke():
 				r&0xFFFFFFFF,r>>32,
 				b.mod
 				)
-		bodies= [rrast(b) for b in bodies]
+		bodies= [rrast(b) for b in [*bodies,*cursors]]
 		rarr= numpy.array(bodies,dtype='uint32').flatten()
 		glBufferData(GL_ARRAY_BUFFER, rarr, GL_DYNAMIC_DRAW)
 
 		prog_rune.bind()
-		tr= space.cursor.prime.body.p
+		tr= space.cursor.prime.p
 		glUniform4i(0,tr.x,tr.y,0,1<<z)
 		glUniform2f(1,w,h)
 

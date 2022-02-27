@@ -35,12 +35,11 @@ class text(vesc):
 		self.cur.p= self.bnd.org #FIXME pend cursor refactor
 
 	def str(self):
-		return str('onyo')
+		return str('o nyo')
 
-	def inp(self,k):
-		cur= self.cur
-		p= cur.p
-		o= self.bnd.org
+	def inp(self,k,ch,sc):
+		p= self.cur.p
+		o= self.bnd.org 
 		w= self.bnd.dim.x
 
 		if k=='\b':
@@ -49,7 +48,10 @@ class text(vesc):
 			d=w
 		else:
 			d= 1
-			body(copy(p),rune.lib[k])
+			r= rune.lib.get(k)
+			if not r:
+				pass#todo multichars
+			body(copy(p),r)
 
 		#todo expansion bound checks
 		#todo wrapping
@@ -64,20 +66,9 @@ class text(vesc):
 				g.kill()
 
 
-
 def tests():
 	t= text(bound(ivec2(0,0),ivec2(2,4)))
-	t.inp('a')
-	t.inp('s')
-	t.inp('d')
-	t.inp('f')
-	t.inp('q')
-	t.inp('\b')
-	t.inp('\n')
-	t.inp('z')
-	t.inp('x')
-	t.inp('c')
-	t.inp('v')
+	focus= t
 
 
 

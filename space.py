@@ -1,67 +1,52 @@
 from com import *
+from rune import dic as runedict
 from rune import rune
 
 grid= {}
 
+@immut
 class body:
-	active=[]
-	def __init__(self,pxy,run,z=0,mod=0):
-		assert(type(pxy)==ivec2)
-		self.p= pxy
-		self.z= z#z currently only used for UI layer
-		if(type(run)==str):
-			run= rune.lib[run]
-			assert(run!=None)
-		assert(type(run)==rune)
-		self.rast= run.bin
-		self.rune= run
-		self.mod= mod
+	p: ivec2
+	rune: rune
+	z: int= 0
+	mod: int=0#misc bits, can be activity, arity, etc
+	def __post_init__(self):
+		o= grid.pop(self.p,None)
+		if o==runedict['vescicle']:
+			pass#todo dtor
+		grid[self.p]= self
 
-		body.active.append(self)
-		if pxy in grid:
-			body.active.remove(grid[pxy])
-		grid[pxy]= self
+origin= body(ivec2(0,0),runedict['empty'])
 
-	def kill(a):
-		if type(a)==ivec2:
-			p=a
-			b=grid[p]
-		elif type(a)==body:
-			p= a.p
-			b= a
-		else:
-			raise 'bargT' #obvious
-		body.active.remove(b)
-		grid.pop(p)
-
-origin= body(ivec2(0,0),rune.lib['empty'])
-
+#cursor is not a body, as it overlaps spaces
+@dcls
 class cursor:
-	insts=[]
-	prime= None
-	def __init__(self,p):
-		self.v= ivec2(0,0)
-		self.w=0
-		self.body= body(p,rune.lib['border'])
-		#FIXME dont use a body, as bodies are spatial mutex
-		#this is fucky UB as body position should be immut
-		#also implying a needed refactor of bodies
+	p:ivec2
+	v:ivec2= ivec2(0,0)
+	z:int= 0
+	w:int= 0#movement
+	mod: int=0
+	rune: rune= runedict['cursor']
+	vel_active:bool= 0
 
-		self.vel_active=0
+	def __post_init__(self):
 		cursor.insts+=[self]
 
 	def thrust(self,b,d):
 		if self.vel_active:
 			self.v= d if b else -d
 		elif b:
-			self.body.p+= d*(1<<self.w)
-			#print(self.body.p)
+			self.p+= d*(1<<self.w)
 	def step():
+		r=None
 		for c in cursor.insts:
 			if c.vel_active:
-				throw#fixme
-				c.body.p+= c.v*(1<<z)
-cursor.prime= cursor(ivec2(0,0))
+				r=True
+				raise#fixme
+				c.p+= c.v*(1<<z)
+		return r
+setattr(cursor,'insts',[])
+setattr(cursor,'prime',cursor(ivec2(0,0)))#because dcls
 
 def wset(i):
 	def r(b):
@@ -72,27 +57,21 @@ def wset(i):
 		else:
 			c.w&=~m
 	return r
-w0= wset(0)
-w1= wset(1)
-w2= wset(2)
-w3= wset(3)
 
 def step():
 	#motion
-	cursor.step()
+	return cursor.step()
 
 def thrust(b,d):
 	assert(isinstance(b,bool))
 	assert(isinstance(d,ivec2))
-	print(d)
+	#print(d)
 	if b:
 		cursor.prime.thrust(b,d)
 
-def insert_cur(s):
-	body(cursor.prime.p,rune.lib[str])
 
 def emplace(name):
-	body(cursor.prime.body.p, rune.lib[name])
+	body(cursor.prime.p, runedict[name])
 
 snake=   lambda p,w:   int(p.y*w+p.x)
 snakent= lambda i,w: ivec2(  i%w,i/w)
@@ -126,7 +105,9 @@ def list_bound(l):
 #may be fractally contained within other vescicles
 #bounds may overlap, vescicles may not
 #	being contained is not considered overlapping
-#	the set intersection of A,B must equal A or B or None
+#	the set intersection of A,B
+#		must equal A or B or None
+#		for all instances N^2
 @dcls
 class vesc:
 	bnd: bound
@@ -135,3 +116,26 @@ class vesc:
 	def kill(self):
 		for body,p in bnd:
 			body.kill()
+
+
+ROOT= object()
+focus= ROOT
+def aktivat():
+	global focus
+	p= cursor.prime.p
+	b= grid.get(p)
+	if b==focus or b==None:
+		focus= ROOT
+		return
+	focus= b
+
+def key(k,ch,sc):
+	if focus==ROOT:
+		{
+			f00: wset(0),
+			f01: wset(1),
+			f02: wset(2)
+		}[k]()
+	if focus.rune==rune.lib.text:
+		focus.yeah
+

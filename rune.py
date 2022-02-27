@@ -12,6 +12,10 @@ Z=5#runes being (1<<5=8)x8 is specified fairly hard
 def arrarr_wh(a):
 	return (len(a[0]),len(a))
 
+class lib:
+	pass
+dic={}
+
 class rune:
 	_idit=0
 	def __init__(self, name, dat):
@@ -27,8 +31,8 @@ class rune:
 			self.bin= int(numpy.sum(r,dtype='uint64'))&0xFFFFFFFFFFFFFFFF
 
 		self.name= name
-		rune.lib[name]=self
-	lib={}
+		setattr(lib,name,rune)
+		dic[name]= self
 
 	def __str__(self):
 		s= self.name
@@ -153,7 +157,7 @@ def tests():
 	#font
 	if 1:
 		i=0
-		l= tuple(rune.lib.values())
+		l= tuple(dic.values())
 		W= 8
 		for y in ra(-W,W):
 			for x in ra(-W,W):
