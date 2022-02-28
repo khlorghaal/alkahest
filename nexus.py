@@ -1,4 +1,5 @@
-#nexus is the entry point which handles io and updates
+#nexus is the entry point
+#	handles OS interop, io, updates
 #logic here should be kept minimal and moved into modules as needed
 
 from com import *
@@ -9,9 +10,9 @@ import time
 
 
 import rune
-import gl_backend
 import space
 import atom
+import gl_backend
 if audio_enable:
 	import audio
 else:
@@ -103,12 +104,24 @@ chords=[
 			(f11,nr0,'*'),
 			(f12,nr0,'^'),
 			(f10,nr1,'-'),
-			(f11,nr1,'/'),
+			(f11,nr1,'div'),
 			(f12,nr1,'log'),
 		]
 	],
-	(l_all(d11),onhit(space.aktivat))
+	(l_all(d11),onhit(space.aktivat)),
+	(l_any(f00), space.wset(0)),
+	(l_any(f01), space.wset(1)),
+	(l_any(f02), space.wset(2))
 ]
+'''
+
+def key(k,ch,sc):
+	global focus
+	if focus.rune and focus.rune==rune.lib.text:
+		focus.yeah
+
+'''
+
 
 class ROOT:
 	def inp(b,ch,sc):
@@ -151,14 +164,13 @@ class ROOT:
 	def bindhelp(b):
 		pass#todo discriptor display
 
-focus=ROOT
+focus(ROOT)
 
 if audio:
 	audio.start()
 
-
-rune.tests()
-#atom.tests()
+#rune.tests()
+atom.tests()
 
 def loop():
 	while 1:
@@ -184,10 +196,21 @@ def loop():
 				if k==K_F1:
 					bindhelp(isdown)
 
-				sc= e.scancode
 				ch= e.unicode
+				sc= e.scancode
 
-				focus.inp(isdown,ch,sc)
+				#pygame likent these chars
+				if len(ch)!=0:
+					ochd={
+						32:' ',
+						13:'\n'
+						}
+					och= ord(ch)
+					print(och)
+					if och in ochd:
+						ch= ochd[och]
+
+				focus().inp(isdown,ch,sc)
 
 			change=1
 		change|= space.step()!=None

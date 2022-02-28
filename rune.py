@@ -1,11 +1,8 @@
 import numpy
 from numpy import array
-#import ioplex
 
 from com  import *
 from math import *
-en=enumerate
-ra=range
 
 Z=5#runes being (1<<5=8)x8 is specified fairly hard
 

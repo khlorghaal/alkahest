@@ -16,7 +16,10 @@ class body:
 			pass#todo dtor
 		grid[self.p]= self
 
-origin= body(ivec2(0,0),runedict['empty'])
+	def kill(self):
+		grid.pop(self.p,None)
+
+#origin= body(ivec2(0,0),runedict['empty'])
 
 #cursor is not a body, as it overlaps spaces
 @dcls
@@ -101,41 +104,11 @@ def list_bound(l):
 	return bound(a,b-a)
 
 
-#vesicle: a data ownership construct
-#may be fractally contained within other vescicles
-#bounds may overlap, vescicles may not
-#	being contained is not considered overlapping
-#	the set intersection of A,B
-#		must equal A or B or None
-#		for all instances N^2
-@dcls
-class vesc:
-	bnd: bound
-	def validate(self):
-		raise 'ohno'
-	def kill(self):
-		for body,p in bnd:
-			body.kill()
 
-
-ROOT= object()
-focus= ROOT
 def aktivat():
-	global focus
 	p= cursor.prime.p
 	b= grid.get(p)
 	if b==focus or b==None:
 		focus= ROOT
 		return
-	focus= b
-
-def key(k,ch,sc):
-	if focus==ROOT:
-		{
-			f00: wset(0),
-			f01: wset(1),
-			f02: wset(2)
-		}[k]()
-	if focus.rune==rune.lib.text:
-		focus.yeah
-
+	focus(b)

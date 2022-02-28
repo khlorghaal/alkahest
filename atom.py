@@ -1,7 +1,15 @@
+#runes which exhibit internal behaviors
+#atom has double meaning:
+#	to a beginner alkematist,
+#	they seem indivislble
+#	but upon more knowledge,
+#	they have further composition
+#	and the advanced may forge new
+
 from com import *
 
-import rune
 from space import *
+import rune
 
 '''
 class syb:
@@ -23,6 +31,22 @@ class lnk:
 
 '''
 
+#vesicle: data ownership construct
+#may be fractally contained within other vescicles
+#bounds may overlap, vescicles may not
+#	being contained is not considered overlapping
+#	the set intersection of A,B
+#		must equal A or B or None
+#		for all instances N^2
+@dcls
+class vesc:
+	bnd: bound
+	def validate(self):
+		raise 'ohno'
+	def kill(self):
+		for body,p in bnd:
+			body.kill()
+
 control_chars=('\b')
 
 @dcls
@@ -30,27 +54,32 @@ class text(vesc):
 	wrap: bool= True
 		#if wrap is off, the vescicle will attempt expanding +x
 		#if it cannot exapand, it will wrap
-	cur: cursor= cursor(ivec2(0,0))
+	cur: cursor= None
 	def __post_init__(self):
-		self.cur.p= self.bnd.org #FIXME pend cursor refactor
+		self.cur= cursor(ivec2(0,0))#default args are static init
+		self.cur.rune= rune.dic['|']
+		self.cur.p= self.bnd.org
 
 	def str(self):
 		return str('o nyo')
 
-	def inp(self,k,ch,sc):
+	def inp(self,b,ch,sc):
+		if not b:
+			return
 		p= self.cur.p
 		o= self.bnd.org 
 		w= self.bnd.dim.x
 
-		if k=='\b':
+		if ch=='\b':
 			d= -1
-		elif k=='\n':
-			d=w
+		elif ch=='\n':
+			d= w
+			print('\\n')
 		else:
 			d= 1
-			r= rune.lib.get(k)
+			r= rune.dic.get(ch)
 			if not r:
-				pass#todo multichars
+				return#todo multichars
 			body(copy(p),r)
 
 		#todo expansion bound checks
@@ -58,17 +87,17 @@ class text(vesc):
 
 		p= snakent(d+snake(p*ivec2(1,-1)-o,w),w)*ivec2(1,-1)+o
 		#p.x+= d
-		cur.p= p
+		self.cur.p= p
 
-		if k=='\b':
+		if ch=='\b':
 			g= grid.get(p)
 			if g:
 				g.kill()
 
 
 def tests():
-	t= text(bound(ivec2(0,0),ivec2(2,4)))
-	focus= t
+	t= text(bound(ivec2(0,0),ivec2(8,4)))
+	focus(t)
 
 
 

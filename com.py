@@ -1,7 +1,12 @@
 resolution= (640*3,480*2)
 audio_enable=False
 
-focus= None
+_focus= None
+def focus(o=0):
+	global _focus
+	if o:
+		_focus= o
+	return _focus
 
 en= enumerate
 ra= range
@@ -18,8 +23,8 @@ join2d= lambda a: '\n'.join([''.join(s) for s in a])
 flatten2= lambda a: [_ for e in a for _ in e]
 
 from copy import copy
-
 #todo this will later be replaced by a more specialised hierarchical space
+#	whatever the fuck that means
 @dcls
 class ivec2:
 	x: int
