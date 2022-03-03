@@ -102,19 +102,14 @@ def load_font(file):
 	import font
 	from font import rmf
 	f= rmf.load(file)
-
+	assert(f.wh==(7,7))
 	for c,g in f.glyphs.items():
 		name= c
 		rast= g.raster
-		#border
-		rast= [[*l]+[0] for l in rast]+[[0]*8]
+		rast= [[*l]+[0] for l in rast]+[[0]*8]#border
 		rast= tuple(tuple(l) for l in rast)
 		rune(name,rast)
 
-rune('blank' ,0)
-rune('empty' ,0)
-rune('solid' ,0xFFFFFFFFFFFFFFFF)
-rune('border',0xFF818181818181FF)
 load_font('./font/lunatic.rmf')
 
 def text(s,p):

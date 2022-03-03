@@ -106,14 +106,11 @@ class font:
 			rast= [ ['1' if c=='x' else '0' for c in r] for r in rast]
 			#chars of 0|1
 			rast= [ ''.join(r) for r in rast]
-			print(rast)
 			#merge the chars into a line
 			rast= [ int(r,2)*2 for r in rast] #*2 because ??????
 			#each line is string-parsed radix2 into int
 			rast= [ b'%02x'%r for r in rast]
 			#then converted back to a hex string
-			print(ch)
-			print(rast)
 			bdf.new_glyph_from_data(
 				name= bytes(ch,'utf-8'),
 				data= rast,
@@ -134,51 +131,51 @@ def load(fname):
 
 		#header, aggro
 		assert(lines[0]=='RMF')
-		assert(lines[1][:1:]=='W')
-		assert(lines[2][:1:]=='H')
+		assert(lines[1][:1]=='W')
+		assert(lines[2][:1]=='H')
 		w= int(lines[1][2:])
 		h= int(lines[2][2:])
 		assert(lines[3][:6]=='AUTHOR')
 		assert(lines[4][:7]=='LICENSE')
 		author=  lines[3][7:]
 		license= lines[4][8:]
-		assert(lines[5][:7]=='COMMENT')
-		assert(lines[6]=='_')
-		begin= 8-1#line of first glyph
+		assert(lines[5]=='__')
+		begin= 7-1#line of first glyph
 
 		f= font((w,h))
 
 		stride= h+1 #raster h + char identifier
-		for line_num in range(begin,len(lines))[::stride]:
+		line_num=begin
+		while line_num<len(lines):
 			def warn(s):
-				print('warn: L:{:<5} {}'.format(line_num+1,s))# +1 because evil 1-indexing on files
+				ln= line_num+1 # +1 because evil 1-indexing on files
+				print('warn: L:{:<5} {}'.format(ln,s))
 			datum= lines[line_num:line_num+stride]
-			meta= datum[0].split(' ')
-			if len(meta)==0:
-				warn('glyph has no char or name')
-				continue
-			m0= meta[0]
-			tll= None
-			if len(m0)<=1:#first tok is char
-				if len(m0)==0:
-					if m0=='':
-						warn('glyph malf meta, line empty or leading whitespace')
-					else:
-						warn('glyph malf meta, first token malf %s'%meta)
+			if 0\
+				or len(datum[0])==0\
+				or datum[0]==' '\
+				or datum[0]=='\n'\
+				or datum[0][:2]=='//':#comments
+					line_num+=1
 					continue
-				tll= 2
-				assert(len(m0)==1)
+
+			line_num+=stride
+
+			meta= datum[0].strip().split(' ')
+			assert(len(meta )!=0)
+			for m in meta:
+				assert(len(m)!=0)
+			tll= None
+			if len(meta[0])==1:#first tok is char
+				#todo aliases (multiple names per char)
 				char= meta[0]
-				name= meta[1] if len(meta)>=2 else None #name optional with char present
+				if len(meta)>1:
+					name= str(meta[1])
+				else:
+					name= None #name optional with char present
 			else:#first tok is name
 				char= None
-				name= m0
-				if name=='NOP':
-					continue
-				tll= 1
-
-			if len(meta)>tll:
-				warn('glyph notif, metadata trailing tokens ignored')
+				name= meta[0]
 
 			if f.glyphs.get(char) is not None:
 				warn('glyph warn, character is already assigned')
@@ -196,19 +193,22 @@ def load(fname):
 			rast= [[L(c) for c in l] for l in rast]
 			rast= rast[::-1]#y axis flip
 			rast= tuple(tuple(l) for l in rast)
+			if len(rast)!=h:
+				warn('collen miseq =%i ==%i'%(len(rast),h))
+				continue
+			for row in rast:
+				if len(row)!=w:
+					warn('rowlen miseq =%i ==%i'%(len(row),w))
+					continue
 
+			assert(char!=None or name!=None)
+			if char!=None:
+				assert(len(char)==1)
+
+			g= glyph(char,name,rast)
+ 
 			k= char or name
-			f.glyphs[k]= glyph(char,name,rast)
+			f.glyphs[k]= g
 
-
-	for (ch,g) in f.glyphs.items():
-		#todo LALR validation 
-		assert(g.char!=None or g.name!=None)
-		if g.char!=None:
-			assert(len(g.char)==1)
-		assert(len(g.raster)==f.wh[1])
-		for row in g.raster:
-			assert(len(row )==f.wh[0])
-		#todo move this to loading
 		return f
 

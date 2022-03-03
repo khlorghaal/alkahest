@@ -153,10 +153,9 @@ class ROOT:
 					if e.type==KEYDOWN:
 						yield e.scancode
 		g=g()
-		i=lambda: next(g)
 		for b in kbinds.values():
 			print(b[0]+':')
-			s=i()
+			s=next(g)
 			print(s)
 			acc.add(s,b)
 		kbinds= acc
@@ -169,8 +168,8 @@ focus(ROOT)
 if audio:
 	audio.start()
 
-#rune.tests()
-atom.tests()
+rune.tests()
+#atom.tests()
 
 def loop():
 	while 1:
@@ -199,7 +198,7 @@ def loop():
 				ch= e.unicode
 				sc= e.scancode
 
-				#pygame likent these chars
+				#chars pygame likent
 				if len(ch)!=0:
 					ochd={
 						32:' ',

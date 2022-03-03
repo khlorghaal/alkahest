@@ -73,13 +73,14 @@ class text(vesc):
 		if ch=='\b':
 			d= -1
 		elif ch=='\n':
-			d= w
+			d= w-p.x
 			print('\\n')
 		else:
 			d= 1
-			r= rune.dic.get(ch)
+			r= rune.dic.get(ch,None)
 			if not r:
-				return#todo multichars
+				r= rune.lib.blank
+				#todo multichars
 			body(copy(p),r)
 
 		#todo expansion bound checks

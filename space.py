@@ -11,11 +11,12 @@ class body:
 	z: int= 0
 	mod: int=0#misc bits, can be activity, arity, etc
 	def __post_init__(self):
+		assert(not not self.rune)
 		o= grid.pop(self.p,None)
 		if o==runedict['vescicle']:
 			pass#todo dtor
 		grid[self.p]= self
-
+		
 	def kill(self):
 		grid.pop(self.p,None)
 
