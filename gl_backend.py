@@ -314,7 +314,7 @@ void main(){
 			break;
 	}
 
-	col.a= 1.;
+	col.a= col.g;
 }
 	''')
 

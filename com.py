@@ -3,6 +3,7 @@ audio_enable=False
 
 _focus= None
 def focus(o=0):
+	#because intermod globs are fuck
 	global _focus
 	if o:
 		_focus= o

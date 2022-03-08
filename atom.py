@@ -51,6 +51,7 @@ control_chars=('\b')
 
 @dcls
 class text(vesc):
+	editable: bool= False
 	wrap: bool= True
 		#if wrap is off, the vescicle will attempt expanding +x
 		#if it cannot exapand, it will wrap
@@ -97,7 +98,7 @@ class text(vesc):
 
 
 def tests():
-	t= text(bound(ivec2(0,0),ivec2(8,4)))
+	t= text(bound(ivec2(0,0),ivec2(8,4)),True)
 	focus(t)
 
 
@@ -189,4 +190,13 @@ print(tstrgrid(ALL))
 #print(tstrgrd(rast))
 
 
+
+
+
+
+
+
+
+
 '''
+

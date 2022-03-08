@@ -158,9 +158,3 @@ def tests():
 				space.body(ivec2(x,y),l[i])
 				i+=1
 
-	#strings
-	if 0:
-		s= '''
-		'''
-		text(s,ivec2(-8,8))
-
