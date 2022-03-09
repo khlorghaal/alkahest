@@ -368,12 +368,12 @@ def invoke():
 				r&0xFFFFFFFF,r>>32,
 				b.mod
 				)
-		bodies= [rrast(b) for b in [*bodies,*cursors]]
+		bodies= [rrast(b) for b in [*bodies,*[c.b for c in cursors]]]
 		rarr= numpy.array(bodies,dtype='uint32').flatten()
 		glBufferData(GL_ARRAY_BUFFER, rarr, GL_DYNAMIC_DRAW)
 
 		prog_rune.bind()
-		tr= space.cursor.prime.p
+		tr= space.cursor.prime.b.p
 		glUniform4i(0,tr.x,tr.y,0,1<<z)
 		glUniform2f(1,w,h)
 

@@ -69,6 +69,7 @@ mod.h(0)
 class body:
 	p: ivec2
 	rune: rune
+	z: int=0
 	mod: int=0
 
 	def __post_init__(self):
@@ -91,14 +92,14 @@ class cursor:
 	v:ivec2= ivec2(0,0)
 	w:int= 0#movement
 	vel_active:bool= 0
+	b: body= 0
 
 	def __post_init__(self):
-		cursor.insts+=[self]
-		self.body= body(
+		self.b= body(
 			ivec2(0,0),
 			runedict['cursor'],
-			mod.CURSOR,
-			mod.CURSOR)
+			0)#todo lol
+		cursor.insts+=[self]
 
 	def thrust(self,b,d):
 		if self.vel_active:
@@ -109,11 +110,15 @@ class cursor:
 		r=None#dirty
 		for c in cursor.insts:
 			if c.v!=ivec2(0,0):
+				if not c.b:
+					continue
 				r= True
-				if c.vel_active:
+				c.v*(1<<c.w)
+				p= c.b.p
+				c.b.kill()
+				c.b= body(p+c.v,runedict['cursor'])
+				if not c.vel_active:
 					c.v*=0#halt
-				else:
-					c.b.p+= c.v*(1<<z)
 
 
 		return r
