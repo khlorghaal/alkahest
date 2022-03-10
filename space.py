@@ -62,8 +62,6 @@ class mod:
 	ayp= bint(3)
 	ayn= bint(3)
 
-mod.a(0)
-mod.h(0)
 
 @immut
 class body:
@@ -72,18 +70,21 @@ class body:
 	z: int=0
 	mod: int=0
 
+	h= lambda s:(s.p,s.z)
+
 	def __post_init__(self):
-		assert(not not self.rune)
-		o= grid.pop(self.p,None)
+		h= self.h()
+		o= grid.pop(h,None)
 		if o==runedict['vescicle']:
 			pass
 			#todo dtor lol
 			#for b in vescicle[self.p].bound:
 			#	kill(b)
-		grid[self.p]= self
+		grid[h]= self
+
 
 	def kill(self):
-		grid.pop(self.p,None)
+		grid.pop(self.h(),None)
 
 origin= body(ivec2(0,0),runedict['empty'])
 
@@ -95,56 +96,49 @@ class cursor:
 	b: body= 0
 
 	def __post_init__(self):
-		self.b= body(
-			ivec2(0,0),
-			runedict['cursor'],
-			0)#todo lol
+		self.place(ivec2(0,0))
 		cursor.insts+=[self]
 
-	def thrust(self,b,d):
-		if self.vel_active:
-			self.v= d if b else -d
-		elif b:
-			self.v+= d*(1<<self.w)
+	def place(self,p):
+		if self.b:
+			self.b.kill()
+		self.b= body(
+			p,
+			runedict['cursor'],
+			0)#todo lol???
+
 	def step():
 		r=None#dirty
 		for c in cursor.insts:
 			if c.v!=ivec2(0,0):
-				if not c.b:
-					continue
 				r= True
-				c.v*(1<<c.w)
-				p= c.b.p
-				c.b.kill()
-				c.b= body(p+c.v,runedict['cursor'])
+				d= c.v*(1<<c.w)
 				if not c.vel_active:
 					c.v*=0#halt
-
+				c.place(c.b.p+d)
 
 		return r
 setattr(cursor,'insts',[])
 setattr(cursor,'prime',cursor())#because dcls
 
+def thrust(b,d):
+	c= cursor.prime
+	if c.vel_active:
+		c.v+= d if b else -d
+	elif b:
+		c.v+= d
+	else:
+		pass
 def wset(i):
 	def r(b):
-		m=(1<<i)
 		c= cursor.prime
+		m=(1<<i)
 		if b:
 			c.w|= m
 		else:
 			c.w&=~m
+		print('cw %s'%c.w)
 	return r
-
-def step():
-	#motion
-	return cursor.step()
-
-def thrust(b,d):
-	assert(isinstance(b,bool))
-	assert(isinstance(d,ivec2))
-	#print(d)
-	if b:
-		cursor.prime.thrust(b,d)
 
 
 def emplace(name):
@@ -182,10 +176,13 @@ def list_bound(l):
 
 
 
-def aktivat():
-	p= cursor.prime.p
-	b= grid.get(p)
-	if b==focus() or b==None:
-		focus(ROOT)
-		return
-	focus(b)
+def aktivat(de):
+	b= grid.get(cursor.prime.b.h())
+	b= b==focus() or b==None
+	focus( b if b else de )
+
+
+
+def step():
+	#motion
+	return cursor.step()

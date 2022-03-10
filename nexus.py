@@ -108,7 +108,7 @@ chords=[
 			(f12,nr1,'log'),
 		]
 	],
-	(l_all(d11),onhit(space.aktivat)),
+	(l_all(d11), onhit(lambda: space.aktivat(ROOT))),
 	(l_any(f00), space.wset(0)),
 	(l_any(f01), space.wset(1)),
 	(l_any(f02), space.wset(2))
@@ -156,7 +156,6 @@ class ROOT:
 		for b in kbinds.values():
 			print(b[0]+':')
 			s=next(g)
-			print(s)
 			acc.add(s,b)
 		kbinds= acc
 		del acc
@@ -205,7 +204,7 @@ def loop():
 						13:'\n'
 						}
 					och= ord(ch)
-					print(och)
+					#print('och %s'%och)
 					if och in ochd:
 						ch= ochd[och]
 
