@@ -167,8 +167,9 @@ focus(ROOT)
 if audio:
 	audio.start()
 
-rune.tests()
+#rune.tests()
 #atom.tests()
+space.tests()
 
 def loop():
 	while 1:

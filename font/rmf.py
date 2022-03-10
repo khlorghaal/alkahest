@@ -177,9 +177,9 @@ def load(fname):
 				char= None
 				name= meta[0]
 
-			if f.glyphs.get(char) is not None:
+			if f.glyphs.get(char)!=None:
 				warn('glyph warn, character is already assigned')
-			if f.glyphs.get(name) is not None:
+			if f.glyphs.get(name)!=None:
 				warn('glyph warn, name is already assigned')
 			#these both will replace the first
 
@@ -206,7 +206,6 @@ def load(fname):
 				assert(len(char)==1)
 
 			g= glyph(char,name,rast)
- 
 			k= char or name
 			f.glyphs[k]= g
 

@@ -238,7 +238,7 @@ if PP:
 prog_rune= prog_vf('''
 layout(location=0) uniform ivec4 tr;
 layout(location=1) uniform vec2 res;
-layout(location=0) in ivec3 in_p;
+layout(location=0) in ivec4 in_p;
 layout(location=1) in uvec2 in_rune;
 layout(location=2) in uint  in_mod;
 smooth out vec2 vuv;//ints cant smooth
@@ -254,12 +254,18 @@ void main(){
 		ivec2( W2,-W2)
 	);
 	ivec2 xy= lxy[gl_VertexID];
-	int z= in_p.z;
-	ivec2 p= W*in_p.xy + xy;
-	if(z!=-1)
-		 p-= W*tr.xy;
-	gl_Position.xy= vec2(p)/res;
-	gl_Position.zw= vec2(z,.5/tr.w);
+	vec2 p= W*in_p.xy + xy;
+
+	float z= in_p.z;
+	//case PERSP
+	//case ORTHO
+	p+= z*vec2(3,1);
+	//case PARLX
+	;
+
+	gl_Position.xy= vec2(p-W*tr.xy)/res;
+	gl_Position.z= z/8./tr.w;
+	gl_Position.w= .5/tr.w;
 	const vec2[] luv= vec2[](
 		ivec2( 0, 0),
 		ivec2( 0, W),
@@ -314,22 +320,22 @@ void main(){
 			break;
 	}
 
-	col.a= col.g;
+	//col.a= 1.-abs(gl_FragCoord.z);
+	col.a= 1.;
 }
 	''')
 
 vbo_runes= glGenBuffers(1)
-glBindBuffer(GL_ARRAY_BUFFER, vbo_runes)
 vao_runes= glGenVertexArrays(1)
 glBindVertexArray(vao_runes)
+glBindBuffer(GL_ARRAY_BUFFER, vbo_runes)
 glEnableVertexAttribArray(0)
 glEnableVertexAttribArray(1)
 glEnableVertexAttribArray(2)
-glBindBuffer(GL_ARRAY_BUFFER, vbo_runes)
-s= 3*4 + 2*4 + 1*4
-glVertexAttribIPointer(0, 3, GL_INT,          s, None)
-glVertexAttribIPointer(1, 2, GL_UNSIGNED_INT, s, void_p(3*4))
-glVertexAttribIPointer(2, 1, GL_UNSIGNED_INT, s, void_p((3+2)*4))
+s= (4+2+1)*4
+glVertexAttribIPointer(0, 4, GL_INT,          s, None)
+glVertexAttribIPointer(1, 2, GL_UNSIGNED_INT, s, void_p(4*(4)))
+glVertexAttribIPointer(2, 1, GL_UNSIGNED_INT, s, void_p(4*(4+2)))
 del s
 glVertexAttribDivisor(0,1)
 glVertexAttribDivisor(1,1)
@@ -354,7 +360,7 @@ def invoke():
 	del c
 	glClear(GL_COLOR_BUFFER_BIT)
 
-	glBlendFunc(GL_ONE,GL_DST_COLOR)
+	glBlendFunc(GL_SRC_ALPHA,GL_DST_COLOR)
 
 	#runes
 	if 1:
@@ -364,12 +370,12 @@ def invoke():
 		def rrast(b):
 			r= b.rune.bin
 			return (
-				b.p.x,b.p.y,b.z,
+				b.p.x,b.p.y,b.z,0,
 				r&0xFFFFFFFF,r>>32,
 				b.mod
 				)
 		bodies= [rrast(b) for b in [*bodies,*[c.b for c in cursors]]]
-		rarr= numpy.array(bodies,dtype='uint32').flatten()
+		rarr= numpy.array(bodies,dtype='int32').flatten()
 		glBufferData(GL_ARRAY_BUFFER, rarr, GL_DYNAMIC_DRAW)
 
 		prog_rune.bind()

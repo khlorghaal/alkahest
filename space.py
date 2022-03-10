@@ -105,6 +105,7 @@ class cursor:
 		self.b= body(
 			p,
 			runedict['cursor'],
+			-1,
 			0)#todo lol???
 
 	def step():
@@ -181,7 +182,12 @@ def aktivat(de):
 	b= b==focus() or b==None
 	focus( b if b else de )
 
-
+def tests():
+	#z
+	for i in range(-4,4):
+		for p in bound(ivec2(0,-4),ivec2(1,8)):
+			body(p,runedict['coplanrect'],i,0)
+	
 
 def step():
 	#motion
