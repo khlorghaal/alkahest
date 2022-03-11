@@ -256,10 +256,10 @@ void main(){
 	ivec2 xy= lxy[gl_VertexID];
 	vec2 p= W*in_p.xy + xy;
 
-	float z= in_p.z;
+	float z= abs(in_p.z);//negative z is yeah
 	//case PERSP
 	//case ORTHO
-	p+= z*vec2(3,1);
+	//p+= z*vec2(3,1);
 	//case PARLX
 	;
 
@@ -316,11 +316,18 @@ void main(){
 		case 2:
 			//col.rb*= 0.;
 			break;
+		//cursor
+		case 0x4000000:
+			col.gb*=2. ;
+			col.gb+= .1;
+			break;
 		default:
 			break;
 	}
 
 	//col.a= 1.-abs(gl_FragCoord.z);
+	//col.a*= lum;
+	//col.a= gl_FragCoord.z==0.?1.:.125;
 	col.a= 1.;
 }
 	''')
@@ -360,7 +367,7 @@ def invoke():
 	del c
 	glClear(GL_COLOR_BUFFER_BIT)
 
-	glBlendFunc(GL_SRC_ALPHA,GL_DST_COLOR)
+	glBlendFunc(GL_SRC_ALPHA,GL_ONE)
 
 	#runes
 	if 1:

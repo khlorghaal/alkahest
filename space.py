@@ -15,52 +15,35 @@ grid= {}
 #	where only one may be selected
 #	count be 1<<b where b>0
 #if (!m): is an int
-#	
 #
-#       0b aahvpc wwzzzzzzzz axp axn ayn
-#index     876543 210fedcba9 876 543 210 
-#0x16      111111 1110001110 000 000 000
-#MSB<->LSB
 #a2 e bland,active,inactive,spicey
 #h1 highlight //because whatever
 #v1 verboten //ree
 #p1 primary //only one of each type exists
 #c1 cursor //bracket-ish-s indicating cursor present
 #w2 e ortho,parallax,perspective,skew //projection
-#z8 z-level
 #axp3 //arity-count per side [0,8]
 #axn3 //where 0u is void-ary 
 #ayp3 //      4u is 16-ary
 #ayn3 
 #
-__i= 0
-def __a():
-	global __i
-	r= __i
-	__i+=1
-	return r
-bt= lambda:\
-		lambda b:\
-			(lambda q: 0 if b&q==q else 1)\
-			(1<<__a())
-#shove;chunk;shove;
-bint= lambda n:\
-		lambda b: lambda i:\
-				(lambda q: ( b&((2<<(q))-1)) >> (q+n) )\
-				(__a())
-#grow;chunk;shove;chunk;shove;
 class mod:
-	a= bint(2) 
-	h= bt()
-	v= bt()
-	p= bt()
-	c= bt()
-	w= bint(2)
-	z= bint(8)
-	axp= bint(3)
-	axn= bint(3)
-	ayp= bint(3)
-	ayn= bint(3)
+	a=    0b11000000000000000000000000000000
+	h=    0b00100000000000000000000000000000
+	v=    0b00010000000000000000000000000000
+	p=    0b00001000000000000000000000000000
+	c=    0b00000100000000000000000000000000
+	w=    0b00000011000000000000000000000000
+	w0=   0b00000001000000000000000000000000
+	axp = 0b00000000111000000000000000000000
+	axp0= 0b00000000001000000000000000000000
+	axn = 0b00000000000111000000000000000000
+	axn0= 0b00000000000001000000000000000000
+	ayp = 0b00000000000000111000000000000000
+	ayp0= 0b00000000000000001000000000000000
+	ayn = 0b00000000000000000111000000000000
+	ayn0= 0b00000000000000000001000000000000
+	#    0b00000000000000000000000000000000
 
 
 @immut
@@ -106,7 +89,7 @@ class cursor:
 			p,
 			runedict['cursor'],
 			-1,
-			0)#todo lol???
+			mod.c)
 
 	def step():
 		r=None#dirty
@@ -184,9 +167,10 @@ def aktivat(de):
 
 def tests():
 	#z
-	for i in range(-4,4):
-		for p in bound(ivec2(0,-4),ivec2(1,8)):
-			body(p,runedict['coplanrect'],i,0)
+	if 0:
+		for i in range(-4,4):
+			for p in bound(ivec2(0,-4),ivec2(1,8)):
+				body(p,runedict['coplanrect'],i,0)
 	
 
 def step():
