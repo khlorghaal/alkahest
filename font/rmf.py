@@ -54,8 +54,7 @@ TODO= None#fixme wtf does this mean
 from dataclasses import dataclass as dcls
 @dcls
 class glyph:
-	char:chr#optional
-	name:str#optional
+	names:list[str]#optional
 	#one of char or name must be
 	raster:tuple#((0|1),...)
 	def print(self):
@@ -131,26 +130,28 @@ def load(fname):
 
 		#header, aggro
 		assert(lines[0]=='RMF')
-		assert(lines[1][:1]=='W')
-		assert(lines[2][:1]=='H')
 		w= int(lines[1][2:])
 		h= int(lines[2][2:])
-		assert(lines[3][:6]=='AUTHOR')
-		assert(lines[4][:7]=='LICENSE')
-		author=  lines[3][7:]
-		license= lines[4][8:]
-		assert(lines[5]=='__')
-		begin= 7-1#line of first glyph
+		assert(lines[6]=='__')
+		begin= 8-1#line of first glyph
 
 		f= font((w,h))
+
+		for i,l in enumerate(lines[begin:]):
+			if i%(w+1)!=0:
+				ll=len(l)
+				if ll!=w:
+					print('L:%s raster line miswidthed ==%i =%i %s'%(i+begin+1,w,ll,l))
+
 
 		stride= h+1 #raster h + char identifier
 		line_num=begin
 		while line_num<len(lines):
+			ln= line_num+1 # +1 because evil 1-indexing on files
 			def warn(s):
-				ln= line_num+1 # +1 because evil 1-indexing on files
-				print('warn: L:{:<5} {}'.format(ln,s))
+				print('warn: glyph: L:{:<5} {}'.format(ln,s))
 			datum= lines[line_num:line_num+stride]
+			
 			if 0\
 				or len(datum[0])==0\
 				or datum[0]==' '\
@@ -159,55 +160,38 @@ def load(fname):
 					line_num+=1
 					continue
 
-			line_num+=stride
-
-			meta= datum[0].strip().split(' ')
-			assert(len(meta )!=0)
-			for m in meta:
-				assert(len(m)!=0)
+			names= datum[0].strip().split(' ')
+			assert(len(names )!=0)
+			for n in names:
+				if len(n)==0:
+					warn('malf gnames')
 			tll= None
-			if len(meta[0])==1:#first tok is char
-				#todo aliases (multiple names per char)
-				char= meta[0]
-				if len(meta)>1:
-					name= str(meta[1])
-				else:
-					name= None #name optional with char present
-			else:#first tok is name
-				char= None
-				name= meta[0]
 
-			if f.glyphs.get(char)!=None:
-				warn('glyph warn, character is already assigned')
-			if f.glyphs.get(name)!=None:
-				warn('glyph warn, name is already assigned')
 			#these both will replace the first
 
 			rast= datum[1::]
-			if(len(rast)!=h): warn('malf raster \n%s'%rast)
+			lr= len(rast) #FIXME misalignment check
+			if len(rast)!=h:
+				warn('malf raster != height\n%s'%rast)
 			for l in rast:
-				if(len(l)!=w):
-					warn('malf raster line \n%s'%l)
+				ll= len(l)
+				if(ll!=w):
+					warn('malf raster != width \n%s'%l)
+
 			#L= lambda c: ' ' if c=='.' or c==' ' else 'x'
-			L= lambda c: 0 if c=='.' or c==' ' else 1
+			L= lambda c: 0 if c in '.   0_' else 1
 			rast= [[L(c) for c in l] for l in rast]
 			rast= rast[::-1]#y axis flip
 			rast= tuple(tuple(l) for l in rast)
-			if len(rast)!=h:
-				warn('collen miseq =%i ==%i'%(len(rast),h))
-				continue
-			for row in rast:
-				if len(row)!=w:
-					warn('rowlen miseq =%i ==%i'%(len(row),w))
-					continue
 
-			assert(char!=None or name!=None)
-			if char!=None:
-				assert(len(char)==1)
+			assert(len(names)>0)
+			g= glyph(names,rast)
+			for n in names:
+				if f.glyphs.get(n)!=None:
+					warn('name is already assigned, replacing')
+				f.glyphs[n]= g
 
-			g= glyph(char,name,rast)
-			k= char or name
-			f.glyphs[k]= g
+			line_num+= stride
 
 		return f
 

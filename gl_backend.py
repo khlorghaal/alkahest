@@ -238,6 +238,8 @@ if PP:
 prog_rune= prog_vf('''
 layout(location=0) uniform ivec4 tr;
 layout(location=1) uniform vec2 res;
+layout(location=2) uniform long tick;
+
 layout(location=0) in ivec4 in_p;
 layout(location=1) in uvec2 in_rune;
 layout(location=2) in uint  in_mod;
@@ -245,6 +247,8 @@ smooth out vec2 vuv;//ints cant smooth
 flat out uvec2 vrune;
 flat out uint  vmod;
 void main(){
+	vmod= in_mod;
+
 	const int W= 8;
 	const int W2= W/2;
 	const ivec2[] lxy= ivec2[](
@@ -263,7 +267,8 @@ void main(){
 	//case PARLX
 	;
 
-	gl_Position.xy= vec2(p-W*tr.xy)/res;
+	vec2 pp= vec2(p-W*tr.xy);
+	gl_Position.xy= pp/res;
 	gl_Position.z= z/8./tr.w;
 	gl_Position.w= .5/tr.w;
 	const vec2[] luv= vec2[](
@@ -274,11 +279,13 @@ void main(){
 	);
 	vuv= luv[gl_VertexID];
 	vrune= in_rune;
-	vmod= in_mod;
 }
 	''',
 	'''
 uint snake(uvec2 p, uint w){ return p.x+p.y*w; }
+
+
+layout(location=2) uniform uint tick;
 
 smooth in vec2 vuv;
 flat in uvec2 vrune;
@@ -287,6 +294,20 @@ out vec4 col;
 void main(){
 	const int W= 8;
 	ivec2 iuv= ivec2(vuv);
+
+	//scroll
+	if(false){
+		iuv.y+= int(tick)/4;
+	}
+	//rotate
+	uint dir= 0;//tick/4;
+	switch(dir%4){
+		case 0: break;
+		case 1: iuv.x *=-1; iuv.x -= 1; iuv.xy= iuv.yx; break;
+		case 2: iuv.xy*=-1; iuv.xy-= 1;                 break;
+		case 3: iuv. y*=-1; iuv. y-= 1; iuv.xy= iuv.yx; break;
+	}//-1 due neg int mod
+	iuv%= W;
 
 	float lum= 0;
 	uint rune;
@@ -301,9 +322,15 @@ void main(){
 	}
 	lum= float(((1<<i)&rune)!=0);
 
-	col= vec4(lum);
-	//col= vec4(0.,vuv/float(W),1.);
-	col.rgb*= .65;
+	const vec4 COLOR_BASE  = vec4(vec3(.45),1.);
+	const vec4 COLOR_CURSOR= vec4(0.,.03,.05,1.);
+	const vec4 COLOR_BUS   = vec4(vec3(.3),1.);
+	const vec4 COLOR_SYM   = vec4(vec3(.8),1.);
+	const vec4 COLOR_OP    = vec4(vec3(.7),1.);
+	//const vec4 COLOR_= vec4(.,.,.,1.);
+
+	col= vec4(lum)*COLOR_BASE;
+	col.a= 1.;
 	if(maxv(iuv)==W-1)
 		col+= 2./255;
 
@@ -318,8 +345,8 @@ void main(){
 			break;
 		//cursor
 		case 0x4000000:
-			col.gb*=2. ;
-			col.gb+= .1;
+			col.gb*=2.;
+			col+= COLOR_CURSOR;
 			break;
 		default:
 			break;
@@ -328,7 +355,6 @@ void main(){
 	//col.a= 1.-abs(gl_FragCoord.z);
 	//col.a*= lum;
 	//col.a= gl_FragCoord.z==0.?1.:.125;
-	col.a= 1.;
 }
 	''')
 
@@ -349,9 +375,11 @@ glVertexAttribDivisor(1,1)
 glVertexAttribDivisor(2,1)
 glBindVertexArray(0)
 
-
+_tick= 0
 
 def invoke():
+	global _tick
+
 	glEnable(GL_FRAMEBUFFER_SRGB)
 	glEnable(GL_BLEND)
 	glDisable(GL_CULL_FACE)
@@ -389,6 +417,7 @@ def invoke():
 		tr= space.cursor.prime.b.p
 		glUniform4i(0,tr.x,tr.y,0,1<<z)
 		glUniform2f(1,w,h)
+		glUniform1ui(2,_tick)
 
 		glBindVertexArray(vao_runes)
 		glDrawArraysInstanced(GL_TRIANGLE_FAN, 0,4, len(bodies))
@@ -424,5 +453,6 @@ def invoke():
 		#glBindFramebuffer(GL_READ_FRAMEBUFFER, fb)
 		#glFramebufferTexture2D(GL_READ_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,tex_basis, 0)
 
+	_tick+= 1
 	pygame.display.flip()
 

@@ -1,1421 +1,1789 @@
 RMF
-W 7
-H 7
+W 8
+H 8
 AUTHOR khlorghaal
 LICENSE CC-NC-AT-SA
+
 __
-space
-.......
-.......
-.......
-.......
-.......
-.......
-.......
-blank
-.......
-.......
-.......
-.......
-.......
-.......
-.......
-empty
-.......
-.......
-.......
-.......
-.......
-.......
-.......
+space blank empty
+00000000
+       0
+       0
+       0
+       0
+       0
+       0
+       0
 solid
-xxxxxxx
-xxxxxxx
-xxxxxxx
-xxxxxxx
-xxxxxxx
-xxxxxxx
-xxxxxxx
+xxxxxxxx
+xxxxxxxx
+xxxxxxxx
+xxxxxxxx
+xxxxxxxx
+xxxxxxxx
+xxxxxxxx
+xxxxxxxx
 border
-xxxxxxx
-x.....x
-x.....x
-x.....x
-x.....x
-x.....x
-xxxxxxx
+xxxxxxxx
+x      x
+x      x
+x      x
+x      x
+x      x
+x      x
+xxxxxxxx
+square
+00000000
+xxxxxxx0
+x     x0
+x     x0
+x     x0
+x     x0
+x     x0
+xxxxxxx0
 dither
-x.x.x.x
-.x.x.x.
-x.x.x.x
-.x.x.x.
-x.x.x.x
-.x.x.x.
-x.x.x.x
+ x x x x
+x x x x 
+ x x x x
+x x x x 
+ x x x x
+x x x x 
+ x x x x
+x x x x 
 ditherB
-.x...x.
-xxx.xxx
-.x.x.x.
-..xxx..
-.x.x.x.
-xxx.xxx
-.x...x.
+        
+ x   x  
+xxx xxx 
+ x x x  
+  xxx   
+ x x x  
+xxx xxx 
+ x   x  
 ditherC
-x.xxx.x
-...x...
-x.x.x.x
-xx...xx
-x.x.x.x
-...x...
-x.xxx.x
+        
+x xxx x 
+   x    
+x x x x 
+xx   xx 
+x x x x 
+   x    
+x xxx x 
 ditherD
-.......
-xx..xx.
-xx..xx.
-..xx...
-..xx.. 
-xx..xx.
-xx..xx.
+        
+        
+xx  xx  
+xx  xx  
+  xx    
+  xx    
+xx  xx  
+xx  xx  
 ditherE
-xx...xx
-xx...xx
-..xxx..
-..xxx..
-..xxx..
-xx...xx
-xx...xx
+        
+xx   xx 
+xx   xx 
+  xxx   
+  xxx   
+  xxx   
+xx   xx 
+xx   xx 
 ditherF
-xxx.xxx
-x x.x x
-xxx.xxx
-.......
-xxx xxx
-x x.x x
-xxx.xxx
+        
+xxx xxx 
+x x x x 
+xxx xxx 
+        
+xxx xxx 
+x x x x 
+xxx xxx 
 nar
-..x.x..
-..x.x..
-xxx.xxx
-.......
-xxx xxx
-..x.x..
-..x.x..
+00000000
+  x x  0
+  x x  0
+xxx xxx0
+       0
+xxx xxx0
+  x x  0
+  x x  0
 ditherG
-x.x.x.x
-.......
-x.x.x.x
-.......
-x.x.x.x
-.......
-x.x.x.x
+00000000
+x x x x 
+        
+x x x x 
+        
+x x x x 
+        
+x x x x 
 spronk
-.x.x.x.
-xxxxxxx
-.x.x.x.
-xxxxxxx
-.x.x.x.
-xxxxxxx
-.x.x.x.
+00000000
+ x x x 0
+xxxxxxx0
+ x x x 0
+xxxxxxx0
+ x x x 0
+xxxxxxx0
+ x x x 0
 !
-..xxx..
-..x.x..
-..x.x..
-..x.x..
-..xxx..
-.......
-..xxx..
+00000000
+  xxx  0
+  x x  0
+  x x  0
+  x x  0
+  xxx  0
+       0
+  xxx  0
 !!
-xxxxxxx
-x..x..x
-x..x..x
-x..x..x
-xxxxxxx
-.......
-xxxxxxx
+00000000
+xxxxxxx0
+x  x  x0
+x  x  x0
+x  x  x0
+xxxxxxx0
+       0
+xxxxxxx0
 "
-..x.x..
-..x.x..
-.......
-.......
-.......
-.......
-.......
+00000000
+  x x  0
+  x x  0
+       0
+       0
+       0
+       0
+       0
 #
-.......
-..x.x..
-.xxxxx.
-..x.x..
-.xxxxx.
-..x.x..
-.......
+00000000
+       0
+  x x  0
+ xxxxx 0
+  x x  0
+ xxxxx 0
+  x x  0
+       0
 $
-...x...
-xxxxxxx
-x..x...
-xxxxxxx
-...x..x
-xxxxxxx
-...x...
+00000000
+   x   0
+xxxxxxx0
+x  x   0
+xxxxxxx0
+   x  x0
+xxxxxxx0
+   x   0
 %
-.xxx.xx
-.......
-.xxx...
-.......
-...xxx.
-.......
-xx.xxx.
+00000000
+ xxx xx0
+       0
+ xxx   0
+       0
+   xxx 0
+       0
+xx xxx 0
 &
-xxxx..x
-x..x..x
-x..x..x
-xxxxxxx
-x......
-x......
-xxxxxxx
+00000000
+xxxx  x0
+x  x  x0
+x  x  x0
+xxxxxxx0
+x      0
+x      0
+xxxxxxx0
 '
-...x...
-...x...
-.......
-.......
-.......
-.......
-.......
+00000000
+   x   0
+   x   0
+       0
+       0
+       0
+       0
+       0
 (
-xxxxxx.
-x......
-x......
-.......
-x......
-x......
-xxxxxx.
+00000000
+xxxxxx 0
+x      0
+x      0
+       0
+x      0
+x      0
+xxxxxx 0
 )
-.xxxxxx
-......x
-......x
-.......
-......x
-......x
-.xxxxxx
+00000000
+ xxxxxx 
+      x 
+      x 
+       0
+      x 
+      x 
+ xxxxxx 
 * mul
-..x.x..
-..x.x..
-.......
-xxx.xxx
-.......
-..x.x..
-..x.x..
+00000000
+  x x  0
+  x x  0
+       0
+xxx xxx0
+       0
+  x x  0
+  x x  0
 + add
-...x...
-...x...
-...x...
-xxxxxxx
-...x...
-...x...
-...x...
+00000000
+   x   0
+   x   0
+   x   0
+xxxxxxx0
+   x   0
+   x   0
+   x   0
 div
-.......
-..xxx..
-.......
-xxxxxxx
-.......
-..xxx..
-.......
+00000000
+       0
+  xxx  0
+       0
+xxxxxxx0
+       0
+  xxx  0
+       0
 log
-.......
-.......
-.......
-.......
-.x...x.
-.x.x.x.
-...x...
+00000000
+       0
+       0
+       0
+       0
+ x   x 0
+ x x x 0
+   x   0
 ,
-.......
-.......
-.......
-.......
-.......
-...x...
-..xx...
+00000000
+       0
+       0
+       0
+       0
+       0
+   x   0
+  xx   0
 - sub
-.......
-.......
-.......
-xxxxxxx
-.......
-.......
-.......
+00000000
+       0
+       0
+       0
+xxxxxxx0
+       0
+       0
+       0
 .
-.......
-.......
-.......
-.......
-.......
-...x...
-...x...
+00000000
+       0
+       0
+       0
+       0
+       0
+   x   0
+   x   0
 /
-...xxxx
-...x...
-.......
-.......
-.......
-...x...
-xxxx...
+00000000
+   xxxx0
+   x   0
+       0
+       0
+       0
+   x   0
+xxxx   0
 0
-..xxx..
-..x.x..
-..x.x..
-..x.x..
-..x.x..
-..x.x..
-..xxx..
+00000000
+  xxx  0
+  x x  0
+  x x  0
+  x x  0
+  x x  0
+  x x  0
+  xxx  0
 1
-...x...
-...x...
-...x...
-...x...
-...x...
-...x...
-...x...
+00000000
+   x   0
+   x   0
+   x   0
+   x   0
+   x   0
+   x   0
+   x   0
 2
-..xxx..
-....x..
-....x..
-..xxx..
-..x....
-..x....
-..xxx..
+00000000
+  xxx  0
+    x  0
+    x  0
+  xxx  0
+  x    0
+  x    0
+  xxx  0
 3
-..xxx..
-....x..
-....x..
-..xxx..
-....x..
-....x..
-..xxx..
+00000000
+  xxx  0
+    x  0
+    x  0
+  xxx  0
+    x  0
+    x  0
+  xxx  0
 4
-..x.x..
-..x.x..
-..x.x..
-..xxx..
-....x..
-....x..
-....x..
+00000000
+  x x  0
+  x x  0
+  x x  0
+  xxx  0
+    x  0
+    x  0
+    x  0
 5
-..xxx..
-..x....
-..x....
-..xxx..
-....x..
-....x..
-..xxx..
+00000000
+  xxx  0
+  x    0
+  x    0
+  xxx  0
+    x  0
+    x  0
+  xxx  0
 6
-..xxx..
-..x....
-..x....
-..xxx..
-..x.x..
-..x.x..
-..xxx..
+00000000
+  xxx  0
+  x    0
+  x    0
+  xxx  0
+  x x  0
+  x x  0
+  xxx  0
 7
-..xxx..
-....x..
-....x..
-....x..
-....x..
-....x..
-....x..
+00000000
+  xxx  0
+    x  0
+    x  0
+    x  0
+    x  0
+    x  0
+    x  0
 8
-..xxx..
-..x.x..
-..x.x..
-..xxx..
-..x.x..
-..x.x..
-..xxx..
+00000000
+  xxx  0
+  x x  0
+  x x  0
+  xxx  0
+  x x  0
+  x x  0
+  xxx  0
 9
-..xxx..
-..x.x..
-..x.x..
-..xxx..
-....x..
-....x..
-....x..
+00000000
+  xxx  0
+  x x  0
+  x x  0
+  xxx  0
+    x  0
+    x  0
+    x  0
+bus1
+00000000
+   x   0
+   x   0
+   x   0
+       0
+   x   0
+   x   0
+   x   0
 :
-.......
-..xxx..
-.......
-.......
-.......
-..xxx..
-.......
+00000000
+       0
+  xxx  0
+       0
+       0
+       0
+  xxx  0
+       0
 ;
-.......
-..xxx..
-.......
-.......
-.......
-....x..
-..xxx..
+00000000
+       0
+  xxx  0
+       0
+       0
+       0
+    x  0
+  xxx  0
 <
-...xxx.
-.......
-.......
-xxx....
-.......
-.......
-...xxx.
+00000000
+   xxx 0
+       0
+       0
+xxx    0
+       0
+       0
+   xxx 0
 =
-.......
-.......
-xxxxxxx
-.......
-xxxxxxx
-.......
-.......
+00000000
+       0
+       0
+xxxxxxx0
+       0
+xxxxxxx0
+       0
+       0
 >
-.xxx...
-.......
-.......
-....xxx
-.......
-.......
-.xxx...
+00000000
+ xxx   0
+       0
+       0
+    xxx0
+       0
+       0
+ xxx   0
 ?
-xxxxxxx
-......x
-......x
-xxxxxxx
-...x...
-...x...
-...x...
+00000000
+xxxxxxx0
+      x0
+      x0
+xxxxxxx0
+   x   0
+   x   0
+   x   0
 @
-xxxxxxx
-x.....x
-x.xxx.x
-x.x.x.x
-x.xxxxx
-x......
-xxxxxxx
+00000000
+xxxxxxx0
+x     x0
+x xxx x0
+x x x x0
+x xxxxx0
+x      0
+xxxxxxx0
 A
-.xxxxx.
-.x...x.
-.x...x.
-.xxxxx.
-.x...x.
-.x...x.
-.x...x.
+00000000
+ xxxxx 0
+ x   x 0
+ x   x 0
+ xxxxx 0
+ x   x 0
+ x   x 0
+ x   x 0
 B
-.xxx...
-...x...
-...x...
-.xxxxx.
-.....x.
-.....x.
-.xxxxx.
+00000000
+ xxx   0
+   x   0
+   x   0
+ xxxxx 0
+     x 0
+     x 0
+ xxxxx 0
 C
-.xxxxx.
-.x.....
-.x.....
-.x.....
-.x.....
-.x.....
-.xxxxx.
+00000000
+ xxxxx 0
+ x     0
+ x     0
+ x     0
+ x     0
+ x     0
+ xxxxx 0
 D
-.xxxxx.
-.x.....
-.x..x..
-.x..x..
-.x..x..
-.x.....
-.xxxxx.
+00000000
+ xxxxx 0
+ x     0
+ x  x  0
+ x  x  0
+ x  x  0
+ x     0
+ xxxxx 0
 E
-.xxxxx.
-.......
-.......
-.xxxxx.
-.x.....
-.x.....
-.xxxxx.
+00000000
+ xxxxx 0
+       0
+       0
+ xxxxx 0
+ x     0
+ x     0
+ xxxxx 0
 F
-.xxxxx.
-.......
-.......
-.xxxxx.
-.x.....
-.x.....
-.x.....
+00000000
+ xxxxx 0
+       0
+       0
+ xxxxx 0
+ x     0
+ x     0
+ x     0
 G
-.xxxxx.
-.......
-.......
-...xxx.
-.....x.
-.....x.
-.xxxxx.
+00000000
+ xxxxx 0
+       0
+       0
+   xxx 0
+     x 0
+     x 0
+ xxxxx 0
 H
-.x...x.
-.x...x.
-.x...x.
-.xxxxx.
-.x...x.
-.x...x.
-.x...x.
+00000000
+ x   x 0
+ x   x 0
+ x   x 0
+ xxxxx 0
+ x   x 0
+ x   x 0
+ x   x 0
 I
-.xxxxx.
-...x...
-...x...
-...x...
-...x...
-...x...
-.xxxxx.
+00000000
+ xxxxx 0
+   x   0
+   x   0
+   x   0
+   x   0
+   x   0
+ xxxxx 0
 J
-.....x.
-.....x.
-.....x.
-.....x.
-.....x.
-.....x.
-.xxxxx.
+00000000
+     x 0
+     x 0
+     x 0
+     x 0
+     x 0
+     x 0
+ xxxxx 0
 K
-.x.....
-.x.....
-.x.....
-.xxxxx.
-.x.....
-.x.....
-.x.....
+00000000
+ x     0
+ x     0
+ x     0
+ xxxxx 0
+ x     0
+ x     0
+ x     0
 L
-.x.....
-.x.....
-.x.....
-.x.....
-.x.....
-.x.....
-.xxxxx.
+00000000
+ x     0
+ x     0
+ x     0
+ x     0
+ x     0
+ x     0
+ xxxxx 0
 M
-.xxxxx.
-.x.x.x.
-.x.x.x.
-.x.x.x.
-.x.x.x.
-.x.x.x.
-.x.x.x.
+00000000
+ xxxxx 0
+ x x x 0
+ x x x 0
+ x x x 0
+ x x x 0
+ x x x 0
+ x x x 0
 N
-.xxxxx.
-.x...x.
-.x...x.
-.x...x.
-.x...x.
-.x...x.
-.x...x.
+00000000
+ xxxxx 0
+ x   x 0
+ x   x 0
+ x   x 0
+ x   x 0
+ x   x 0
+ x   x 0
 O
-.xxxxx.
-.x...x.
-.x...x.
-.x...x.
-.x...x.
-.x...x.
-.xxxxx.
+00000000
+ xxxxx 0
+ x   x 0
+ x   x 0
+ x   x 0
+ x   x 0
+ x   x 0
+ xxxxx 0
 P
-.xxxxx.
-.....x.
-.....x.
-.xxxxx.
-.x.....
-.x.....
-.x.....
+00000000
+ xxxxx 0
+     x 0
+     x 0
+ xxxxx 0
+ x     0
+ x     0
+ x     0
 Q
-.xxxxx.
-.x...x.
-.x...x.
-.x.xxx.
-.x...x.
-.x...x.
-.xxxxx.
+00000000
+ xxxxx 0
+ x   x 0
+ x   x 0
+ x xxx 0
+ x   x 0
+ x   x 0
+ xxxxx 0
 R
-.xxxxx.
-.x.....
-.x.....
-.x...x.
-.x...x.
-.x...x.
-.x...x.
+00000000
+ xxxxx 0
+ x     0
+ x     0
+ x   x 0
+ x   x 0
+ x   x 0
+ x   x 0
 S
-.xxxxx.
-.x.....
-.x.....
-.xxxxx.
-.....x.
-.....x.
-.xxxxx.
+00000000
+ xxxxx 0
+ x     0
+ x     0
+ xxxxx 0
+     x 0
+     x 0
+ xxxxx 0
 T
-.xxxxx.
-...x...
-...x...
-...x...
-...x...
-...x...
-...x...
+00000000
+ xxxxx 0
+   x   0
+   x   0
+   x   0
+   x   0
+   x   0
+   x   0
 U
-.x...x.
-.x...x.
-.x...x.
-.x...x.
-.x...x.
-.x...x.
-.xxxxx.
+00000000
+ x   x 0
+ x   x 0
+ x   x 0
+ x   x 0
+ x   x 0
+ x   x 0
+ xxxxx 0
 V
-.x...x.
-.x...x.
-.x...x.
-.x...x.
-.x...x.
-.xxxxx.
-.x.....
+00000000
+ x   x 0
+ x   x 0
+ x   x 0
+ x   x 0
+ x   x 0
+ xxxxx 0
+ x     0
 W
-.x...x.
-.x...x.
-.x...x.
-.x.x.x.
-.x.x.x.
-.x.x.x.
-.xxxxx.
+00000000
+ x   x 0
+ x   x 0
+ x   x 0
+ x x x 0
+ x x x 0
+ x x x 0
+ xxxxx 0
 X
-.xxxxx.
-...x...
-.......
-.......
-.......
-...x...
-.xxxxx.
+00000000
+ xxxxx 0
+   x   0
+       0
+       0
+       0
+   x   0
+ xxxxx 0
 Y
-.x...x.
-.x...x.
-.x...x.
-.xxxxx.
-...x...
-...x...
-...x...
+00000000
+ x   x 0
+ x   x 0
+ x   x 0
+ xxxxx 0
+   x   0
+   x   0
+   x   0
 Z
-.xxxxx.
-....x..
-....x..
-..x.x..
-..x....
-..x....
-.xxxxx.
+00000000
+ xxxxx 0
+    x  0
+    x  0
+  x x  0
+  x    0
+  x    0
+ xxxxx 0
 [
-xxxxxx.
-x......
-x......
-x......
-x......
-x......
-xxxxxx.
+00000000
+xxxxxx 0
+x      0
+x      0
+x      0
+x      0
+x      0
+xxxxxx 0
 \
-xxxx...
-...x...
-.......
-.......
-.......
-...x...
-...xxxx
+00000000
+xxxx   0
+   x   0
+       0
+       0
+       0
+   x   0
+   xxxx 
 ]
-.xxxxxx
-......x
-......x
-......x
-......x
-......x
-.xxxxxx
+00000000
+ xxxxxx0
+      x0
+      x0
+      x0
+      x0
+      x0
+ xxxxxx0
 ^
-...x...
-.x.x.x.
-.x...x.
-.......
-.......
-.......
-.......
+00000000
+   x   0
+ x x x 0
+ x   x 0
+       0
+       0
+       0
+       0
 _
-.......
-.......
-.......
-.......
-.......
-.......
-xxxxxx.
+00000000
+       0
+       0
+       0
+       0
+       0
+       0
+xxxxxx 0
 `
-xx.....
-.......
-.......
-.......
-.......
-.......
-.......
+00000000
+xx     0
+       0
+       0
+       0
+       0
+       0
+       0
 a
-.......
-.......
-.xxxxx.
-.....x.
-.xxxxx.
-.x...x.
-.x...x.
+00000000
+       0
+       0
+ xxxxx 0
+     x 0
+ xxxxx 0
+ x   x 0
+ x   x 0
 b
-.......
-.......
-.x.....
-.x.....
-.xxxxx.
-.....x.
-.xxxxx.
+00000000
+       0
+       0
+ x     0
+ x     0
+ xxxxx 0
+     x 0
+ xxxxx 0
 c
-.......
-.......
-.xxxxx.
-.x.....
-.x.....
-.x.....
-.xxxxx.
+00000000
+       0
+       0
+ xxxxx 0
+ x     0
+ x     0
+ x     0
+ xxxxx 0
 d
-.......
-.......
-.....x.
-.....x.
-.xxxxx.
-.......
-.xxxxx.
+00000000
+       0
+       0
+     x 0
+     x 0
+ xxxxx 0
+       0
+ xxxxx 0
 e
-.......
-.......
-.xxxxx.
-.......
-.xxxxx.
-.x.....
-.xxxxx.
+00000000
+       0
+       0
+ xxxxx 0
+       0
+ xxxxx 0
+ x     0
+ xxxxx 0
 f
-.......
-.......
-.xxxxx.
-.......
-.xxxxx.
-.x.....
-.x.....
+00000000
+       0
+       0
+ xxxxx 0
+       0
+ xxxxx 0
+ x     0
+ x     0
 g
-.......
-.......
-.xxxxx.
-.......
-...xxx.
-.....x.
-.xxxxx.
+00000000
+       0
+       0
+ xxxxx 0
+       0
+   xxx 0
+     x 0
+ xxxxx 0
 h
-.......
-.......
-.x...x.
-.x...x.
-.xxxxx.
-.x...x.
-.x...x.
+00000000
+       0
+       0
+ x   x 0
+ x   x 0
+ xxxxx 0
+ x   x 0
+ x   x 0
 i
-.......
-.......
-.xxxxx.
-...x...
-...x...
-...x...
-.xxxxx.
+00000000
+       0
+       0
+ xxxxx 0
+   x   0
+   x   0
+   x   0
+ xxxxx 0
 j
-.......
-.......
-.....x.
-.....x.
-.....x.
-.....x.
-.xxxxx.
+00000000
+       0
+       0
+     x 0
+     x 0
+     x 0
+     x 0
+ xxxxx 0
 k
-.......
-.......
-.x.....
-.x.....
-.xxxxx.
-.x.....
-.x.....
+00000000
+       0
+       0
+ x     0
+ x     0
+ xxxxx 0
+ x     0
+ x     0
 l
-.......
-.......
-.x.....
-.x.....
-.x.....
-.x.....
-.xxxxx.
+00000000
+       0
+       0
+ x     0
+ x     0
+ x     0
+ x     0
+ xxxxx 0
 m
-.......
-.......
-.xxxxx.
-.x.x.x.
-.x.x.x.
-.x.x.x.
-.x.x.x.
+00000000
+       0
+       0
+ xxxxx 0
+ x x x 0
+ x x x 0
+ x x x 0
+ x x x 0
 n
-.......
-.......
-.xxxxx.
-.x...x.
-.x...x.
-.x...x.
-.x...x.
+00000000
+       0
+       0
+ xxxxx 0
+ x   x 0
+ x   x 0
+ x   x 0
+ x   x 0
 o
-.......
-.......
-.xxxxx.
-.x...x.
-.x...x.
-.x...x.
-.xxxxx.
+00000000
+       0
+       0
+ xxxxx 0
+ x   x 0
+ x   x 0
+ x   x 0
+ xxxxx 0
 p
-.......
-.......
-.xxxxx.
-.....x.
-.xxxxx.
-.x.....
-.x.....
+00000000
+       0
+       0
+ xxxxx 0
+     x 0
+ xxxxx 0
+ x     0
+ x     0
 q
-.......
-.......
-.xxxxx.
-.x...x.
-.x...x.
-.x.x.x.
-.xxxxx.
+00000000
+       0
+       0
+ xxxxx 0
+ x   x 0
+ x   x 0
+ x x x 0
+ xxxxx 0
 r
-.......
-.......
-.xxxxx.
-.x.....
-.x.....
-.x.....
-.x.....
+00000000
+       0
+       0
+ xxxxx 0
+ x     0
+ x     0
+ x     0
+ x     0
 s
-.......
-.......
-.xxxxx.
-.x.....
-.xxxxx.
-.....x.
-.xxxxx.
+00000000
+       0
+       0
+ xxxxx 0
+ x     0
+ xxxxx 0
+     x 0
+ xxxxx 0
 t
-.......
-.......
-.xxxxx.
-...x...
-...x...
-...x...
-...x...
+00000000
+       0
+       0
+ xxxxx 0
+   x   0
+   x   0
+   x   0
+   x   0
 u
-.......
-.......
-.x...x.
-.x...x.
-.x...x.
-.x...x.
-.xxxxx.
+00000000
+       0
+       0
+ x   x 0
+ x   x 0
+ x   x 0
+ x   x 0
+ xxxxx 0
 v
-.......
-.......
-.x...x.
-.x...x.
-.x.xxx.
-.x.....
-.xxxxx.
+00000000
+       0
+       0
+ x   x 0
+ x   x 0
+ x xxx 0
+ x     0
+ xxxxx 0
 w
-.......
-.......
-.x...x.
-.x.x.x.
-.x.x.x.
-.x.x.x.
-.xxxxx.
+00000000
+       0
+       0
+ x   x 0
+ x x x 0
+ x x x 0
+ x x x 0
+ xxxxx 0
 x
-.......
-.......
-.xxxxx.
-...x...
-.......
-...x...
-.xxxxx.
+00000000
+       0
+       0
+ xxxxx 0
+   x   0
+       0
+   x   0
+ xxxxx 0
 hesk
-.......
-.......
-..x.x..
-..x.x..
-.xxxxx.
-..x.x..
-..x.x..
+00000000
+       0
+       0
+  x x  0
+  x x  0
+ xxxxx 0
+  x x  0
+  x x  0
 kren
-.......
-.......
-.xxxxx.
-..x.x..
-.xxxxx.
-..x.x..
-.xxxxx.
+00000000
+       0
+       0
+ xxxxx 0
+  x x  0
+ xxxxx 0
+  x x  0
+ xxxxx 0
 y
-.......
-.......
-.x...x.
-.x...x.
-.xxxxx.
-...x...
-...x...
+00000000
+       0
+       0
+ x   x 0
+ x   x 0
+ xxxxx 0
+   x   0
+   x   0
 z
-.......
-.......
-.xxxxx.
-....x..
-..x.x..
-..x....
-.xxxxx.
+00000000
+       0
+       0
+ xxxxx 0
+    x  0
+  x x  0
+  x    0
+ xxxxx 0
 {
-.xxxxx.
-.x.....
-.......
-xxx....
-.......
-.x.....
-.xxxxx.
+00000000
+ xxxxx 0
+ x     0
+       0
+xxx    0
+       0
+ x     0
+ xxxxx 0
 | pipe
-...x...
-...x...
-...x...
-.......
-...x...
-...x...
-...x...
+00000000
+   x   0
+   x   0
+   x   0
+       0
+   x   0
+   x   0
+   x   0
 }
-.xxxxx.
-.....x.
-.......
-....xxx
-.......
-.....x.
-.xxxxx.
+00000000
+ xxxxx 0
+     x 0
+       0
+    xxx0
+       0
+     x 0
+ xxxxx 0
 ~ approx
-.......
-.......
-.xxx.x.
-.x.x.x.
-.x.xxx.
-.......
-.......
-☺ smil
-xxxxxxx
-x.....x
-x.x.x.x
-x.x.x.x
-x.....x
-x.x.x.x
-x.xxx.x
+00000000
+       0
+       0
+ xxx x 0
+ x x x 0
+ x xxx 0
+       0
+       0
+☺ smile head human
+00000000
+xxxxxxx0
+x     x0
+x x x x0
+x x x x0
+x     x0
+x x x x0
+x xxx x0
+smil
+00000000
+       0
+       0
+  x x  0
+  x x  0
+       0
+  x x  0
+  xxx  0
+angor
+00000000
+  xxx  0
+       0
+  x x  0
+  x x  0
+       0
+  xxx  0
+  x x  0
+dorf
+00000000
+xxxxxxx0
+x     x0
+x x x x0
+x     x0
+x xxx x0
+x     x0
+xxxxxxx0
+spaceman amogus
+00000000
+xxxxxx 0
+x    x 0
+xxxxxx 0
+x    x 0
+x    x 0
+xxxxxx 0
+ x  x  0
 ∞ inf
-.......
-.......
-xxxxx.x
-x.....x
-x.xxxxx
-.......
-.......
+00000000
+       0
+       0
+xxxxx x0
+x     x0
+x xxxxx0
+       0
+       0
 thron
-x.....x
-x.....x
-xxxxxxx
-.......
-xxxxxxx
-x.....x
-x.....x
+00000000
+x     x0
+x     x0
+xxxxxxx0
+       0
+xxxxxxx0
+x     x0
+x     x0
 █ fill
-xxxxxxx
-xxxxxxx
-xxxxxxx
-xxxxxxx
-xxxxxxx
-xxxxxxx
-xxxxxxx
+xxxxxxxx
+xxxxxxxx
+xxxxxxxx
+xxxxxxxx
+xxxxxxxx
+xxxxxxxx
+xxxxxxxx
+xxxxxxxx
 λ lambda
-.......
-.......
-..x....
-..x....
-..xxx..
-.......
-..xxx..
+00000000
+       0
+       0
+  x    0
+  x    0
+  xxx  0
+       0
+  xxx  0
 α alpha
-.......
-.......
-.......
-....x..
-..xxx..
-..x.x..
-..xxxx.
+00000000
+       0
+       0
+       0
+    x  0
+  xxx  0
+  x x  0
+  xxxx 0
 β beta
-.......
-.......
-.......
-..x....
-..xxx..
-....x..
-.xxxx..
+00000000
+       0
+       0
+       0
+  x    0
+  xxx  0
+    x  0
+ xxxx  0
 σ sigma
-.......
-.......
-.......
-..xxxxx
-..x.x..
-..x.x..
-..xxx..
+00000000
+       0
+       0
+       0
+  xxxxx0
+  x x  0
+  x x  0
+  xxx  0
 π pi
-.......
-.......
-.......
-xxxxxx.
-..x.x..
-..x.x..
-..x.x..
+00000000
+       0
+       0
+       0
+xxxxxx 0
+  x x  0
+  x x  0
+  x x  0
 ????
-.......
-.......
-.......
-.x.x.x.
-.x.x.x.
-.x.x.x.
-...x...
+00000000
+       0
+       0
+       0
+ x x x 0
+ x x x 0
+ x x x 0
+   x   0
 ???
-.......
-.......
-.......
-..x.x..
-..x.x..
-..xxx..
-...x...
+00000000
+       0
+       0
+  x x  0
+  x x  0
+  x x  0
+  xxx  0
+   x   0
 iota
-.......
-.......
-.......
-...x...
-...x...
-...x...
-...x...
+00000000
+       0
+       0
+       0
+   x   0
+   x   0
+   x   0
+   x   0
 η NU
-.......
-.......
-.......
-..x....
-..xxx..
-..x.x..
-....x..
+00000000
+       0
+       0
+       0
+  x    0
+  xxx  0
+  x x  0
+    x  0
 χ XI
-.......
-.......
-.......
-.xxxx..
-.......
-.......
-..xxxx.
+00000000
+       0
+       0
+       0
+ xxxx  0
+       0
+       0
+  xxxx 0
 Λ LAMBDA
-.xx.x..
-..x.x..
-..x.x..
-..x.x..
-..x.x..
-..x.x..
-xxx.xxx
+00000000
+ xx x  0
+  x x  0
+  x x  0
+  x x  0
+  x x  0
+  x x  0
+xxx xxx0
 Α ALPHA
-.xxxxx.
-.x..x..
-.xxxx..
-.x..x..
-.x..x..
-.x..x..
-.x..xx.
+00000000
+ xxxxx 0
+ x  x  0
+ xxxx  0
+ x  x  0
+ x  x  0
+ x  x  0
+ x  xx 0
 Β BETA
-.xxx...
-...x...
-...x...
-...xxx.
-.....x.
-.....x.
-.xxxxx.
+00000000
+ xxx   0
+   x   0
+   x   0
+   xxx 0
+     x 0
+     x 0
+ xxxxx 0
 Δ delta
-.......
-..xxx..
-..x.x..
-.......
-.......
-.x...x.
-.xxxxx.
+00000000
+       0
+       0
+  x x  0
+       0
+       0
+ x   x 0
+ xxxxx 0
 ∇ nabla
-.xxxxx.
-.x...x.
-.......
-.......
-..x.x..
-..xxx..
-.......
+00000000
+ xxxxx 0
+ x   x 0
+       0
+       0
+  x x  0
+  xxx  0
+       0
 shoom
-.......
-..xxx..
-x.....x
-x.....x
-x.....x
-x.....x
-xxxxxxx
+00000000
+       0
+  xxx  0
+x     x0
+x     x0
+x     x0
+x     x0
+xxxxxxx0
 thoon
-.......
-x.xxx.x
-x.x.x.x
-x.x.x.x
-x.....x
-x.....x
-xxxxxxx
+00000000
+       0
+x xxx x0
+x x x x0
+x x x x0
+x     x0
+x     x0
+xxxxxxx0
 krek
-x.xxx.x
-x.....x
-x.....x
-x..x..x
-x..x..x
-...x...
-...x...
+00000000
+x xxx x0
+x     x0
+x     x0
+x  x  x0
+x  x  x0
+   x   0
+   x   0
 Σ SIGMA
-xxxxxxx
-.......
-.......
-xxx....
-.......
-.......
-xxxxxxx
+00000000
+xxxxxxx0
+       0
+       0
+xxx    0
+       0
+       0
+xxxxxxx0
 Π PI
-xxxxxxx
-.x....x
-.x....x
-.x....x
-.x....x
-.x....x
-.x....x
+00000000
+xxxxxxx0
+ x    x0
+ x    x0
+ x    x0
+ x    x0
+ x    x0
+ x    x0
 Ω OMEGA
-.xxxxx.
-.x...x.
-.x...x.
-.x...x.
-.......
-.x...x.
-xx...xx
+00000000
+ xxxxx 0
+ x   x 0
+ x   x 0
+ x   x 0
+       0
+ x   x 0
+xx   xx0
 Γ GAMMA
-xxxxxxx
-x.....x
-x......
-x......
-x......
-x......
-x......
+00000000
+xxxxxxx0
+x     x0
+x      0
+x      0
+x      0
+x      0
+x      0
 fee
-.......
-.......
-.......
-...xxx.
-.......
-.....x.
-...xxx.
+00000000
+       0
+       0
+       0
+   xxx 0
+       0
+     x 0
+   xxx 0
 τ tau
-.......
-.......
-.......
-..xxxx.
-...x...
-...x...
-...xx..
+00000000
+       0
+       0
+       0
+  xxxx 0
+   x   0
+   x   0
+   xx  0
 omicron
-.......
-.......
-.......
-..xxxx.
-..x..x.
-..x..x.
-..xxxx.
+00000000
+       0
+       0
+       0
+  xxxx 0
+  x  x 0
+  x  x 0
+  xxxx 0
 ρ rho
-.......
-.......
-.......
-..xxx..
-..x.x..
-..xxx..
-..x....
+00000000
+       0
+       0
+       0
+  xxx  0
+  x x  0
+  xxx  0
+  x    0
 μ mu
-.......
-.......
-.......
-..x.x..
-..x.x..
-..xxxx.
-..x....
+00000000
+       0
+       0
+       0
+  x x  0
+  x x  0
+  xxxx 0
+  x    0
 φ psi
-.......
-.......
-.......
-.x.xxx.
-.x.x.x.
-.xxxxx.
-...x...
+00000000
+       0
+       0
+       0
+ x xxx 0
+ x x x 0
+ xxxxx 0
+   x   0
 ω omega
-.......
-.......
-.......
-.xx.xx.
-.x...x.
-.x.x.x.
-.xxxxx.
+00000000
+       0
+       0
+       0
+ xx xx 0
+ x   x 0
+ x x x 0
+ xxxxx 0
 ⧈ concenrect
-xxxxxxx
-x.....x
-x.xxx.x
-x.x.x.x
-x.xxx.x
-x.....x
-xxxxxxx
+00000000
+xxxxxxx0
+x     x0
+x xxx x0
+x x x x0
+x xxx x0
+x     x0
+xxxxxxx0
 ⧉ coplanrect
-xxxxx..
-x...x..
-x.xxxxx
-x.x.x.x
-xxxxx.x
-..x...x
-..xxxxx
+00000000
+xxxxx  0
+x   x  0
+x xxxxx0
+x x x x0
+xxxxx x0
+  x   x0
+  xxxxx0
 vescicle
-..xxx..
-.......
-x.....x
-x.....x
-x.....x
-.......
-..xxx..
+00000000
+  xxx  0
+       0
+x     x0
+x     x0
+x     x0
+       0
+  xxx  0
 hit
-...x...
-...x...
-.......
-xx...xx
-.......
-...x...
-...x...
+00000000
+   x   0
+   x   0
+       0
+xx   xx0
+       0
+   x   0
+   x   0
 cursor
-xx...xx
-x.....x
-.......
-.......
-.......
-x.....x
-xx...xx
+xx    xx
+x      x
+        
+        
+        
+        
+x      x
+xx    xx
 thok
-..x....
-xxx.x..
-....x..
-xxx.x..
-....x..
-xxx.x..
-..x....
+00000000
+  x    0
+xxx x  0
+    x  0
+xxx x  0
+    x  0
+xxx x  0
+  x    0
 shonk
-..x.x..
-xxx.xxx
-....x..
-xxx.x..
-....x..
-xxx.xxx
-..x.x..
+00000000
+  x x  0
+xxx xxx0
+    x  0
+xxx x  0
+    x  0
+xxx xxx0
+  x x  0
 plith
-..x.x..
-.xx.xx.
-..x.x..
-..x.x..
-xxx.xxx
-..x.x..
-xxx.xxx
+00000000
+  x x  0
+ xx xx 0
+  x x  0
+  x x  0
+xxx xxx0
+  x x  0
+xxx xxx0
 thark
-..xxx..
-..x.x..
-.xx.xx.
-..x.x..
-..x.x..
-.......
-.......
+00000000
+  xxx  0
+  x x  0
+ xx xx 0
+  x x  0
+  x x  0
+       0
+       0
 rolk
-.......
-.......
-xxx.xxx
-..x.x..
-x.x.x.x
-x.x.x.x
-x.x.x.x
+00000000
+       0
+       0
+xxx xxx0
+  x x  0
+x x x x0
+x x x x0
+x x x x0
 gerv
-xxx.xxx
-..x.x..
-xxx.xxx
-x.x.x.x
-x.x.x.x
-x.x.x.x
-x.xxx.x
+00000000
+xxx xxx0
+  x x  0
+xxx xxx0
+x x x x0
+x x x x0
+x x x x0
+x xxx x0
 wiv
-.......
-x.....x
-x.....x
-x.....x
-xxx.xxx
-..x.x..
-xxxxxxx
+00000000
+       0
+x     x0
+x     x0
+x     x0
+xxx xxx0
+  x x  0
+xxxxxxx0
 kraz
-xxxxxxx
-x.x.x.x
-x.....x
-x.x.x.x
-x.x.x.x
-..x.x..
-xxx.xxx
+00000000
+xxxxxxx0
+x x x x0
+x     x0
+x x x x0
+x x x x0
+  x x  0
+xxx xxx0
 noig
-x.xxxxx
-x.x....
-x.x.x..
-x.x.x.x
-x.x.x.x
-x...x.x
-xxxxxxx
-
-
-
-//א alef
-//ב bet
-//ג gimel
-//ד dalet
+00000000
+x xxxxx0
+x x    0
+x x x  0
+x x x x0
+x x x x0
+x   x x0
+xxxxxxx0
+voight
+00000000
+ xxx  x0
+ x    x0
+ xxx  x0
+ x    x0
+xxxxxxx0
+x     x0
+x     x0
+א alef 
+        
+        
+        
+        
+        
+        
+        
+        
+ב bet  
+        
+        
+        
+        
+        
+        
+        
+        
+ג gimel
+        
+        
+        
+        
+        
+        
+        
+        
+ד dalet
+        
+        
+        
+        
+        
+        
+        
+        
 ה he
-.......
-      .
-      .
- xxxx .
-    x .
- x  x .
- x  x .
+        
+       0
+       0
+       0
+ xxxx  0
+    x  0
+ x  x  0
+ x  x  0
 ו waw vav
-.......
-      .
-      .
-  xx  .
-   x  .
-   x  .
-   x  .
+        
+        
+        
+        
+  xx    
+   x    
+   x    
+   x    
 ז zayin
-.......
-      .
-  xxx .
-   x  .
-   x  .
-   x  .
-   x  .
-//ח chet
-//ט tet
+        
+        
+        
+  xxx   
+   x    
+   x    
+   x    
+   x    
+ח chet
+        
+        
+        
+        
+        
+        
+        
+        
+ט tet
+        
+        
+        
+        
+        
+        
+        
+        
 י yod
-.......
-      .
-  xx  .
-   x  .
-   x  .
-      .
-      .
+        
+        
+  xx    
+   x    
+   x    
+        
+        
+        
 כ kaf
-.......
-      .
-      .
- xxx  .
-    x .
-    x .
- xxxx .
-//ך kaf
+        
+        
+        
+        
+ xxx    
+    x   
+    x   
+ xxxx   
+ך Kaf
+        
+        
+        
+        
+        
+        
+        
+        
 ל lamed
-.......
-      .
- x    .
- xxxx .
-    x .
-  x   .
-  x   .
-//מ Mem
-//ם mem
-//נ Nun
-//ן
-//ס Samech
-//ע Ayin
+        
+        
+        
+ x      
+ xxxx   
+    x   
+  x     
+  x     
+מ Mem
+        
+        
+        
+        
+        
+        
+        
+        
+ם mem
+        
+        
+        
+        
+        
+        
+        
+        
+נ Nun
+        
+        
+        
+        
+        
+        
+        
+        
+ן nun
+        
+        
+        
+        
+        
+        
+        
+        
+ס Samech
+        
+        
+        
+        
+        
+        
+        
+        
+ע Ayin
+        
+        
+        
+        
+        
+        
+        
+        
 פ Pe
-.......
-      .
- xxx  .
-  x x .
- xx x .
-    x .
- xxxx .
-//ף
+        
+        
+        
+ xxx    
+  x x   
+ xx x   
+    x   
+ xxxx   
+ף Pee
+        
+        
+        
+        
+        
+        
+        
+        
 צ Tsadi
-.......
-      .
- x xx .
- x  x .
- xx   .
-    x .
- xxxx .
-//ץ
+        
+        
+        
+x  xx   
+ x  x   
+  xx    
+    x   
+xxxxx   
+ץ tsadi
+        
+        
+        
+        
+        
+        
+        
+        
 ק Qof
-.......
-      .
- xxxx .
-    x .
- x  x .
- x xx .
- x    .
-//ר Resh
-//ש Shin
-//ת Tav
-
-
+00000000
+       0
+       0
+ xxxx  0
+    x  0
+ x  x  0
+ x x   0
+ x     0
+ש Shin
+00000000
+       0
+       0
+       0
+       0
+       0
+       0
+       0
+ת Tav
+00000000
+       0
+       0
+xxxxx  0
+  x  x 0
+  x  x 0
+  x  x 0
+xxx  x 0
+ר Resh
+00000000
+       0
+       0
+xxxx   0
+    x  0
+     x 0
+     x 0
+     x 0
 madurai
-.......
-.......
-xx...x.
-.x...x.
-.x.xxx.
-.x.x...
-.xxx...
+00000000
+       0
+       0
+xx   x 0
+ x   x 0
+ x xxx 0
+ x x   0
+ xxx   0
 vazarin
-.......
-xxxxxx.
-..x..x.
-.....x.
-....xx.
-.....x.
-.....x.
+00000000
+       0
+       0
+  x  x 0
+     x 0
+    xx 0
+     x 0
+     x 0
 naramon
-.......
-.......
-.......
-.....x.
-.xxxxx.
-.x.....
-.......
+00000000
+       0
+       0
+       0
+     x 0
+ xxxxx 0
+ x     0
+       0
 zenurik
-.......
-.......
-.xxx...
-.x.....
-...xxx.
-...x...
-.......
-unaiiru
-.......
-.......
-..xx...
-..x....
-.xxxxx.
-.x.....
-.x.....
+00000000
+       0
+       0
+ xxx   0
+ x     0
+   xxx 0
+   x   0
+       0
+unairu
+00000000
+       0
+       0
+  xx   0
+  x    0
+ xxxxx 0
+ x     0
+ x     0
+ゴ menacing
+00000000
+     xx0
+xxxxxx 0
+     x 0
+     x 0
+     x 0
+ xxxxx 0
+     x 0

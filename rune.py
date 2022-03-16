@@ -14,8 +14,8 @@ class lib:
 dic={}
 
 class rune:
-	_idit=0
-	def __init__(self, char,name, dat):
+	_rune_idit=0
+	def __init__(self, names, dat):
 		if type(dat)==int:
 			self.bin= dat
 		else:
@@ -27,15 +27,11 @@ class rune:
 			r= array([([ l(x,y) for x in ra(8)]) for y in ra(8)])
 			self.bin= int(numpy.sum(r,dtype='uint64'))&0xFFFFFFFFFFFFFFFF
 
-		if char!=None:
-			self.char= char
-			setattr(lib,char,rune)
-			dic[char]= self
-		if name!=None:
-			self.name= name
-			setattr(lib,name,rune)
-			dic[name]= self
-		assert(char!=None or name!=None)
+		self.names= names
+		for n in names:
+			setattr(lib,n,self)
+			dic[n]= self
+		dic[self.bin]= self
 
 	def __str__(self):
 		s= self.name
@@ -108,14 +104,9 @@ def load_font(file):
 	import font
 	from font import rmf
 	f= rmf.load(file)
-	assert(f.wh==(7,7))
+	assert(f.wh==(8,8))
 	for g in f.glyphs.values():
-		char= g.char
-		name= g.name
-		rast= g.raster
-		rast= [[*l]+[0] for l in rast]+[[0]*8]#border
-		rast= tuple(tuple(l) for l in rast)
-		rune(char,name,rast)
+		rune(g.names,g.raster)
 
 load_font('./font/lunatic.rmf')
 
@@ -156,7 +147,10 @@ def tests():
 	#font
 	if 1:
 		i=0
-		l= tuple(dic.values())
+		l=()
+		for v in dic.values():
+			if v not in l:
+				l+= (v,)
 		W= 8
 		for y in ra(-W,W):
 			for x in ra(-W,W):

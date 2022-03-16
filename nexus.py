@@ -18,7 +18,6 @@ if audio_enable:
 else:
 	global audio
 	audio= None
-import pygame
 
 
 symbols=[
@@ -167,9 +166,12 @@ focus(ROOT)
 if audio:
 	audio.start()
 
-rune.tests()
+space.load()
+#rune.tests()
 #atom.tests()
 #space.tests()
+
+RENDER_ALWAYS= True
 
 def loop():
 	while 1:
@@ -213,11 +215,14 @@ def loop():
 
 			change=1
 		change|= space.step()!=None
-		if change:
+		if change or RENDER_ALWAYS:
 			change=0
 			gl_backend.invoke()
 
 		time.sleep(1./60.)
 loop()
 
+#space.save()
+
 exit()
+	
