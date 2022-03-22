@@ -124,6 +124,23 @@ def text(s,p):
 
 def tests():
 	import space
+
+	#font
+	if 1:
+		i=0
+		l= dic.values()
+		l= tuple({e:None for e in l}.keys())#ordered dup eliminate
+
+		W= 12
+		ll= len(l)
+		assert(ll<W*W*4)
+		for y in ra(-W,W):
+			for x in ra(-W,W):
+				if i>=ll:
+					break
+				space.body(ivec2(x,y),l[i])
+				i+=1
+
 	#rand
 	if 0:
 		i=256
@@ -142,20 +159,5 @@ def tests():
 					i+= 256
 				r= rune('gen_%i%i'%(x,y), g)
 				space.body(ivec2(x*1,y*1),r)
-				i+=1
-
-	#font
-	if 1:
-		i=0
-		l=()
-		for v in dic.values():
-			if v not in l:
-				l+= (v,)
-		W= 8
-		for y in ra(-W,W):
-			for x in ra(-W,W):
-				if i>=len(l):
-					break
-				space.body(ivec2(x,y),l[i])
 				i+=1
 

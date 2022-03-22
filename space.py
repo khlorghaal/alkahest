@@ -29,6 +29,7 @@ grid= {}
 #rot2 rotation, cardinal
 #
 class mod:
+	none= 0b00000000000000000000000000000000
 	a=    0b11000000000000000000000000000000
 	h=    0b00100000000000000000000000000000
 	v=    0b00010000000000000000000000000000
@@ -77,7 +78,6 @@ origin= body(ivec2(0,0),runedict['empty'])
 @dcls
 class cursor:
 	v:ivec2= ivec2(0,0)
-	w:int= 0#movement
 	vel_active:bool= 0
 	b: body= 0
 
@@ -99,37 +99,20 @@ class cursor:
 		for c in cursor.insts:
 			if c.v!=ivec2(0,0):
 				r= True
-				d= c.v*(1<<c.w)
-				if not c.vel_active:
-					c.v*=0#halt
+				d= c.v
+				c.v*=0#halt
 				c.place(c.b.p+d)
 
 		return r
 setattr(cursor,'insts',[])
 setattr(cursor,'prime',cursor())#because dcls
 
-def thrust(b,d):
-	c= cursor.prime
-	if c.vel_active:
-		c.v+= d if b else -d
-	elif b:
-		c.v+= d
-	else:
-		pass
-def wset(i):
-	def r(b):
-		c= cursor.prime
-		m=(1<<i)
-		if b:
-			c.w|= m
-		else:
-			c.w&=~m
-		print('cw %s'%c.w)
-	return r
+def thrust(d:ivec2):
+	cursor.prime.v+= d
 
 
 def emplace(name):
-	body(cursor.prime.p, runedict[name])
+	body(cursor.prime.b.p, runedict[name])
 
 snake=   lambda p,w:   int(p.y*w+p.x)
 snakent= lambda i,w: ivec2(  i%w,i/w)
@@ -208,9 +191,7 @@ def load():
 def save():
 	from numpy import array
 	from numpy import zeros
-	from numpy import uint8
 	from numpy import uint16
-	from numpy import uint64
 	import png
 
 	Z= 0 #z 0 is only nonvolatile layer saved

@@ -167,7 +167,7 @@ xxxxxxx0
    x  x0
 xxxxxxx0
    x   0
-%
+% percent
 00000000
  xxx xx0
        0
@@ -205,50 +205,122 @@ x      0
 xxxxxx 0
 )
 00000000
- xxxxxx 
-      x 
-      x 
+ xxxxxx0
+      x0
+      x0
        0
-      x 
-      x 
- xxxxxx 
-* mul
+      x0
+      x0
+ xxxxxx0
++
+00000000
+   x   0
+   x   0
+   x   0
+xxxxxxx0
+   x   0
+   x   0
+   x   0
+add
+00000000
+   x   0
+   x   0
+   x   0
+xxxxxxx0
+   x   0
+   x   0
+   x   0
+mul
 00000000
   x x  0
+  x x  0
+xxx xxx0
+       0
+xxx xxx0
+  x x  0
+  x x  0
+pow
+00000000
+ xx xx 0
+  x x  0
+xxx xxx0
+       0
+xxx xxx0
+  x x  0
+ xx xx 0
+sub
+00000000
+       0
+       0
+       0
+xxxxxxx0
+       0
+       0
+       0
+div
+00000000
+  x x  0
+  x x  0
+       0
+xxxxxxx0
+       0
+  x x  0
+  x x  0
+log
+00000000
+ xx xx 0
+  x x  0
+  x x  0
+xxxxxxx0
+  x x  0
+  x x  0
+ xx xx 0
+mod modulus
+00000000
+  xxx  0
   x x  0
        0
 xxx xxx0
        0
   x x  0
-  x x  0
-+ add
+  xxx  0
+len
 00000000
-   x   0
-   x   0
-   x   0
-xxxxxxx0
-   x   0
-   x   0
-   x   0
-div
-00000000
-       0
   xxx  0
        0
-xxxxxxx0
+   x   0
+   x   0
+   x   0
        0
   xxx  0
-       0
-log
+nrm
 00000000
-       0
-       0
-       0
-       0
- x   x 0
+ x x x 0
  x x x 0
    x   0
-,
+   x   0
+   x   0
+ x x x 0
+ x x x 0
+imaginary circular
+00000000
+   x   0
+ xxxxx 0
+ x   x 0
+xx   xx0
+ x   x 0
+ xxxxx 0
+   x   0
+fui fourier fft
+00000000
+x  x  x0
+x  x  x0
+x  x  x0
+       0
+x x x x0
+x x x x0
+x x x x0
+, comma
 00000000
        0
        0
@@ -257,7 +329,7 @@ log
        0
    x   0
   xx   0
-- sub
+- hyphen
 00000000
        0
        0
@@ -266,7 +338,7 @@ xxxxxxx0
        0
        0
        0
-.
+. period
 00000000
        0
        0
@@ -275,7 +347,7 @@ xxxxxxx0
        0
    x   0
    x   0
-/
+/ slash
 00000000
    xxxx0
    x   0
@@ -284,6 +356,15 @@ xxxxxxx0
        0
    x   0
 xxxx   0
+* aseterisk
+00000000
+  xxx  0
+   x   0
+x     x0
+xx   xx0
+x     x0
+   x   0
+  xxx  0
 0
 00000000
   xxx  0
@@ -1490,6 +1571,141 @@ voight
 xxxxxxx0
 x     x0
 x     x0
+gronk
+00000000
+xxx xxx0
+x     x0
+xxx xxx0
+       0
+x x x x0
+x x x x0
+xxx xxx0
+sol gold aurum
+00000000
+  xxx  0
+       0
+x xxx x0
+x x x x0
+x xxx x0
+       0
+  xxx  0
+jupiter jove iovis tin stannum
+00000000
+xxx    0
+  x    0
+  x    0
+  x  x 0
+  x  x 0
+ xxxxxx0
+     x 0
+saturn saturnus
+00000000
+ x     0
+xxx    0
+ x    x0
+ xxxxxx0
+ x    x0
+      x0
+     xx0
+mars iron ferrum
+00000000
+    xxx0
+      x0
+xxxxx x0
+x   x  0
+x   x  0
+x   x  0
+xxxxx  0
+venus copper cuprum
+00000000
+xxxxx  0
+x   x  0
+x   x  0
+xxxxx  0
+  x    0
+ xxx   0
+  x    0
+mercury mercurius
+00000000
+x   x  0
+xxxxx  0
+x   x  0
+xxxxx  0
+  x    0
+ xxx   0
+  x    0
+silver argentum
+00000000
+xxxxxx 0
+x    x 0
+xxx  x 0
+  x  x 0
+xxx  x 0
+x    x 0
+xxxxxx 0
+phosphorous phosphor
+00000000
+       0
+  xxx  0
+   x   0
+ xxxxx 0
+ x   x 0
+ x   x 0
+xxxxxxx0
+platinum
+00000000
+       0
+xx xxxx0
+ x x  x0
+ xxx  x0
+ x x  x0
+xx xxxx0
+       0
+antimony stibium
+00000000
+       0
+  xxx  0
+   x   0
+ xxxxx 0
+ x   x 0
+ x   x 0
+ xxxxx 0
+sulphur brimstone
+00000000
+ xxxxx 0
+   x   0
+xxxxxxx0
+   x   0
+xxxxxxx0
+x x x x0
+xxx xxx0
+potassium kalium
+00000000
+       0
+       0
+       0
+       0
+       0
+       0
+       0
+oxygen
+00000000
+       0
+xxx xxx0
+x x x x0
+xxx xxx0
+       0
+       0
+       0
+yhwh yaweh tetragrammaton
+00000000
+xxx  xx0
+  x   x0
+x x    0
+       0
+xxx xxx0
+  x   x0
+x x   x0
 א alef 
         
         

@@ -19,99 +19,88 @@ else:
 	global audio
 	audio= None
 
-
-symbols=[
-	'f00','f01','f02',
-	'f10','f11','f12',
-	'f20','f21','f22',
-	'nl0','nl1','nl2','nl3',
-	'd00','d01','d02',
-	'd10','d11','d12',
-	'd20','d21','d22',
-	'nr0','nr1','nr2','nr3',
-]
-l=locals()
-for s in symbols:
-	l[s]=s
-del l
-
 #scancode->symbol
 kbinds={
-	  8:f00, 26:f01, 20:f02,
-	  7:f10, 22:f11,  4:f12,
-	  6:f20, 27:f21, 29:f22,
-	 44:nl0,226:nl1,225:nl2, 57:nl3,
-	 95:d00, 96:d01, 97:d02,
-	 92:d10, 93:d11, 94:d12,
-	 89:d20, 90:d21, 91:d22,
-	 98:nr0, 99:nr1, 88:nr2, 87:nr3,
+	 30:'f33', 31:'f32', 32:'f31', 33:'f30',               84:'nr6', 85:'nr5', 86:'nr4',
+	 20:'f23', 26:'f22',  8:'f21', 21:'f20',	 89:'d20', 90:'d21', 91:'d22', 
+	  4:'f13', 22:'f12',  7:'f11',  9:'f10',	 92:'d10', 93:'d11', 94:'d12', 87:'nr3',
+	 29:'f03', 27:'f02',  6:'f01', 25:'f00',	 95:'d00', 96:'d01', 97:'d02', 
+	 44:'nl0',226:'nl1',225:'nl2', 57:'nl3',	           98:'nr0', 99:'nr1', 88:'nr2'
 	}
-frets={
-	f00,f01,f02,
-	f10,f11,f12,
-	f20,f21,f22,
-}
-picks= set.difference(
-	set(kbinds.values()),
-		frets)
+l=locals()
+for scn,sym in kbinds.items():
+	l[sym]=sym
+del l
 
-NoFret= object()
-NoPick= object()
+frets= {
+	f33,f32,f31,f30,
+	f23,f22,f21,f20,
+	f13,f12,f11,f10,
+	f03,f02,f01,f00,
+	nl0,nl1,nl2,nl3
+}
+picks= frets - set(kbinds.values())
+
+chord= set()#keys pressed currently
+
+NoFret= nofr= object()
 def kyes(i):
-	if callable(i):
+	if callable(i):#subclauses
 		return i()
-	if i==None:
-		return len(chord)==0
 	if i==NoFret:
 		return i not in frets
-	if i==NoPick:
-		return i not in picks
 	else:
 		return i in chord
 ll= lambda a: [kyes(i) for i in a]
-l_all= lambda *a: lambda : all(ll(a))
-l_any= lambda *a: lambda : any(ll(a))
+_all= lambda *a: lambda: all(ll(a))
+_any= lambda *a: lambda: any(ll(a))
 
-onhit= lambda l: lambda b: l() if b else  () 
-onrel= lambda l: lambda b:  () if b else l() 
+@dcls
+class op:
+	chord: list[str]
+	fun: callable
 
-chord=[]#keys pressed currently
-chords=[
-	#(condition,effect)
-	#condition is a lambda which evaluates keys currently pressed against its construction here
-	*[
-		(
-			l_all(l_any(NoFret,f00,f01,f02), k ),
-			lambda b,d=d: space.thrust(b,ivec2(*d))
-		) for k,d in [
-			(d00,(-1, 1)),
-			(d01,( 0, 1)),
-			(d02,( 1, 1)),
-			(d10,(-1, 0)),
-			(d12,( 1, 0)),
-			(d20,(-1,-1)),
-			(d21,( 0,-1)),
-			(d22,( 1,-1))
-		]
-	],
-	*[
-		(
-			l_all(f,n),
-			onhit(lambda c=c: space.emplace(c))
-		) for f,n,c in [
-			(f10,nr0,'+'),
-			(f11,nr0,'*'),
-			(f12,nr0,'^'),
-			(f10,nr1,'-'),
-			(f11,nr1,'div'),
-			(f12,nr1,'log'),
-		]
-	],
-	(l_all(d11), onhit(lambda: space.aktivat(ROOT))),
-	(l_any(f00), space.wset(0)),
-	(l_any(f01), space.wset(1)),
-	(l_any(f02), space.wset(2))
-]
+def sputmul():
+	d= chord&{f00,f01,f02,f03}
+	print(chord)
+	print(d)
+	r= 1<<(2*len(d))
+	return r
+sput= lambda *d: lambda: space.thrust(ivec2(*d)*sputmul())
+spem= lambda c:  lambda: space.emplace(c)
+
+notes=(
+	#pick:(frets,effect)
+
+	#kinetic
+	(d00,_any(nofr,f00,f01,f02,f03), sput(-1, 1)),
+	(d01,_any(nofr,f00,f01,f02,f03), sput( 0, 1)),
+	(d02,_any(nofr,f00,f01,f02,f03), sput( 1, 1)),
+	(d10,_any(nofr,f00,f01,f02,f03), sput(-1, 0)),
+	(d12,_any(nofr,f00,f01,f02,f03), sput( 1, 0)),
+	(d20,_any(nofr,f00,f01,f02,f03), sput(-1,-1)),
+	(d21,_any(nofr,f00,f01,f02,f03), sput( 0,-1)),
+	(d22,_any(nofr,f00,f01,f02,f03), sput( 1,-1)),
+
+	(d11,nl0, lambda: space.aktivat(ROOT)),
+
+	#arithmetic
+	(nr0,_all(f10), spem('add' )),
+	(nr0,_all(f11), spem('mul' )),
+	(nr0,_all(f12), spem('pow' )),
+	(nr0,_all(f13), spem('mod' )),
+	(nr2,_all(f10), spem('len' )),
+	(nr2,_all(f11), spem('nrm' )),
+	(nr3,_all(f11), spem('grad')),
+	(nr3,_all(f11), spem('dvrg')),
+	(nr3,_all(f11), spem('flux')),
+	#inverses
+	(nr0,_all(f10,nl0),spem('sub' )),
+	(nr0,_all(f11,nl0),spem('div' )),
+	(nr0,_all(f12,nl0),spem('log' )),
+
+	#morphic
+)
 '''
 
 def key(k,ch,sc):
@@ -120,6 +109,22 @@ def key(k,ch,sc):
 		focus.yeah
 
 '''
+def kchui():
+	layout= [
+		[f03, f02, f01, f00, 0, d00, d01, d02,   0],
+		[f13, f12, f11, f10, 0, d10, d11, d12,   0],
+		[f23, f22, f21, f20, 0, d20, d21, d22,   0],
+		[nl3, nl2, nl1, nl0, 0, nr0, nr1, nr2, nr3]
+		]
+	for y,r in en(layout[::-1]):
+		for x,l in en(r):
+			if l==0:
+				continue
+			m= space.mod.none if l in chord else space.mod.c
+			space.body(ivec2(x,y),rune.dic.border,z=-1,mod=m)
+
+
+
 
 
 class ROOT:
@@ -128,19 +133,23 @@ class ROOT:
 			return False
 		k= kbinds[sc]
 
-		if audio:
-			audio.note(b,symbols.index(k))
-			#todo actual frets
+		if k in frets:
+			if b:
+				chord.add(k)
+			else:
+				chord.remove(k)
+		else:
+			p=k
+			if b:
+				for n in notes:
+					if n[0]!=p:
+						continue
+					if n[1]():
+						if audio:#todo actual frets
+							audio.chord(chord)
+						n[2]()
+						
 
-		if b:
-			chord.append(k)
-
-		for ci in chords:
-			if ci[0]():
-				ci[1](b)
-
-		if not b:#after chord scan so that keyup still generates events
-			chord.remove(k)
 
 	def bind_remap():
 		acc= {}
@@ -159,15 +168,15 @@ class ROOT:
 		kbinds= acc
 		del acc
 	def bindhelp(b):
-		pass#todo discriptor display
+		pass#todo
 
 focus(ROOT)
 
 if audio:
 	audio.start()
 
-space.load()
-#rune.tests()
+#space.load()
+rune.tests()
 #atom.tests()
 #space.tests()
 
@@ -200,16 +209,11 @@ def loop():
 				ch= e.unicode
 				sc= e.scancode
 
-				#chars pygame likent
-				if len(ch)!=0:
-					ochd={
-						32:' ',
-						13:'\n'
-						}
-					och= ord(ch)
-					#print('och %s'%och)
-					if och in ochd:
-						ch= ochd[och]
+				#pygame likent these chars
+				ch={
+					32:' ',
+					13:'\n'
+					}.get(ord(ch or ' ')) or ch
 
 				focus().inp(isdown,ch,sc)
 
