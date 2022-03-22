@@ -39,7 +39,7 @@ frets= {
 	f03,f02,f01,f00,
 	nl0,nl1,nl2,nl3
 }
-picks= frets - set(kbinds.values())
+picks= frets - {kbinds.values()}
 
 chord= set()#keys pressed currently
 
@@ -60,19 +60,16 @@ class op:
 	chord: list[str]
 	fun: callable
 
-def sputmul():
-	d= chord&{f00,f01,f02,f03}
-	print(chord)
-	print(d)
-	r= 1<<(2*len(d))
-	return r
+sputmul= lambda: 1<<(2*len(chord&{f00,f01,f02,f03}))
 sput= lambda *d: lambda: space.thrust(ivec2(*d)*sputmul())
+
 spem= lambda c:  lambda: space.emplace(c)
 
 notes=(
 	#pick:(frets,effect)
 
 	#kinetic
+	#cursor
 	(d00,_any(nofr,f00,f01,f02,f03), sput(-1, 1)),
 	(d01,_any(nofr,f00,f01,f02,f03), sput( 0, 1)),
 	(d02,_any(nofr,f00,f01,f02,f03), sput( 1, 1)),
@@ -81,6 +78,8 @@ notes=(
 	(d20,_any(nofr,f00,f01,f02,f03), sput(-1,-1)),
 	(d21,_any(nofr,f00,f01,f02,f03), sput( 0,-1)),
 	(d22,_any(nofr,f00,f01,f02,f03), sput( 1,-1)),
+	#zoom
+	(nr0,_any(f00,f01,f02,f03), lambda: gl_backend.zoom(-1+len(chord&{f00,f01,f02,f03}))),
 
 	(d11,nl0, lambda: space.aktivat(ROOT)),
 

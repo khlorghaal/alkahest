@@ -33,14 +33,15 @@ def setwh(_w,_h):
 setwh(*resolution)
 
 z=2#2**z
-def zoomin():
+def zoom(_z:int):
 	global z
-	if 1<<z < whmax//64:#max size percentage of screen
-		z+=1
-def zoomou():
-	global z
-	if z>0:
-		z-=1
+	z= _z
+	z= max(z,0)
+	z= min(z,log2(whmax//64))#max size percentage of screen
+	z= int(z)
+
+zoomin= lambda:	zoom(z+1)
+zoomou= lambda:	zoom(z-1)
 
 
 

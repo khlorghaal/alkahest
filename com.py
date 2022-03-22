@@ -16,9 +16,12 @@ ra= range
 from dataclasses import dataclass as dcls
 immut= dcls(frozen=True)
 
-PHI= 1.61803398874
-PI= 3.14159265359
+from math import pi  as PI
+from math import tau as TAU
+PHI= (1+5**.5)/2
 TAU= 2*PI
+from math import exp
+from math import log2
 
 join2d= lambda a: '\n'.join([''.join(s) for s in a])
 
