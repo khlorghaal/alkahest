@@ -311,7 +311,7 @@ xx   xx0
  x   x 0
  xxxxx 0
    x   0
-fui fourier fft
+foi fourier fft
 00000000
 x  x  x0
 x  x  x0
@@ -1625,7 +1625,7 @@ xxxxx  0
   x    0
  xxx   0
   x    0
-mercury mercurius
+mercury mercurius hydrargyrum
 00000000
 x   x  0
 xxxxx  0
@@ -1706,44 +1706,44 @@ x x    0
 xxx xxx0
   x   x0
 x x   x0
-א alef 
-        
-        
-        
-        
-        
-        
-        
-        
+א alef aleph
+00000000
+xxxx xx0
+   x  x0
+ xxx  x0
+x  x  x0
+x  xxx 0
+x  x   0
+xx xxxx0
 ב bet  
-        
-        
-        
-        
-        
-        
-        
-        
+00000000
+xxxxx  0
+     x 0
+     x 0
+     x 0
+     x 0
+     x 0
+xxxxxxx0
 ג gimel
-        
-        
-        
-        
-        
-        
-        
-        
+00000000
+ xxxx  0
+     x 0
+     x 0
+     x 0
+xxxxxx 0
+x    x 0
+x    xx0
 ד dalet
-        
-        
-        
-        
-        
-        
-        
-        
+00000000
+xxxxxxx0
+     x 0
+     x 0
+     x 0
+     x 0
+     x 0
+     x 0
 ה he
-        
+00000000
        0
        0
        0
@@ -1752,185 +1752,185 @@ x x   x0
  x  x  0
  x  x  0
 ו waw vav
-        
-        
-        
-        
-  xx    
-   x    
-   x    
-   x    
-ז zayin
-        
-        
-        
-  xxx   
-   x    
-   x    
-   x    
-   x    
-ח chet
-        
-        
-        
-        
-        
-        
-        
-        
-ט tet
-        
-        
-        
-        
-        
-        
-        
-        
-י yod
-        
-        
-  xx    
-   x    
-   x    
-        
-        
-        
-כ kaf
-        
-        
-        
-        
- xxx    
-    x   
-    x   
- xxxx   
-ך Kaf
-        
-        
-        
-        
-        
-        
-        
-        
-ל lamed
-        
-        
-        
- x      
- xxxx   
-    x   
-  x     
-  x     
-מ Mem
-        
-        
-        
-        
-        
-        
-        
-        
-ם mem
-        
-        
-        
-        
-        
-        
-        
-        
-נ Nun
-        
-        
-        
-        
-        
-        
-        
-        
-ן nun
-        
-        
-        
-        
-        
-        
-        
-        
-ס Samech
-        
-        
-        
-        
-        
-        
-        
-        
-ע Ayin
-        
-        
-        
-        
-        
-        
-        
-        
-פ Pe
-        
-        
-        
- xxx    
-  x x   
- xx x   
-    x   
- xxxx   
-ף Pee
-        
-        
-        
-        
-        
-        
-        
-        
-צ Tsadi
-        
-        
-        
-x  xx   
- x  x   
-  xx    
-    x   
-xxxxx   
-ץ tsadi
-        
-        
-        
-        
-        
-        
-        
-        
-ק Qof
 00000000
        0
        0
- xxxx  0
+       0
+  xx   0
+   x   0
+   x   0
+   x   0
+ז zayin
+00000000
+       0
+       0
+  xxx  0
+   x   0
+   x   0
+   x   0
+   x   0
+ח chet
+00000000
+       0
+xxxxxx 0
+ x    x0
+x     x0
+x     x0
+x     x0
+x     x0
+ט tet
+00000000
+       0
+xx   xx0
+ x  x x0
+ x    x0
+ x    x0
+ x    x0
+  xxxx 0
+י yod
+00000000
+       0
+  xx   0
+   x   0
+   x   0
+       0
+       0
+       0
+כ kaf
+00000000
+       0
+       0
+       0
+ xxx   0
     x  0
+    x  0
+ xxxx  0
+ך Kaf
+00000000
+xxxxx  0
+     x 0
+      x0
+      x0
+      x0
+      x0
+      x0
+ל lamed
+00000000
+x      0
+xxxxx  0
+    x  0
+    x  0
+   x   0
+  x    0
+ x     0
+מ Mem
+00000000
+xx xxx 0
+ xx   x0
+ x    x0
+ x    x0
+ x    x0
+ x    x0
+ x xxxx0
+ם mem
+00000000
+xxxxxx 0
+  x   x0
+ x    x0
+x     x0
+x     x0
+x     x0
+xxxxxxx0
+נ Nun
+00000000
+   xx  0
+     x 0
+     x 0
+     x 0
+     x 0
+     x 0
+  xxxx 0
+ן nun
+00000000
+   xx  0
+    x  0
+    x  0
+    x  0
+    x  0
+    x  0
+    x  0
+ס Samech
+00000000
+xxxxxx 0
+  x   x0
+ x    x0
+ x    x0
+ x    x0
+ x    x0
+  xxxx 0
+ע Ayin
+00000000
+xx   xx0
+ x    x0
+  x  x 0
+  x  x 0
+  x  x 0
+  x  x 0
+xxxxx  0
+פ pe
+00000000
+       0
+ xxxx  0
+  x  x 0
+ x   x 0
+ xxx x 0
+     x 0
+ xxxxx 0
+ף Pe
+00000000
+xxxxxx 0
+ x    x0
+x     x0
+xxx   x0
+      x0
+      x0
+      x0
+צ tsadi
+00000000
+       0
+       0
+x  xx  0
+ x  x  0
+  xx   0
+    x  0
+xxxxx  0
+ץ Tsadi
+00000000
+xx    xx
+  x    x
+   x xx 
+    x   
+    x   
+    x   
+    x   
+ק Qof
+00000000
+ xxx x 0
+     x 0
+ x   x 0
+ x   x 0
  x  x  0
  x x   0
  x     0
 ש Shin
 00000000
-       0
-       0
-       0
-       0
-       0
-       0
-       0
+xx xx x0
+x   x x0
+x   x x0
+x   x x0
+x   x x0
+x   x x0
+xxxxxxx0
 ת Tav
 00000000
        0

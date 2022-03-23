@@ -25,7 +25,7 @@ kbinds={
 	 20:'f23', 26:'f22',  8:'f21', 21:'f20',	 89:'d20', 90:'d21', 91:'d22', 
 	  4:'f13', 22:'f12',  7:'f11',  9:'f10',	 92:'d10', 93:'d11', 94:'d12', 87:'nr3',
 	 29:'f03', 27:'f02',  6:'f01', 25:'f00',	 95:'d00', 96:'d01', 97:'d02', 
-	 44:'nl0',226:'nl1',225:'nl2', 57:'nl3',	           98:'nr0', 99:'nr1', 88:'nr2'
+	 44:'fb0',226:'fb1',225:'fb2', 57:'fb3',	           98:'nr0', 99:'nr1', 88:'nr2'
 	}
 l=locals()
 for scn,sym in kbinds.items():
@@ -37,7 +37,7 @@ frets= {
 	f23,f22,f21,f20,
 	f13,f12,f11,f10,
 	f03,f02,f01,f00,
-	nl0,nl1,nl2,nl3
+	fb0,fb1,fb2,fb3
 }
 picks= frets - {kbinds.values()}
 
@@ -81,22 +81,30 @@ notes=(
 	#zoom
 	(nr0,_any(f00,f01,f02,f03), lambda: gl_backend.zoom(-1+len(chord&{f00,f01,f02,f03}))),
 
-	(d11,nl0, lambda: space.aktivat(ROOT)),
+	(d11,_any(fb0), lambda: space.aktivat(ROOT)),
 
 	#arithmetic
-	(nr0,_all(f10), spem('add' )),
-	(nr0,_all(f11), spem('mul' )),
-	(nr0,_all(f12), spem('pow' )),
-	(nr0,_all(f13), spem('mod' )),
-	(nr2,_all(f10), spem('len' )),
-	(nr2,_all(f11), spem('nrm' )),
-	(nr3,_all(f11), spem('grad')),
-	(nr3,_all(f11), spem('dvrg')),
-	(nr3,_all(f11), spem('flux')),
-	#inverses
-	(nr0,_all(f10,nl0),spem('sub' )),
-	(nr0,_all(f11,nl0),spem('div' )),
-	(nr0,_all(f12,nl0),spem('log' )),
+	(nr0,_all(f10    ),spem('add' )),
+	(nr0,_all(f10,fb0),spem('sub' )),
+	(nr0,_all(f11    ),spem('mul' )),
+	(nr0,_all(f11,fb0),spem('div' )),
+	(nr0,_all(f12    ),spem('pow' )),
+	(nr0,_all(f12,fb0),spem('log' )),
+	(nr0,_all(f13    ),spem('mod' )),
+	(nr2,_all(f10    ),spem('len' )),
+	(nr2,_all(f11    ),spem('nrm' )),
+	(nr3,_all(f11    ),spem('grad')),
+	(nr3,_all(f11    ),spem('dvrg')),
+	(nr3,_all(f11    ),spem('flux')),
+	(nr4,_all(f10    ),spem( 'fft')),
+	(nr4,_all(f10,fb0),spem('ifft')),
+	#shr
+	#shl
+	#clz
+	#ctz
+	#and
+	#or
+	#xor
 
 	#morphic
 )
@@ -113,7 +121,7 @@ def kchui():
 		[f03, f02, f01, f00, 0, d00, d01, d02,   0],
 		[f13, f12, f11, f10, 0, d10, d11, d12,   0],
 		[f23, f22, f21, f20, 0, d20, d21, d22,   0],
-		[nl3, nl2, nl1, nl0, 0, nr0, nr1, nr2, nr3]
+		[fb3, fb2, fb1, fb0, 0, nr0, nr1, nr2, nr3]
 		]
 	for y,r in en(layout[::-1]):
 		for x,l in en(r):
@@ -228,4 +236,4 @@ loop()
 #space.save()
 
 exit()
-	
+assert(False)
