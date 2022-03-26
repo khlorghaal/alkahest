@@ -30,14 +30,6 @@ def setwh(_w,_h):
 	glViewport(0,0,w,h)
 setwh(*resolution)
 
-z=2#2**z
-def zoom(_z:int):
-	global z
-	z= _z
-	z= max(z,0)
-	z= min(z,log2(whmax//64))#max size percentage of screen
-	z= int(z)
-
 zoomin= lambda:	zoom(z+1)
 zoomou= lambda:	zoom(z-1)
 
@@ -121,8 +113,20 @@ void main(){
 		ivec2( W2, W2),
 		ivec2( W2,-W2)
 	);
+	const vec2[] luv= vec2[](
+		ivec2( 0, 0),
+		ivec2( 0, W),
+		ivec2( W, W),
+		ivec2( W, 0)
+	);
+
 	ivec2 xy= lxy[gl_VertexID];
+	vuv= luv[gl_VertexID];
 	vec2 p= W*in_p.xy + xy;
+
+	//if(!!(vmod&0x)){//smol
+//
+	//}
 
 	float z= abs(in_p.z);//negative z is yeah
 	//case PERSP
@@ -135,13 +139,6 @@ void main(){
 	gl_Position.xy= pp/res;
 	gl_Position.z= z/8./tr.w;
 	gl_Position.w= .5/tr.w;
-	const vec2[] luv= vec2[](
-		ivec2( 0, 0),
-		ivec2( 0, W),
-		ivec2( W, W),
-		ivec2( W, 0)
-	);
-	vuv= luv[gl_VertexID];
 	vrune= in_rune;
 }
 	''',
@@ -276,7 +273,8 @@ def invoke():
 
 		prog_rune.bind()
 		tr= space.cursor.prime.b.p
-		glUniform4i(0,tr.x,tr.y,0,1<<z)
+		z= 1<<space.cursor.prime.z
+		glUniform4i(0,tr.x,tr.y,0,z)
 		glUniform2f(1,w,h)
 		glUniform1ui(2,_tick)
 

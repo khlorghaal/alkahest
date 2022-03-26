@@ -107,6 +107,7 @@ notes=(
 	#xor
 
 	#morphic
+	#bus
 )
 '''
 
@@ -127,7 +128,7 @@ def kchui():
 		for x,l in en(r):
 			if l==0:
 				continue
-			m= space.mod.none if l in chord else space.mod.c
+			m= space.mod.hgh if l in chord else space.mod.none
 			space.body(ivec2(x,y),rune.dic.border,z=-1,mod=m)
 
 
@@ -202,10 +203,24 @@ def loop():
 				continue
 
 			if e.type==MOUSEBUTTONDOWN:
+				if e.button==1:#LMB
+					#todo cleanup
+					p= space.cursor.prime.b.p
+					z= 1<<space.cursor.prime.z
+					w,h = pygame.display.get_surface().get_size()
+					c= ivec2(*pygame.mouse.get_pos())
+					c.x=   c.x -w//2
+					c.y= h-c.y -h//2
+					c+= 4*z
+					c//= 8
+					c//= z
+					c+= p
+					print(c)
+					space.cursor.prime.place(c)
 				if e.button==4:#wheel
-					gl_backend.zoomin()
+					space.cursor.prime.zoom( 1)
 				if e.button==5:#wheel
-					gl_backend.zoomou()
+					space.cursor.prime.zoom(-1)
 			if e.type==KEYDOWN or e.type==KEYUP:
 				isdown= e.type==KEYDOWN
 
@@ -236,4 +251,3 @@ loop()
 #space.save()
 
 exit()
-assert(False)

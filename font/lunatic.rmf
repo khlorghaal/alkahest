@@ -14,7 +14,7 @@ space blank empty
        0
        0
        0
-solid
+█ solid fill
 xxxxxxxx
 xxxxxxxx
 xxxxxxxx
@@ -122,7 +122,7 @@ xxxxxxx0
  x x x 0
 xxxxxxx0
  x x x 0
-!
+! not bang exclaim exclamation
 00000000
   xxx  0
   x x  0
@@ -131,7 +131,7 @@ xxxxxxx0
   xxx  0
        0
   xxx  0
-!!
+!! notnot doublebang
 00000000
 xxxxxxx0
 x  x  x0
@@ -140,7 +140,7 @@ x  x  x0
 xxxxxxx0
        0
 xxxxxxx0
-"
+" dquot double-quote
 00000000
   x x  0
   x x  0
@@ -149,7 +149,7 @@ xxxxxxx0
        0
        0
        0
-#
+# number pound
 00000000
        0
   x x  0
@@ -158,7 +158,7 @@ xxxxxxx0
  xxxxx 0
   x x  0
        0
-$
+$ dollar
 00000000
    x   0
 xxxxxxx0
@@ -176,7 +176,7 @@ xxxxxxx0
    xxx 0
        0
 xx xxx 0
-&
+& and
 00000000
 xxxx  x0
 x  x  x0
@@ -185,7 +185,7 @@ xxxxxxx0
 x      0
 x      0
 xxxxxxx0
-'
+' quot quote
 00000000
    x   0
    x   0
@@ -194,7 +194,7 @@ xxxxxxx0
        0
        0
        0
-(
+( parenthesis-open
 00000000
 xxxxxx 0
 x      0
@@ -203,7 +203,7 @@ x      0
 x      0
 x      0
 xxxxxx 0
-)
+) parenthesis-close
 00000000
  xxxxxx0
       x0
@@ -212,7 +212,7 @@ xxxxxx 0
       x0
       x0
  xxxxxx0
-+
++ plus
 00000000
    x   0
    x   0
@@ -221,7 +221,7 @@ xxxxxxx0
    x   0
    x   0
    x   0
-add
+add addition
 00000000
    x   0
    x   0
@@ -230,7 +230,7 @@ xxxxxxx0
    x   0
    x   0
    x   0
-mul
+mul multiply
 00000000
   x x  0
   x x  0
@@ -248,7 +248,7 @@ xxx xxx0
 xxx xxx0
   x x  0
  xx xx 0
-sub
+sub subtract
 00000000
        0
        0
@@ -257,7 +257,7 @@ xxxxxxx0
        0
        0
        0
-div
+div divide
 00000000
   x x  0
   x x  0
@@ -266,7 +266,7 @@ xxxxxxx0
        0
   x x  0
   x x  0
-log
+log logarithm
 00000000
  xx xx 0
   x x  0
@@ -284,7 +284,7 @@ xxx xxx0
        0
   x x  0
   xxx  0
-len
+len length
 00000000
   xxx  0
        0
@@ -293,7 +293,7 @@ len
    x   0
        0
   xxx  0
-nrm
+nrm normal normalize
 00000000
  x x x 0
  x x x 0
@@ -365,7 +365,7 @@ xx   xx0
 x     x0
    x   0
   xxx  0
-0
+0 zero
 00000000
   xxx  0
   x x  0
@@ -374,7 +374,7 @@ x     x0
   x x  0
   x x  0
   xxx  0
-1
+1 one
 00000000
    x   0
    x   0
@@ -383,7 +383,7 @@ x     x0
    x   0
    x   0
    x   0
-2
+2 two
 00000000
   xxx  0
     x  0
@@ -392,7 +392,7 @@ x     x0
   x    0
   x    0
   xxx  0
-3
+3 three
 00000000
   xxx  0
     x  0
@@ -401,7 +401,7 @@ x     x0
     x  0
     x  0
   xxx  0
-4
+4 four
 00000000
   x x  0
   x x  0
@@ -410,25 +410,25 @@ x     x0
     x  0
     x  0
     x  0
-5
-00000000
-  xxx  0
-  x    0
-  x    0
-  xxx  0
-    x  0
-    x  0
-  xxx  0
-6
+5 five
 00000000
   xxx  0
   x    0
   x    0
   xxx  0
+    x  0
+    x  0
+  xxx  0
+6 six
+00000000
+  xxx  0
+  x    0
+  x    0
+  xxx  0
   x x  0
   x x  0
   xxx  0
-7
+7 seven
 00000000
   xxx  0
     x  0
@@ -437,7 +437,7 @@ x     x0
     x  0
     x  0
     x  0
-8
+8 eight
 00000000
   xxx  0
   x x  0
@@ -446,7 +446,7 @@ x     x0
   x x  0
   x x  0
   xxx  0
-9
+9 nine
 00000000
   xxx  0
   x x  0
@@ -464,7 +464,7 @@ bus1
    x   0
    x   0
    x   0
-:
+: colon
 00000000
        0
   xxx  0
@@ -473,7 +473,7 @@ bus1
        0
   xxx  0
        0
-;
+; semicolon
 00000000
        0
   xxx  0
@@ -482,7 +482,7 @@ bus1
        0
     x  0
   xxx  0
-<
+< bracket-angle-open
 00000000
    xxx 0
        0
@@ -491,7 +491,7 @@ xxx    0
        0
        0
    xxx 0
-=
+= equals
 00000000
        0
        0
@@ -500,7 +500,7 @@ xxxxxxx0
 xxxxxxx0
        0
        0
->
+> bracket-angle-close
 00000000
  xxx   0
        0
@@ -509,7 +509,7 @@ xxxxxxx0
        0
        0
  xxx   0
-?
+? question nullable
 00000000
 xxxxxxx0
       x0
@@ -518,7 +518,7 @@ xxxxxxx0
    x   0
    x   0
    x   0
-@
+@ at
 00000000
 xxxxxxx0
 x     x0
@@ -718,13 +718,13 @@ U
  xxxxx 0
 V
 00000000
+       0
+xx   xx0
  x   x 0
  x   x 0
  x   x 0
  x   x 0
- x   x 0
- xxxxx 0
- x     0
+ xx xx 0
 W
 00000000
  x   x 0
@@ -761,7 +761,7 @@ Z
   x    0
   x    0
  xxxxx 0
-[
+[ bracket-square-open
 00000000
 xxxxxx 0
 x      0
@@ -770,7 +770,7 @@ x      0
 x      0
 x      0
 xxxxxx 0
-\
+\ backslash
 00000000
 xxxx   0
    x   0
@@ -779,7 +779,7 @@ xxxx   0
        0
    x   0
    xxxx 
-]
+] bracket-square-close
 00000000
  xxxxxx0
       x0
@@ -788,7 +788,7 @@ xxxx   0
       x0
       x0
  xxxxxx0
-^
+^ circumflex
 00000000
    x   0
  x x x 0
@@ -797,7 +797,16 @@ xxxx   0
        0
        0
        0
-_
+caret
+00000000
+       0
+       0
+       0
+       0
+   x   0
+ x x x 0
+ x   x 0
+_ underscore
 00000000
        0
        0
@@ -806,7 +815,7 @@ _
        0
        0
 xxxxxx 0
-`
+` grave
 00000000
 xx     0
        0
@@ -815,7 +824,7 @@ xx     0
        0
        0
        0
-a
+a aye
 00000000
        0
        0
@@ -824,7 +833,7 @@ a
  xxxxx 0
  x   x 0
  x   x 0
-b
+b bee
 00000000
        0
        0
@@ -833,7 +842,7 @@ b
  xxxxx 0
      x 0
  xxxxx 0
-c
+c cee
 00000000
        0
        0
@@ -842,7 +851,7 @@ c
  x     0
  x     0
  xxxxx 0
-d
+d dee
 00000000
        0
        0
@@ -851,7 +860,7 @@ d
  xxxxx 0
        0
  xxxxx 0
-e
+e ehi
 00000000
        0
        0
@@ -860,7 +869,7 @@ e
  xxxxx 0
  x     0
  xxxxx 0
-f
+f eph
 00000000
        0
        0
@@ -869,7 +878,7 @@ f
  xxxxx 0
  x     0
  x     0
-g
+g jee
 00000000
        0
        0
@@ -878,7 +887,7 @@ g
    xxx 0
      x 0
  xxxxx 0
-h
+h eigtce
 00000000
        0
        0
@@ -887,7 +896,7 @@ h
  xxxxx 0
  x   x 0
  x   x 0
-i
+i aye
 00000000
        0
        0
@@ -896,7 +905,7 @@ i
    x   0
    x   0
  xxxxx 0
-j
+j dzay
 00000000
        0
        0
@@ -905,7 +914,7 @@ j
      x 0
      x 0
  xxxxx 0
-k
+k cay
 00000000
        0
        0
@@ -914,7 +923,7 @@ k
  xxxxx 0
  x     0
  x     0
-l
+l el
 00000000
        0
        0
@@ -923,7 +932,7 @@ l
  x     0
  x     0
  xxxxx 0
-m
+m em
 00000000
        0
        0
@@ -932,7 +941,7 @@ m
  x x x 0
  x x x 0
  x x x 0
-n
+n en
 00000000
        0
        0
@@ -941,7 +950,7 @@ n
  x   x 0
  x   x 0
  x   x 0
-o
+o ohe
 00000000
        0
        0
@@ -950,7 +959,7 @@ o
  x   x 0
  x   x 0
  xxxxx 0
-p
+p pee
 00000000
        0
        0
@@ -959,7 +968,7 @@ p
  xxxxx 0
  x     0
  x     0
-q
+q kewe
 00000000
        0
        0
@@ -968,7 +977,7 @@ q
  x   x 0
  x x x 0
  xxxxx 0
-r
+r ar
 00000000
        0
        0
@@ -977,7 +986,7 @@ r
  x     0
  x     0
  x     0
-s
+s es
 00000000
        0
        0
@@ -986,7 +995,7 @@ s
  xxxxx 0
      x 0
  xxxxx 0
-t
+t tea
 00000000
        0
        0
@@ -995,7 +1004,7 @@ t
    x   0
    x   0
    x   0
-u
+u yoo
 00000000
        0
        0
@@ -1004,16 +1013,16 @@ u
  x   x 0
  x   x 0
  xxxxx 0
-v
+v vee
 00000000
        0
        0
+xx   xx0
  x   x 0
  x   x 0
- x xxx 0
- x     0
- xxxxx 0
-w
+ x   x 0
+ xx xx 0
+w dubbaeugh
 00000000
        0
        0
@@ -1022,7 +1031,7 @@ w
  x x x 0
  x x x 0
  xxxxx 0
-x
+x eks
 00000000
        0
        0
@@ -1049,7 +1058,7 @@ kren
  xxxxx 0
   x x  0
  xxxxx 0
-y
+y wye
 00000000
        0
        0
@@ -1058,7 +1067,7 @@ y
  xxxxx 0
    x   0
    x   0
-z
+z xie
 00000000
        0
        0
@@ -1067,7 +1076,7 @@ z
   x x  0
   x    0
  xxxxx 0
-{
+{ bracket-curl-open
 00000000
  xxxxx 0
  x     0
@@ -1085,7 +1094,7 @@ xxx    0
    x   0
    x   0
    x   0
-}
+} bracket-curl-close
 00000000
  xxxxx 0
      x 0
@@ -1112,7 +1121,7 @@ x x x x0
 x     x0
 x x x x0
 x xxx x0
-smil
+face smil
 00000000
        0
        0
@@ -1121,16 +1130,16 @@ smil
        0
   x x  0
   xxx  0
-angor
+angor angery
 00000000
-  xxx  0
+       0
+ xxxxx 0
        0
   x x  0
-  x x  0
        0
   xxx  0
   x x  0
-dorf
+dorf dwarf
 00000000
 xxxxxxx0
 x     x0
@@ -1148,7 +1157,7 @@ x    x 0
 x    x 0
 xxxxxx 0
  x  x  0
-∞ inf
+∞ inf infinity
 00000000
        0
        0
@@ -1166,15 +1175,6 @@ xxxxxxx0
 xxxxxxx0
 x     x0
 x     x0
-█ fill
-xxxxxxxx
-xxxxxxxx
-xxxxxxxx
-xxxxxxxx
-xxxxxxxx
-xxxxxxxx
-xxxxxxxx
-xxxxxxxx
 λ lambda
 00000000
        0
@@ -1571,7 +1571,16 @@ voight
 xxxxxxx0
 x     x0
 x     x0
-gronk
+grok
+00000000
+xxx xxx0
+x     x0
+x xxx x0
+x  x  x0
+   x   0
+ x x x 0
+xx x xx0
+gronk operator_for_operators_which_dont_exist
 00000000
 xxx xxx0
 x     x0
@@ -1579,6 +1588,15 @@ xxx xxx0
        0
 x x x x0
 x x x x0
+xxx xxx0
+grength
+00000000
+xxx xxx0
+x     x0
+xx x xx0
+   x   0
+xx x xx0
+x     x0
 xxx xxx0
 sol gold aurum
 00000000
@@ -1906,13 +1924,13 @@ x  xx  0
 xxxxx  0
 ץ Tsadi
 00000000
-xx    xx
-  x    x
-   x xx 
-    x   
-    x   
-    x   
-    x   
+xx   xx0
+  x   x0
+    xx 0
+   x   0
+   x   0
+   x   0
+   x   0
 ק Qof
 00000000
  xxx x 0

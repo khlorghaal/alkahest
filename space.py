@@ -47,6 +47,7 @@ class mod:
 	ayn0= 0b00000000000000000001000000000000
 	rot = 0b00000000000000000000110000000000
 	rot0= 0b00000000000000000000010000000000
+	smol= 0b00000000000000000000001000000000
 	#    0b00000000000000000000000000000000
 
 
@@ -80,10 +81,18 @@ class cursor:
 	v:ivec2= ivec2(0,0)
 	vel_active:bool= 0
 	b: body= 0
+	z= 0#zoom
 
 	def __post_init__(self):
 		self.place(ivec2(0,0))
 		cursor.insts+=[self]
+
+	def zoom(self, d):
+		z=self.z
+		z+= d
+		z= max(z,0)
+		z= min(z,4)
+		self.z=z
 
 	def place(self,p):
 		if self.b:
@@ -102,8 +111,8 @@ class cursor:
 				d= c.v
 				c.v*=0#halt
 				c.place(c.b.p+d)
-
 		return r
+
 setattr(cursor,'insts',[])
 setattr(cursor,'prime',cursor())#because dcls
 

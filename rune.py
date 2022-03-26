@@ -110,23 +110,12 @@ def load_font(file):
 
 load_font('./font/lunatic.rmf')
 
-def text(s,p):
-	import space
-	for y,l in en(s.split('\n')):
-		x=0
-		for c in l:
-			if c=='\t':
-				x+=4
-				continue
-			if c!=' ':
-				space.body(ivec2(x+p.x,-y+p.y),rune.lib[c])
-			x+=1
-
 def tests():
 	import space
+	#import atom
 
 	#font
-	if 1:
+	if 0:
 		i=0
 		l= dic.values()
 		l= tuple({e:None for e in l}.keys())#ordered dup eliminate
@@ -140,6 +129,28 @@ def tests():
 					break
 				space.body(ivec2(x,y),l[i])
 				i+=1
+
+	#descrs
+	if 1:
+		i=0
+		l= dic.values()
+		l= tuple({e:None for e in l}.keys())
+		#ordered dup eliminate
+		#set quickly bungles ordering
+
+		for y,r in en(l):
+			y= 16-y
+			x= -8
+			x= (y//64)*32
+			y= y%64
+			space.body(ivec2(x,y),r)
+			names= filter(lambda n: len(n)>1,r.names)
+			s= ','.join(names)
+			for x_,c in en(s):
+				space.body(ivec2(x_+x+2,y),dic[c])
+
+			#atom.text(s,ivec2(x+2,y))
+			i+=1
 
 	#rand
 	if 0:
