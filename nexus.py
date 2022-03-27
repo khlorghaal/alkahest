@@ -25,7 +25,8 @@ kbinds={
 	 20:'f23', 26:'f22',  8:'f21', 21:'f20',	 89:'d20', 90:'d21', 91:'d22', 
 	  4:'f13', 22:'f12',  7:'f11',  9:'f10',	 92:'d10', 93:'d11', 94:'d12', 87:'nr3',
 	 29:'f03', 27:'f02',  6:'f01', 25:'f00',	 95:'d00', 96:'d01', 97:'d02', 
-	 44:'fb0',226:'fb1',225:'fb2', 57:'fb3',	           98:'nr0', 99:'nr1', 88:'nr2'
+
+	53: 'fb5',43:'fb4', 225:'fb3',224:'fb2', 226:'fb1',44:'fb0',	           98:'nr0', 99:'nr1', 88:'nr2'
 	}
 l=locals()
 for scn,sym in kbinds.items():
@@ -37,11 +38,12 @@ frets= {
 	f23,f22,f21,f20,
 	f13,f12,f11,f10,
 	f03,f02,f01,f00,
-	fb0,fb1,fb2,fb3
+	fb0,fb1,fb2,fb3,fb4,fb5
 }
 picks= frets - {kbinds.values()}
 
 chord= set()#keys pressed currently
+kstate= set()
 
 NoFret= nofr= object()
 def kyes(i):
@@ -62,8 +64,9 @@ class op:
 
 sputmul= lambda: 1<<(2*len(chord&{f00,f01,f02,f03}))
 sput= lambda *d: lambda: space.thrust(ivec2(*d)*sputmul())
-
 spem= lambda c:  lambda: space.emplace(c)
+def zch():
+	space.cursor.prime.z= -1+len(chord&{f00,f01,f02,f03})
 
 notes=(
 	#pick:(frets,effect)
@@ -79,7 +82,7 @@ notes=(
 	(d21,_any(nofr,f00,f01,f02,f03), sput( 0,-1)),
 	(d22,_any(nofr,f00,f01,f02,f03), sput( 1,-1)),
 	#zoom
-	(nr0,_any(f00,f01,f02,f03), lambda: gl_backend.zoom(-1+len(chord&{f00,f01,f02,f03}))),
+	(nr0,_any(f00,f01,f02,f03), zch),
 
 	(d11,_any(fb0), lambda: space.aktivat(ROOT)),
 
@@ -105,6 +108,8 @@ notes=(
 	#and
 	#or
 	#xor
+	#brd
+	#bwr
 
 	#morphic
 	#bus
@@ -119,17 +124,20 @@ def key(k,ch,sc):
 '''
 def kchui():
 	layout= [
-		[f03, f02, f01, f00, 0, d00, d01, d02,   0],
-		[f13, f12, f11, f10, 0, d10, d11, d12,   0],
-		[f23, f22, f21, f20, 0, d20, d21, d22,   0],
-		[fb3, fb2, fb1, fb0, 0, nr0, nr1, nr2, nr3]
+		[fb5, f33, f32, f31, f30,   0, 0,   0, nr6, nr5, nr4],
+		[fb4, f23, f22, f21, f20,   0, 0, d00, d01, d02, nr3],
+		[  0, f13, f12, f11, f10,   0, 0, d10, d11, d12, nr3],
+		[fb3, f03, f02, f01, f00,   0, 0, d20, d21, d22, nr2],
+		[fb2,   0, fb1, fb0, fb0, fb0, 0, nr0, nr1,   0, nr2]
 		]
 	for y,r in en(layout[::-1]):
-		for x,l in en(r):
-			if l==0:
+		for x,c in en(r):
+			if c==0:
 				continue
-			m= space.mod.hgh if l in chord else space.mod.none
-			space.body(ivec2(x,y),rune.dic.border,z=-1,mod=m)
+			on= c in kstate
+			m= space.mod.h if on else space.mod.none
+			r= rune.lib.border if on else rune.lib.square
+			space.body(ivec2(x,y)+1,r,z=-1,mod=m)
 
 
 
@@ -141,6 +149,10 @@ class ROOT:
 			return False
 		k= kbinds[sc]
 
+		if b:
+			kstate.add(k)
+		else:
+			kstate.remove(k)
 		if k in frets:
 			if b:
 				chord.add(k)
@@ -230,6 +242,7 @@ def loop():
 
 				ch= e.unicode
 				sc= e.scancode
+				print(sc)
 
 				#pygame likent these chars
 				ch={
@@ -243,6 +256,7 @@ def loop():
 		change|= space.step()!=None
 		if change or RENDER_ALWAYS:
 			change=0
+			kchui()
 			gl_backend.invoke()
 
 		time.sleep(1./60.)

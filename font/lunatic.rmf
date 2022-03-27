@@ -23,6 +23,15 @@ xxxxxxxx
 xxxxxxxx
 xxxxxxxx
 xxxxxxxx
+square box
+00000000
+xxxxxxx0
+xxxxxxx0
+xxxxxxx0
+xxxxxxx0
+xxxxxxx0
+xxxxxxx0
+xxxxxxx0
 border
 xxxxxxxx
 x      x
@@ -41,6 +50,51 @@ x     x0
 x     x0
 x     x0
 xxxxxxx0
+⧈ concenrect
+00000000
+xxxxxxx0
+x     x0
+x xxx x0
+x x x x0
+x xxx x0
+x     x0
+xxxxxxx0
+⧉ coplanrect
+00000000
+xxxxx  0
+x   x  0
+x xxxxx0
+x x x x0
+xxxxx x0
+  x   x0
+  xxxxx0
+vescicle
+00000000
+  xxx  0
+       0
+x     x0
+x     x0
+x     x0
+       0
+  xxx  0
+hit
+00000000
+   x   0
+   x   0
+       0
+xx   xx0
+       0
+   x   0
+   x   0
+cursor
+xx    xx
+x      x
+        
+        
+        
+        
+x      x
+xx    xx
 dither
  x x x x
 x x x x 
@@ -1436,51 +1490,6 @@ omicron
  x   x 0
  x x x 0
  xxxxx 0
-⧈ concenrect
-00000000
-xxxxxxx0
-x     x0
-x xxx x0
-x x x x0
-x xxx x0
-x     x0
-xxxxxxx0
-⧉ coplanrect
-00000000
-xxxxx  0
-x   x  0
-x xxxxx0
-x x x x0
-xxxxx x0
-  x   x0
-  xxxxx0
-vescicle
-00000000
-  xxx  0
-       0
-x     x0
-x     x0
-x     x0
-       0
-  xxx  0
-hit
-00000000
-   x   0
-   x   0
-       0
-xx   xx0
-       0
-   x   0
-   x   0
-cursor
-xx    xx
-x      x
-        
-        
-        
-        
-x      x
-xx    xx
 thok
 00000000
   x    0

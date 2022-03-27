@@ -128,17 +128,25 @@ void main(){
 //
 	//}
 
-	float z= abs(in_p.z);//negative z is yeah
+	float z= in_p.z;
+	ivec4 tr_= tr;
+	if(z<0){
+		//negative z is zoomless screenspace
+		tr_.xy=ivec2(0);
+		tr_.w=       1 ;
+		p-= (res-W)/2;
+	}
+
 	//case PERSP
 	//case ORTHO
 	//p+= z*vec2(3,1);
 	//case PARLX
 	;
 
-	vec2 pp= vec2(p-W*tr.xy);
+	vec2 pp= vec2(p-W*tr_.xy);
 	gl_Position.xy= pp/res;
-	gl_Position.z= z/8./tr.w;
-	gl_Position.w= .5/tr.w;
+	gl_Position.z= z/8./tr_.w;
+	gl_Position.w= .5/tr_.w;
 	vrune= in_rune;
 }
 	''',

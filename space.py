@@ -81,7 +81,7 @@ class cursor:
 	v:ivec2= ivec2(0,0)
 	vel_active:bool= 0
 	b: body= 0
-	z= 0#zoom
+	z= 0#zoom, unrelated to body-z
 
 	def __post_init__(self):
 		self.place(ivec2(0,0))
@@ -100,7 +100,7 @@ class cursor:
 		self.b= body(
 			p,
 			runedict['cursor'],
-			-1,
+			1,
 			mod.c)
 
 	def step():
