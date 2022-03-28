@@ -32,6 +32,13 @@ l=locals()
 for scn,sym in kbinds.items():
 	l[sym]=sym
 del l
+key_layout= [
+	[fb5, f33, f32, f31, f30,   0, 0,   0, nr6, nr5, nr4],
+	[fb4, f23, f22, f21, f20,   0, 0, d00, d01, d02, nr3],
+	[  0, f13, f12, f11, f10,   0, 0, d10, d11, d12, nr3],
+	[fb3, f03, f02, f01, f00,   0, 0, d20, d21, d22, nr2],
+	[fb2,   0, fb1, fb0, fb0, fb0, 0, nr0, nr1,   0, nr2]
+]
 
 frets= {
 	f33,f32,f31,f30,
@@ -59,8 +66,11 @@ _any= lambda *a: lambda: any(ll(a))
 
 @dcls
 class op:
-	chord: list[str]
+	pick: str
+	fret_pass: callable
+	frets: tuple[str]
 	fun: callable
+	tags= tuple[str]#for searching
 
 sputmul= lambda: 1<<(2*len(chord&{f00,f01,f02,f03}))
 sput= lambda *d: lambda: space.thrust(ivec2(*d)*sputmul())
@@ -68,39 +78,39 @@ spem= lambda c:  lambda: space.emplace(c)
 def zch():
 	space.cursor.prime.z= -1+len(chord&{f00,f01,f02,f03})
 
-notes=(
+chords=(
 	#pick:(frets,effect)
 
 	#kinetic
 	#cursor
-	(d00,_any(nofr,f00,f01,f02,f03), sput(-1, 1)),
-	(d01,_any(nofr,f00,f01,f02,f03), sput( 0, 1)),
-	(d02,_any(nofr,f00,f01,f02,f03), sput( 1, 1)),
-	(d10,_any(nofr,f00,f01,f02,f03), sput(-1, 0)),
-	(d12,_any(nofr,f00,f01,f02,f03), sput( 1, 0)),
-	(d20,_any(nofr,f00,f01,f02,f03), sput(-1,-1)),
-	(d21,_any(nofr,f00,f01,f02,f03), sput( 0,-1)),
-	(d22,_any(nofr,f00,f01,f02,f03), sput( 1,-1)),
+	op(d00,_any,(nofr,f00,f01,f02,f03), sput(-1, 1)),
+	op(d01,_any,(nofr,f00,f01,f02,f03), sput( 0, 1)),
+	op(d02,_any,(nofr,f00,f01,f02,f03), sput( 1, 1)),
+	op(d10,_any,(nofr,f00,f01,f02,f03), sput(-1, 0)),
+	op(d12,_any,(nofr,f00,f01,f02,f03), sput( 1, 0)),
+	op(d20,_any,(nofr,f00,f01,f02,f03), sput(-1,-1)),
+	op(d21,_any,(nofr,f00,f01,f02,f03), sput( 0,-1)),
+	op(d22,_any,(nofr,f00,f01,f02,f03), sput( 1,-1)),
 	#zoom
-	(nr0,_any(f00,f01,f02,f03), zch),
+	op(nr0,_any,(f00,f01,f02,f03), zch),
 
-	(d11,_any(fb0), lambda: space.aktivat(ROOT)),
+	op(d11,_any,(fb0), lambda: space.aktivat(ROOT)),
 
 	#arithmetic
-	(nr0,_all(f10    ),spem('add' )),
-	(nr0,_all(f10,fb0),spem('sub' )),
-	(nr0,_all(f11    ),spem('mul' )),
-	(nr0,_all(f11,fb0),spem('div' )),
-	(nr0,_all(f12    ),spem('pow' )),
-	(nr0,_all(f12,fb0),spem('log' )),
-	(nr0,_all(f13    ),spem('mod' )),
-	(nr2,_all(f10    ),spem('len' )),
-	(nr2,_all(f11    ),spem('nrm' )),
-	(nr3,_all(f11    ),spem('grad')),
-	(nr3,_all(f11    ),spem('dvrg')),
-	(nr3,_all(f11    ),spem('flux')),
-	(nr4,_all(f10    ),spem( 'fft')),
-	(nr4,_all(f10,fb0),spem('ifft')),
+	op(nr0,_all,(f10    ),spem('add' )),
+	op(nr0,_all,(f10,fb0),spem('sub' )),
+	op(nr0,_all,(f11    ),spem('mul' )),
+	op(nr0,_all,(f11,fb0),spem('div' )),
+	op(nr0,_all,(f12    ),spem('pow' )),
+	op(nr0,_all,(f12,fb0),spem('log' )),
+	op(nr0,_all,(f13    ),spem('mod' )),
+	op(nr2,_all,(f10    ),spem('len' )),
+	op(nr2,_all,(f11    ),spem('nrm' )),
+	op(nr3,_all,(f11    ),spem('grad')),
+	op(nr3,_all,(f11    ),spem('dvrg')),
+	op(nr3,_all,(f11    ),spem('flux')),
+	op(nr4,_all,(f10    ),spem( 'fft')),
+	op(nr4,_all,(f10,fb0),spem('ifft')),
 	#shr
 	#shl
 	#clz
@@ -114,23 +124,10 @@ notes=(
 	#morphic
 	#bus
 )
-'''
 
-def key(k,ch,sc):
-	global focus
-	if focus.rune and focus.rune==rune.lib.text:
-		focus.yeah
 
-'''
 def kchui():
-	layout= [
-		[fb5, f33, f32, f31, f30,   0, 0,   0, nr6, nr5, nr4],
-		[fb4, f23, f22, f21, f20,   0, 0, d00, d01, d02, nr3],
-		[  0, f13, f12, f11, f10,   0, 0, d10, d11, d12, nr3],
-		[fb3, f03, f02, f01, f00,   0, 0, d20, d21, d22, nr2],
-		[fb2,   0, fb1, fb0, fb0, fb0, 0, nr0, nr1,   0, nr2]
-		]
-	for y,r in en(layout[::-1]):
+	for y,r in en(key_layout[::-1]):
 		for x,c in en(r):
 			if c==0:
 				continue
@@ -161,13 +158,13 @@ class ROOT:
 		else:
 			p=k
 			if b:
-				for n in notes:
-					if n[0]!=p:
+				for n in chords:#opt
+					if n.pick!=p:
 						continue
-					if n[1]():
+					if n.fret_pass(n.frets):
 						if audio:#todo actual frets
 							audio.chord(chord)
-						n[2]()
+						n.fun()
 						
 
 
@@ -242,7 +239,7 @@ def loop():
 
 				ch= e.unicode
 				sc= e.scancode
-				print(sc)
+				#print(sc)
 
 				#pygame likent these chars
 				ch={
