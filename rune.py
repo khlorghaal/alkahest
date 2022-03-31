@@ -42,6 +42,18 @@ class rune:
 				s+= 'X' if lum else '.'
 		return s
 
+
+def strnrm(pile:list[str,rune]):
+	ret=[]
+	for e in pile:
+		if type(e)==rune:
+			ret+= [e]
+		else:
+			assert(type(e)==str)
+			for c in e:
+				ret+= [dic[c]]
+	return ret
+
 bounded= lambda x,y,w,h: x>=0 and y>=0 and x<w and y<h
 def gfilter(rast):
 	#rejection cases

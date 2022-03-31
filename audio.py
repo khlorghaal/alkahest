@@ -1,6 +1,8 @@
 #accepts fft input via (TODO)
 #TEMPORARY HACK until pyodsp is unfucked
 
+#there is no clear purpose to audio, it is simply obligatory
+
 from numpy import *
 from numpy.fft import *
 import scipy.fftpack as fftpack

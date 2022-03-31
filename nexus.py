@@ -1,5 +1,5 @@
 #nexus is the entry point
-#	handles OS interop, io, updates
+#	handles OS intercho, io, updates
 #logic here should be kept minimal and moved into modules as needed
 
 from com import *
@@ -28,89 +28,86 @@ kbinds={
 
 	53: 'fb5',43:'fb4', 225:'fb3',224:'fb2', 226:'fb1',44:'fb0',	           98:'nr0', 99:'nr1', 88:'nr2'
 	}
-l=locals()
-for scn,sym in kbinds.items():
-	l[sym]=sym
-del l
+for sym in kbinds.values():
+	locals()[sym]=sym
 key_layout= [
 	[fb5, f33, f32, f31, f30,   0, 0,   0, nr6, nr5, nr4],
 	[fb4, f23, f22, f21, f20,   0, 0, d00, d01, d02, nr3],
 	[  0, f13, f12, f11, f10,   0, 0, d10, d11, d12, nr3],
 	[fb3, f03, f02, f01, f00,   0, 0, d20, d21, d22, nr2],
-	[fb2,   0, fb1, fb0, fb0, fb0, 0, nr0, nr1,   0, nr2]
+	[fb2,   0, fb1, fb0, fb0, fb0, 0, nr0, nr0, nr1, nr2]
 ]
 
-frets= {
+frets= (
 	f33,f32,f31,f30,
 	f23,f22,f21,f20,
 	f13,f12,f11,f10,
 	f03,f02,f01,f00,
 	fb0,fb1,fb2,fb3,fb4,fb5
-}
-picks= frets - {kbinds.values()}
+)
 
-chord= set()#keys pressed currently
-kstate= set()
+fstate= set()#frets only
+kstate= set()#any bound keys
 
-NoFret= nofr= object()
-def kyes(i):
-	if callable(i):#subclauses
-		return i()
-	if i==NoFret:
-		return i not in frets
-	else:
-		return i in chord
-ll= lambda a: [kyes(i) for i in a]
-_all= lambda *a: lambda: all(ll(a))
-_any= lambda *a: lambda: any(ll(a))
+_may= lambda ch: lambda:     not fstate or  fstate.issubset(ch)
+_any= lambda ch: lambda: not not fstate and fstate.issubset(ch)
+_all= lambda ch: lambda: fstate==ch
+_non= lambda ch: lambda: not fstate
 
 @dcls
-class op:
+class cho:
 	pick: str
-	fret_pass: callable
+	fret_eval: callable
+	row: int
 	frets: tuple[str]
 	fun: callable
-	tags= tuple[str]#for searching
+	tags: list[str]#for user searches
 
-sputmul= lambda: 1<<(2*len(chord&{f00,f01,f02,f03}))
+	def __post_init__(s):
+		s.fret_eval= s.fret_eval(s.frets)#collapse outer lambda
+
+sputmul= lambda: 1<<(2*len(fstate&{f00,f01,f02,f03}))
 sput= lambda *d: lambda: space.thrust(ivec2(*d)*sputmul())
 spem= lambda c:  lambda: space.emplace(c)
 def zch():
-	space.cursor.prime.z= -1+len(chord&{f00,f01,f02,f03})
+	space.cursor.prime.z= len(fstate&{f00,f01,f02,f03})
+rch= lambda s: rune.dic[s]
 
-chords=(
+chords= [cho(*c) for c in [
 	#pick:(frets,effect)
+	#commas on single element are necessary to form tuples
 
 	#kinetic
 	#cursor
-	op(d00,_any,(nofr,f00,f01,f02,f03), sput(-1, 1)),
-	op(d01,_any,(nofr,f00,f01,f02,f03), sput( 0, 1)),
-	op(d02,_any,(nofr,f00,f01,f02,f03), sput( 1, 1)),
-	op(d10,_any,(nofr,f00,f01,f02,f03), sput(-1, 0)),
-	op(d12,_any,(nofr,f00,f01,f02,f03), sput( 1, 0)),
-	op(d20,_any,(nofr,f00,f01,f02,f03), sput(-1,-1)),
-	op(d21,_any,(nofr,f00,f01,f02,f03), sput( 0,-1)),
-	op(d22,_any,(nofr,f00,f01,f02,f03), sput( 1,-1)),
+	(d00,_may,0,{f00,f01,f02,f03}, sput(-1, 1),['north left']),
+	(d01,_may,0,{f00,f01,f02,f03}, sput( 0, 1),['up']),
+	(d02,_may,0,{f00,f01,f02,f03}, sput( 1, 1),['north right']),
+	(d10,_may,0,{f00,f01,f02,f03}, sput(-1, 0),['west']),
+	(d12,_may,0,{f00,f01,f02,f03}, sput( 1, 0),['east']),
+	(d20,_may,0,{f00,f01,f02,f03}, sput(-1,-1),['south left']),
+	(d21,_may,0,{f00,f01,f02,f03}, sput( 0,-1),['down']),
+	(d22,_may,0,{f00,f01,f02,f03}, sput( 1,-1),['south right']),
 	#zoom
-	op(nr0,_any,(f00,f01,f02,f03), zch),
+	(d11,_may,0,(f00,f01,f02,f03), zch,['zoom']),
 
-	op(d11,_any,(fb0), lambda: space.aktivat(ROOT)),
+	(d11,_all,0,(fb1,), lambda: space.aktivat(ROOT),['focus']),
 
 	#arithmetic
-	op(nr0,_all,(f10    ),spem('add' )),
-	op(nr0,_all,(f10,fb0),spem('sub' )),
-	op(nr0,_all,(f11    ),spem('mul' )),
-	op(nr0,_all,(f11,fb0),spem('div' )),
-	op(nr0,_all,(f12    ),spem('pow' )),
-	op(nr0,_all,(f12,fb0),spem('log' )),
-	op(nr0,_all,(f13    ),spem('mod' )),
-	op(nr2,_all,(f10    ),spem('len' )),
-	op(nr2,_all,(f11    ),spem('nrm' )),
-	op(nr3,_all,(f11    ),spem('grad')),
-	op(nr3,_all,(f11    ),spem('dvrg')),
-	op(nr3,_all,(f11    ),spem('flux')),
-	op(nr4,_all,(f10    ),spem( 'fft')),
-	op(nr4,_all,(f10,fb0),spem('ifft')),
+	(nr0,_all,1,{f10,   },spem('add' ),[rch('add' ),' add' ]),
+	(nr0,_all,1,{f10,fb0},spem('sub' ),[rch('sub' ),' sub' ]),
+	(nr0,_all,1,{f11,   },spem('mul' ),[rch('mul' ),' mul' ]),
+	(nr0,_all,1,{f11,fb0},spem('div' ),[rch('div' ),' div' ]),
+	(nr0,_all,1,{f12,   },spem('pow' ),[rch('pow' ),' pow' ]),
+	(nr0,_all,1,{f12,fb0},spem('log' ),[rch('log' ),' log' ]),
+	(nr0,_all,1,{f13,   },spem('mod' ),[rch('mod' ),' mod' ]),
+	(nr2,_all,1,{f10,   },spem('len' ),[rch('len' ),' len' ]),
+	(nr2,_all,1,{f11,   },spem('nrm' ),[rch('nrm' ),' nrm' ]),
+	(nr3,_all,1,{f10,   },spem('grad'),[rch('grad'),' grad']),
+	(nr3,_all,1,{f11,   },spem('dvrg'),[rch('dvrg'),' dvrg']),
+	(nr3,_all,1,{f12,   },spem('lapl'),[rch('lapl'),' lapl']),
+	(nr3,_all,1,{f13,   },spem('flux'),[rch('flux'),' flux']),
+	(nr4,_all,1,{f10,   },spem( 'fft'),[rch( 'fft'),'  fft']),
+	(nr4,_all,1,{f10,fb0},spem('ifft'),[rch('ifft'),' ifft']),
 	#shr
 	#shl
 	#clz
@@ -123,19 +120,54 @@ chords=(
 
 	#morphic
 	#bus
-)
+]]
 
 
-def kchui():
-	for y,r in en(key_layout[::-1]):
-		for x,c in en(r):
-			if c==0:
-				continue
-			on= c in kstate
-			m= space.mod.h if on else space.mod.none
-			r= rune.lib.border if on else rune.lib.square
-			space.body(ivec2(x,y)+1,r,z=-1,mod=m)
+def ui():
+	if focus()==ROOT:
+		square= rune.lib.square
+		box= rune.lib.box
+		#keys pressed
+		for y,r in en(key_layout[::-1]):
+			for x,c in en(r):
+				if c==0:
+					continue
+				on= c in kstate
+				r= box if on else square
+				space.body(ivec2(x,y)+1,r,z=-2)
 
+		#chords available
+		for y,cd in en(chords):
+			p= cd.pick
+			fr= [False]*4
+
+			if cd.fret_eval():#full match
+				m= space.mod.active#active
+			elif _any(cd.frets)():#partial match
+				m= space.mod.highlight#spicey
+				if cd.fret_eval==_any:
+					m= space.mod.active
+			else:
+				m= space.mod.none
+
+			#mark static mask
+			for x,f in en(frets[:16]):
+				fr[x%4]|= f in cd.frets
+
+			#prime fret
+			for x,f in en(fr):
+				#m= space.mod.h if ch in kstate else space.mod.none 
+				r= square if f else box
+				space.body(ivec2(x+1,y+6)+1,r,z=-2,mod=m)
+
+			if len(cd.frets)>0:
+				rp= rune.dic['measure_y%s'%(cd.row*2)]
+			else:
+				rp= rune.lib.nul
+			s= [rp,' ',*cd.tags]
+			for x,r in en(rune.strnrm(s)):
+				m= space.mod.none
+				space.body(ivec2(x+5,y+6)+1,r,z=-2,mod=m)
 
 
 
@@ -152,41 +184,20 @@ class ROOT:
 			kstate.remove(k)
 		if k in frets:
 			if b:
-				chord.add(k)
+				fstate.add(k)
 			else:
-				chord.remove(k)
-		else:
+				fstate.remove(k)
+		else:#is pick
 			p=k
 			if b:
-				for n in chords:#opt
+				for n in chords:#chot
 					if n.pick!=p:
 						continue
-					if n.fret_pass(n.frets):
+					if n.fret_eval():
 						if audio:#todo actual frets
-							audio.chord(chord)
+							audio.chord(fstate)
 						n.fun()
 						
-
-
-	def bind_remap():
-		acc= {}
-		global kbinds
-
-		def g():
-			while 1:
-				for e in pygame.event.get():
-					if e.type==KEYDOWN:
-						yield e.scancode
-		g=g()
-		for b in kbinds.values():
-			print(b[0]+':')
-			s=next(g)
-			acc.add(s,b)
-		kbinds= acc
-		del acc
-	def bindhelp(b):
-		pass#todo
-
 focus(ROOT)
 
 if audio:
@@ -253,7 +264,7 @@ def loop():
 		change|= space.step()!=None
 		if change or RENDER_ALWAYS:
 			change=0
-			kchui()
+			ui()
 			gl_backend.invoke()
 
 		time.sleep(1./60.)

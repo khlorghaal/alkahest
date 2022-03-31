@@ -128,25 +128,28 @@ void main(){
 //
 	//}
 
-	float z= in_p.z;
 	ivec4 tr_= tr;
+
+	int z= in_p.z;
+	if(z==0)
+		z=1;
+
 	if(z<0){
+		z= -z;
 		//negative z is zoomless screenspace
 		tr_.xy=ivec2(0);
-		tr_.w=       1 ;
-		p-= (res-W)/2;
+		tr_.w=       z ;
+		p-= (res-W)/2/z;
 	}
 
 	//case PERSP
 	//case ORTHO
-	//p+= z*vec2(3,1);
 	//case PARLX
-	;
 
-	vec2 pp= vec2(p-W*tr_.xy);
-	gl_Position.xy= pp/res;
-	gl_Position.z= z/8./tr_.w;
-	gl_Position.w= .5/tr_.w;
+	vec2 pp= vec2(p-W*tr_.xy)/res*tr_.w*2.;
+	gl_Position.xy= pp;
+	gl_Position.z= z/256.;
+	gl_Position.w= 1.;
 	vrune= in_rune;
 }
 	''',
@@ -191,12 +194,18 @@ void main(){
 	}
 	lum= float(((1<<i)&rune)!=0);
 
-	const vec4 COLOR_BASE  = vec4(vec3(.45),1.);
-	const vec4 COLOR_CURSOR= vec4(0.,.03,.05,1.);
-	const vec4 COLOR_BUS   = vec4(vec3(.3),1.);
-	const vec4 COLOR_SYM   = vec4(vec3(.8),1.);
-	const vec4 COLOR_OP    = vec4(vec3(.7),1.);
 	//const vec4 COLOR_= vec4(.,.,.,1.);
+	const vec4 COLOR_BASE  =   vec4(vec3(.45),1.);
+	const vec4 COLOR_BUS   =   vec4(vec3(.3),1.);
+	const vec4 COLOR_SYM   =   vec4(vec3(.8),1.);
+	const vec4 COLOR_OP    =   vec4(vec3(.7),1.);
+	const vec4 COLOR_CURSOR=   vec4(0. , .03, .05, 1.);
+	const vec4 COLOR_SPICEY=   vec4(1. ,  .5,  .5, 1.);
+	const vec4 COLOR_ACHTUNG=  vec4( .5, 1. ,  .1, 1.);
+	const vec4 COLOR_VERBOTEN= vec4( .5,  .1,  .2, 1.);
+	const vec4 COLOR_HIGHLIGHT= v4pad(TEAL);
+	const vec4 COLOR_DANGER=    v4pad(RED);
+	const vec4 COLOR_ACTIVE=    v4pad(SKY);
 
 	col= vec4(lum)*COLOR_BASE;
 	col.a= 1.;
@@ -213,12 +222,23 @@ void main(){
 			//col.rb*= 0.;
 			break;
 		//cursor
-		case 0x4000000:
+		case 0x200000://cursor
 			col.gb*=2.;
 			col+= COLOR_CURSOR;
 			break;
+		case 0x40000000://active
+			col*= COLOR_ACTIVE;
+			break;
+		case 0x8000000://spicey
+			col*= COLOR_SPICEY;
+			break;
+		case 0x4000000://highlight
+			col*= COLOR_HIGHLIGHT;
+			break;
 		default:
 			break;
+
+		//"validation error" means duplicate cases
 	}
 
 	//col.a= 1.-abs(gl_FragCoord.z);

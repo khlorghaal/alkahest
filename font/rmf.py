@@ -193,5 +193,9 @@ def load(fname):
 
 			line_num+= stride
 
+		#special case because token delim
+		if 'space' in f.glyphs:
+			f.glyphs['space'].names+=[' ']
+
 		return f
 
