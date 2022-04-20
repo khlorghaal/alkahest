@@ -1,10 +1,8 @@
-#runes which exhibit internal behaviors
-#atom has double meaning:
-#	to a beginner alkematist,
-#	they seem indivislble
-#	but upon more knowledge,
-#	they have further composition
-#	and the advanced may forge new
+#runes or vescicles which cannot be composed from others
+#
+#	the naive witnesses indivision
+#	yet there is further nature
+#	advance onto the nuclear forge
 
 from com import *
 
@@ -47,7 +45,7 @@ class vesc:
 		for body,p in bnd:
 			body.kill()
 
-control_chars=('\b')
+control_chars=('\b',)
 
 @dcls
 class text(vesc):
@@ -96,12 +94,42 @@ class text(vesc):
 			if g:
 				g.kill()
 
+@unique
+class colorform(Enum):
+	NATIVE=0#sRGB8
+	MONOCHROME=1#stencil
+	GREY=2#R8
+	HDR=3#RGBAf16
+@dcls
+class raster:
+	bnd: bound
+	form: colorform
+
 
 def tests():
-	t= text(bound(ivec2(0,0),ivec2(8,4)),True)
+	t= text(bound(ivec2(0,0),ivec2(16,4)),True)
 	focus(t)
 
+'''
+focus membrane
+repl
+get data 
+'''
 
+@dcls
+class bus:
+#	i:
+#	o:
+	pass
+class op:
+	pass
+
+
+'''
+
+
+
+'''
 
 
 '''

@@ -15,6 +15,8 @@ ra= range
 
 from dataclasses import dataclass as dcls
 immut= dcls(frozen=True)
+from enum import Enum
+from enum import unique
 
 from math import pi  as PI
 from math import tau as TAU

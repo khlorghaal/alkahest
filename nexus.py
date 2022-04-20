@@ -21,21 +21,21 @@ else:
 
 #scancode->symbol
 kbinds={
-	 30:'f33', 31:'f32', 32:'f31', 33:'f30',               84:'nr6', 85:'nr5', 86:'nr4',
+	 30:'f33', 31:'f32', 32:'f31', 33:'f30',               84:'pk6', 85:'pk5', 86:'pk4',
 	 20:'f23', 26:'f22',  8:'f21', 21:'f20',	 89:'d20', 90:'d21', 91:'d22', 
-	  4:'f13', 22:'f12',  7:'f11',  9:'f10',	 92:'d10', 93:'d11', 94:'d12', 87:'nr3',
+	  4:'f13', 22:'f12',  7:'f11',  9:'f10',	 92:'d10', 93:'d11', 94:'d12', 87:'pk3',
 	 29:'f03', 27:'f02',  6:'f01', 25:'f00',	 95:'d00', 96:'d01', 97:'d02', 
 
-	53: 'fb5',43:'fb4', 225:'fb3',224:'fb2', 226:'fb1',44:'fb0',	           98:'nr0', 99:'nr1', 88:'nr2'
+	53: 'bf5',43:'bf4', 225:'bf3',224:'bf2', 226:'bf1',44:'bf0',	           98:'pk0', 99:'pk1', 88:'pk2'
 	}
 for sym in kbinds.values():
 	locals()[sym]=sym
 key_layout= [
-	[fb5, f33, f32, f31, f30,   0, 0,   0, nr6, nr5, nr4],
-	[fb4, f23, f22, f21, f20,   0, 0, d00, d01, d02, nr3],
-	[  0, f13, f12, f11, f10,   0, 0, d10, d11, d12, nr3],
-	[fb3, f03, f02, f01, f00,   0, 0, d20, d21, d22, nr2],
-	[fb2,   0, fb1, fb0, fb0, fb0, 0, nr0, nr0, nr1, nr2]
+	[bf5, f33, f32, f31, f30,   0, 0,   0, pk6, pk5, pk4],
+	[bf4, f23, f22, f21, f20,   0, 0, d00, d01, d02, pk3],
+	[  0, f13, f12, f11, f10,   0, 0, d10, d11, d12, pk3],
+	[bf3, f03, f02, f01, f00,   0, 0, d20, d21, d22, pk2],
+	[bf2,   0, bf1, bf0, bf0, bf0, 0, pk0, pk0, pk1, pk2]
 ]
 
 frets= (
@@ -43,8 +43,11 @@ frets= (
 	f23,f22,f21,f20,
 	f13,f12,f11,f10,
 	f03,f02,f01,f00,
-	fb0,fb1,fb2,fb3,fb4,fb5
+	bf0,bf1,bf2,bf3,bf4,bf5
 )
+frets_lower={
+	bf0,bf1,bf2,bf3,bf4,bf5
+}
 
 fstate= set()#frets only
 kstate= set()#any bound keys
@@ -56,10 +59,9 @@ _non= lambda ch: lambda: not fstate
 
 @dcls
 class cho:
-	pick: str
 	fret_eval: callable
-	row: int
-	frets: tuple[str]
+	frets: set[str]
+	pick: str
 	fun: callable
 	tags: list[str]#for user searches
 
@@ -77,37 +79,40 @@ chords= [cho(*c) for c in [
 	#pick:(frets,effect)
 	#commas on single element are necessary to form tuples
 
+	(_all,{bf2},pk0,space.search_emplace,['search emplace']),
+
 	#kinetic
 	#cursor
-	(d00,_may,0,{f00,f01,f02,f03}, sput(-1, 1),['north left']),
-	(d01,_may,0,{f00,f01,f02,f03}, sput( 0, 1),['up']),
-	(d02,_may,0,{f00,f01,f02,f03}, sput( 1, 1),['north right']),
-	(d10,_may,0,{f00,f01,f02,f03}, sput(-1, 0),['west']),
-	(d12,_may,0,{f00,f01,f02,f03}, sput( 1, 0),['east']),
-	(d20,_may,0,{f00,f01,f02,f03}, sput(-1,-1),['south left']),
-	(d21,_may,0,{f00,f01,f02,f03}, sput( 0,-1),['down']),
-	(d22,_may,0,{f00,f01,f02,f03}, sput( 1,-1),['south right']),
+	(_may,{f00,f01,f02,f03},d00, sput(-1, 1),['north left']),
+	(_may,{f00,f01,f02,f03},d01, sput( 0, 1),['up']),
+	(_may,{f00,f01,f02,f03},d02, sput( 1, 1),['north right']),
+	(_may,{f00,f01,f02,f03},d10, sput(-1, 0),['west']),
+	(_may,{f00,f01,f02,f03},d12, sput( 1, 0),['east']),
+	(_may,{f00,f01,f02,f03},d20, sput(-1,-1),['south left']),
+	(_may,{f00,f01,f02,f03},d21, sput( 0,-1),['down']),
+	(_may,{f00,f01,f02,f03},d22, sput( 1,-1),['south right']),
 	#zoom
-	(d11,_may,0,(f00,f01,f02,f03), zch,['zoom']),
+	(_may,(f00,f01,f02,f03),d11, zch,['zoom']),
 
-	(d11,_all,0,(fb1,), lambda: space.aktivat(ROOT),['focus']),
+	(_all,(bf1,),d11, lambda: space.aktivat(ROOT),['focus']),
+	(_all,(bf1,),d11, lambda: space.aktivat(ROOT),['focus']),
 
 	#arithmetic
-	(nr0,_all,1,{f10,   },spem('add' ),[rch('add' ),' add' ]),
-	(nr0,_all,1,{f10,fb0},spem('sub' ),[rch('sub' ),' sub' ]),
-	(nr0,_all,1,{f11,   },spem('mul' ),[rch('mul' ),' mul' ]),
-	(nr0,_all,1,{f11,fb0},spem('div' ),[rch('div' ),' div' ]),
-	(nr0,_all,1,{f12,   },spem('pow' ),[rch('pow' ),' pow' ]),
-	(nr0,_all,1,{f12,fb0},spem('log' ),[rch('log' ),' log' ]),
-	(nr0,_all,1,{f13,   },spem('mod' ),[rch('mod' ),' mod' ]),
-	(nr2,_all,1,{f10,   },spem('len' ),[rch('len' ),' len' ]),
-	(nr2,_all,1,{f11,   },spem('nrm' ),[rch('nrm' ),' nrm' ]),
-	(nr3,_all,1,{f10,   },spem('grad'),[rch('grad'),' grad']),
-	(nr3,_all,1,{f11,   },spem('dvrg'),[rch('dvrg'),' dvrg']),
-	(nr3,_all,1,{f12,   },spem('lapl'),[rch('lapl'),' lapl']),
-	(nr3,_all,1,{f13,   },spem('flux'),[rch('flux'),' flux']),
-	(nr4,_all,1,{f10,   },spem( 'fft'),[rch( 'fft'),'  fft']),
-	(nr4,_all,1,{f10,fb0},spem('ifft'),[rch('ifft'),' ifft']),
+	(_all,{f10,   },pk0,spem('add' ),[rch('add' ),' add' ]),
+	(_all,{f10,bf0},pk0,spem('sub' ),[rch('sub' ),' sub' ]),
+	(_all,{f11,   },pk0,spem('mul' ),[rch('mul' ),' mul' ]),
+	(_all,{f11,bf0},pk0,spem('div' ),[rch('div' ),' div' ]),
+	(_all,{f12,   },pk0,spem('pow' ),[rch('pow' ),' pow' ]),
+	(_all,{f12,bf0},pk0,spem('log' ),[rch('log' ),' log' ]),
+	(_all,{f13,   },pk0,spem('mod' ),[rch('mod' ),' mod' ]),
+	(_all,{f10,   },pk2,spem('len' ),[rch('len' ),' len' ]),
+	(_all,{f11,   },pk2,spem('nrm' ),[rch('nrm' ),' nrm' ]),
+	(_all,{f10,   },pk3,spem('grad'),[rch('grad'),' grad']),
+	(_all,{f11,   },pk3,spem('dvrg'),[rch('dvrg'),' dvrg']),
+	(_all,{f12,   },pk3,spem('lapl'),[rch('lapl'),' lapl']),
+	(_all,{f13,   },pk3,spem('flux'),[rch('flux'),' flux']),
+	(_all,{f10,   },pk4,spem( 'fft'),[rch( 'fft'),'  fft']),
+	(_all,{f10,bf0},pk4,spem('ifft'),[rch('ifft'),' ifft']),
 	#shr
 	#shl
 	#clz
@@ -119,7 +124,12 @@ chords= [cho(*c) for c in [
 	#bwr
 
 	#morphic
-	#bus
+	(_non,{},pk0,space.deplace,['del' ]),
+	(_all,{bf0},pk0,spem('bus'),[rch('bus'),' bus']),
+
+	#systemic
+	(_all,{bf5},pk4,space.load,['load']),
+	(_all,{bf2},pk4,space.save,['save']),
 ]]
 
 
@@ -127,6 +137,7 @@ def ui():
 	if focus()==ROOT:
 		square= rune.lib.square
 		box= rune.lib.box
+
 		#keys pressed
 		for y,r in en(key_layout[::-1]):
 			for x,c in en(r):
@@ -134,9 +145,10 @@ def ui():
 					continue
 				on= c in kstate
 				r= box if on else square
-				space.body(ivec2(x,y)+1,r,z=-2)
+				space.body(ivec2(x,y)+1,r,z=-1)
 
-		#chords available
+
+		#chord index
 		for y,cd in en(chords):
 			p= cd.pick
 			fr= [False]*4
@@ -154,20 +166,37 @@ def ui():
 			for x,f in en(frets[:16]):
 				fr[x%4]|= f in cd.frets
 
-			#prime fret
-			for x,f in en(fr):
-				#m= space.mod.h if ch in kstate else space.mod.none 
-				r= square if f else box
-				space.body(ivec2(x+1,y+6)+1,r,z=-2,mod=m)
+			x=0
+			def put(r):
+				nonlocal x
+				r= r if type(r)==rune.rune else rune.dic[r]
+				space.body(ivec2(x,y+6)+1,r,z=-2,mod=m)
+				x+=1
+			def puts(s):
+				for r in rune.strnrm(s):
+					put(r)
 
-			if len(cd.frets)>0:
-				rp= rune.dic['measure_y%s'%(cd.row*2)]
-			else:
-				rp= rune.lib.nul
-			s= [rp,' ',*cd.tags]
-			for x,r in en(rune.strnrm(s)):
-				m= space.mod.none
-				space.body(ivec2(x+5,y+6)+1,r,z=-2,mod=m)
+			#prime fret
+			_m=m
+			for f in fr:
+				#m= space.mod.h if ch in kstate else space.mod.none 
+				put('square' if f else 'box')
+			m=_m
+
+			#lower fret
+			_x=x
+			for f in set(cd.frets)&frets_lower:
+				puts(f)
+			if _x==x:
+				x+=3
+
+			#pick
+			puts(p)
+			x+=1
+
+			#tags
+			s= [' ',*cd.tags]
+			puts(s)
 
 
 
@@ -203,8 +232,7 @@ focus(ROOT)
 if audio:
 	audio.start()
 
-#space.load()
-rune.tests()
+#rune.tests()
 #atom.tests()
 #space.tests()
 
@@ -269,7 +297,5 @@ def loop():
 
 		time.sleep(1./60.)
 loop()
-
-#space.save()
 
 exit()

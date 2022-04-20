@@ -1,5 +1,5 @@
 from com import *
-from rune import dic as runedict
+from rune import dic as runedic
 from rune import rune
 
 grid= {}
@@ -84,7 +84,7 @@ class body:
 	def __post_init__(self):
 		h= self.h()
 		o= grid.pop(h,None)
-		if o==runedict['vescicle']:
+		if o==runedic['vescicle']:
 			pass
 			#todo dtor lol
 			#for b in vescicle[self.p].bound:
@@ -95,7 +95,7 @@ class body:
 	def kill(self):
 		grid.pop(self.h(),None)
 
-origin= body(ivec2(0,0),runedict['empty'])
+origin= body(ivec2(0,0),runedic['empty'])
 
 @dcls
 class cursor:
@@ -120,7 +120,7 @@ class cursor:
 			self.b.kill()
 		self.b= body(
 			p,
-			runedict['cursor'],
+			runedic['cursor'],
 			1,
 			mod.c)
 
@@ -141,8 +141,17 @@ def thrust(d:ivec2):
 	cursor.prime.v+= d
 
 
+def deplace():
+	g= grid.get((cursor.prime.b.p,0))
+	if g:
+		g.kill()
 def emplace(name):
-	body(cursor.prime.b.p, runedict[name])
+	body(cursor.prime.b.p, runedic[name])
+
+def search_emplace():
+	#create and focus gui
+	pass
+	#destruct
 
 snake=   lambda p,w:   int(p.y*w+p.x)
 snakent= lambda i,w: ivec2(  i%w,i/w)
@@ -187,14 +196,16 @@ def tests():
 	if 0:
 		for i in range(-4,4):
 			for p in bound(ivec2(0,-4),ivec2(1,8)):
-				body(p,runedict['coplanrect'],i,0)
+				body(p,runedic['coplanrect'],i,0)
+
+filename= 'default.grid.png'
 
 def load():
 	from numpy import array
 	from numpy import zeros
 	import png
 	try:
-		img= png.Reader('default.grid.png').read()
+		img= png.Reader(filename).read()
 	except:
 		print('gridfile not found')
 		return
@@ -213,15 +224,17 @@ def load():
 				l[3::4],)]
 		for x,b in en(px):
 			if b!=0:
-				if b in runedict:
-					body(ivec2(x,y),runedict[b])
+				if b in runedic:
+					body(ivec2(x,y),runedic[b])
 				else:
 					print('warn, rune not in dict 0x%16x'%b)
+	print('loaded %s'%filename)
 
 def save():
 	from numpy import array
 	from numpy import zeros
 	from numpy import uint16
+	from numpy import uint64
 	import png
 
 	Z= 0 #z 0 is only nonvolatile layer saved
@@ -261,6 +274,7 @@ def save():
 		compression=5
 		)
 	img.write_array( open('default.grid.png','wb'), rast.flatten() )
+	print('saved %s'%filename)
 
 def step():
 	#motion

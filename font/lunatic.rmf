@@ -95,6 +95,42 @@ x      x
         
 x      x
 xx    xx
+bus
+  x  x  
+        
+x x  x x
+        
+        
+x x  x x
+        
+  x  x  
+bus1
+00000000
+   x   0
+   x   0
+   x   0
+       0
+   x   0
+   x   0
+   x   0
+entry main
+00000000
+       0
+x     x0
+x     x0
+x  x  x0
+x  x  x0
+   x   0
+   x   0
+ret return final res result
+00000000
+ x   x 0
+ x   x 0
+ x   x 0
+ x   x 0
+   x   0
+ x x x 0
+xx x xx0
 measure_y0
 00000000
        0
@@ -123,15 +159,6 @@ xx     0
  x     0
 xx     0
 measure_y6
-       0
-       0
-       0
-xx     0
- x     0
-xx     0
- x     0
-xx     0
-measure_y8
        0
 xx     0
  x     0
@@ -230,7 +257,7 @@ xxxxxxx0
   xxx  0
        0
   xxx  0
-!! notnot doublebang
+!! notnot doublebang bangbang
 00000000
 xxxxxxx0
 x  x  x0
@@ -572,15 +599,6 @@ null nul
     x  0
     x  0
     x  0
-bus1
-00000000
-   x   0
-   x   0
-   x   0
-       0
-   x   0
-   x   0
-   x   0
 : colon
 00000000
        0
@@ -1607,15 +1625,6 @@ administrator
 xx x xx0
  x x x 0
    x   0
-heavy-industry
-00000000
-  xxx  0
-  x x  0
-  x xx 0
-  x  x 0
-  x xx 0
- x  x  0
-xxxxx  0
 thok
 00000000
   x    0
@@ -1690,22 +1699,49 @@ x x x x0
 xxx xxx0
 noig
 00000000
-x xxxxx0
-x x    0
-x x x  0
+  xxx  0
+  x    0
 x x x x0
 x x x x0
-x   x x0
-xxxxxxx0
+x x x x0
+    x  0
+  xxx  0
 voight
 00000000
- xxx  x0
+ xxxxxx0
  x    x0
- xxx  x0
- x    x0
+ xxx   0
+ x     0
 xxxxxxx0
 x     x0
 x     x0
+frosk
+x x x x0
+x x x x0
+  x x  0
+x     x0
+x     x0
+  x x  0
+x x x x0
+x x x x0
+sheob
+x x x x0
+xxx xxx0
+  x x  0
+x   xxx0
+xxx   x0
+  x x  0
+xxx xxx0
+x x x x0
+blonk
+  xx x  
+        
+x x xx x
+  x    x
+x    x  
+x xx x x
+        
+  x xx  
 grok learn
 00000000
        0
@@ -1880,11 +1916,11 @@ x x   x0
 א alef aleph
 00000000
 xxxx xx0
-   x  x0
- xxx  x0
-x  x  x0
-x  xxx 0
-x  x   0
+   x x 0
+   x x 0
+ x x x 0
+ x x   0
+ x x   0
 xx xxxx0
 ב bet  
 00000000
@@ -1996,22 +2032,22 @@ xxxxx  0
  x     0
 מ Mem
 00000000
+00000000
 xx xxx 0
  xx   x0
- x    x0
  x    x0
  x    x0
  x    x0
  x xxxx0
 ם mem
 00000000
-xxxxxx 0
-  x   x0
- x    x0
-x     x0
-x     x0
-x     x0
-xxxxxxx0
+00000000
+xxxxx 00
+ x   x00
+x    x00
+x    x00
+x    x00
+xxxxxx00
 נ Nun
 00000000
    xx  0

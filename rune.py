@@ -127,7 +127,7 @@ def tests():
 	#import atom
 
 	#font
-	if 0:
+	if 1:
 		i=0
 		l= dic.values()
 		l= tuple({e:None for e in l}.keys())#ordered dup eliminate
@@ -143,7 +143,7 @@ def tests():
 				i+=1
 
 	#descrs
-	if 1:
+	if 0:
 		i=0
 		l= dic.values()
 		l= tuple({e:None for e in l}.keys())
