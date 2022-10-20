@@ -28,48 +28,55 @@ grid= {}
 #ayn3 
 #rot2 rotation, cardinal
 #
+_i=0
+def i(n=1):
+	r=i
+	i+=n
+	return ((1<<n)-1)<<r
+
+mods= {
+	'none':      0,
+	'bland':     1<<i(),
+	'aktiv':     1<<i(),
+	'unaktiv':   1<<i(),
+	'verboten':  1<<i(),
+	'spicey':    1<<i(),
+	'highlight': 1<<i(),
+	'achtung':   1<<i(),
+	'warning':   1<<i(),
+	'danger':    1<<i(),
+	'primary':   1<<i(),
+	'cursor':    1<<i(),
+	#ortho,parallax,perspective,skew //projection
+	#axp3 //arity-count per side [0,8]
+	#axn3 //where 0u is void-ary 
+	#ayp3 //      4u is 16-ary
+	#ayn3 
+	#rot2 rotation, cardinal
+	'a'=    i(2)
+	'h'=    i(1)
+	'v'=    i()
+	'p'=    i()
+	'c'=    i()
+	'w'=    i(2)
+	'w0'=   i()
+	'axp' = i(3)
+	'axp0'= i()
+	'axn' = i(3)
+	'axn0'= i()
+	'ayp' = i(3)
+	'ayp0'= i()
+	'ayn' = i(3)
+	'ayn0'= i()
+	'rot' = i(2)
+	'rot0'= i()
+	'smol'= i()
+}
 class mod:
-
-
-#a2 
-	bland=     0b10000000000000000000000000000000
-	active=    0b01000000000000000000000000000000
-	inactive=  0b00100000000000000000000000000000
-	verboten=  0b00010000000000000000000000000000
-	spicey=    0b00001000000000000000000000000000
-	highlight= 0b00000100000000000000000000000000
-	achtung=   0b00000010000000000000000000000000
-	warning=   0b00000001000000000000000000000000
-	danger=    0b00000000100000000000000000000000
-	primary=   0b00000000010000000000000000000000
-	cursor=    0b00000000001000000000000000000000
-#ortho,parallax,perspective,skew //projection
-#axp3 //arity-count per side [0,8]
-#axn3 //where 0u is void-ary 
-#ayp3 //      4u is 16-ary
-#ayn3 
-#rot2 rotation, cardinal
-
-	none= 0b00000000000000000000000000000000
-	a=    0b11000000000000000000000000000000
-	h=    0b00100000000000000000000000000000
-	v=    0b00010000000000000000000000000000
-	p=    0b00001000000000000000000000000000
-	c=    0b00000100000000000000000000000000
-	w=    0b00000011000000000000000000000000
-	w0=   0b00000001000000000000000000000000
-	axp = 0b00000000111000000000000000000000
-	axp0= 0b00000000001000000000000000000000
-	axn = 0b00000000000111000000000000000000
-	axn0= 0b00000000000001000000000000000000
-	ayp = 0b00000000000000111000000000000000
-	ayp0= 0b00000000000000001000000000000000
-	ayn = 0b00000000000000000111000000000000
-	ayn0= 0b00000000000000000001000000000000
-	rot = 0b00000000000000000000110000000000
-	rot0= 0b00000000000000000000010000000000
-	smol= 0b00000000000000000000001000000000
-	#    0b00000000000000000000000000000000
+	pass
+for k,v in mods.items():
+	setattr(mod,k,v)
+del i
 
 
 @immut
@@ -78,22 +85,20 @@ class body:
 	rune: rune
 	z: int=0
 	mod: int=0
+	ptr: object= None
 
 	h= lambda s:(s.p,s.z)
 
 	def __post_init__(self):
 		h= self.h()
 		o= grid.pop(h,None)
-		if o==runedic['vescicle']:
-			pass
-			#todo dtor lol
-			#for b in vescicle[self.p].bound:
-			#	kill(b)
+		o and o.kill()
 		grid[h]= self
-
 
 	def kill(self):
 		grid.pop(self.h(),None)
+		ptr= self.ptr
+		ptr and ptr.kill and ptr.kill()
 
 origin= body(ivec2(0,0),runedic['empty'])
 
@@ -103,26 +108,28 @@ class cursor:
 	vel_active:bool= 0
 	b: body= 0
 	z= 0#zoom, unrelated to body-z
+	word:str= ''#accumulator for multichars
+	#multichars being a rune with a name longer than 1 character
 
-	def __post_init__(self):
-		self.place(ivec2(0,0))
-		cursor.insts+=[self]
+	def __post_init__(s):
+		s.place(ivec2(0,0))
+		cursor.insts+=[s]
 
-	def zoom(self, d):
-		z=self.z
+	def zoom(s, d):
+		z=s.z
 		z+= d
 		z= max(z,0)
 		z= min(z,4)
-		self.z=z
+		s.z=z
 
-	def place(self,p):
-		if self.b:
-			self.b.kill()
-		self.b= body(
+	def place(s,p):
+		if s.b:
+			s.b.kill()
+		s.b= body(
 			p,
 			runedic['cursor'],
 			1,
-			mod.c)
+			mods['cursor'])
 
 	def step():
 		r=None#dirty
@@ -136,6 +143,11 @@ class cursor:
 
 setattr(cursor,'insts',[])
 setattr(cursor,'prime',cursor())#because dcls
+
+#prime cursor pos
+curppos= lambda: cursor.prime.b.p
+curpz=   lambda: cursor.prime.b.z
+
 
 def thrust(d:ivec2):
 	cursor.prime.v+= d
@@ -161,12 +173,15 @@ snakent= lambda i,w: ivec2(  i%w,i/w)
 class bound:
 	org: ivec2
 	dim: ivec2
+	z=0
 	def __iter__(self):#snake
 		x0= self.org.x
 		y0= self.org.y
 		x1= self.org.x+self.dim.x
 		y1= self.org.y+self.dim.y
-		return (ivec2(x,y) for y in range(y0,y1) for x in (range(x0,x1)))
+		p= (ivec2(x,y) for y in range(y0,y1) for x in (range(x0,x1)))
+		b= (grid[(p_,z)] for p_ in p)
+		return zip(b,p)
 	def within(self,p:ivec2):
 		x0= self.org.x
 		y0= self.org.y
@@ -185,7 +200,11 @@ class bound:
 			y1-y0+1)
 		return bound(ivec2(x0,y0),ivec2(w,h))
 
+	def kill(self):
+		for body,p in self.__iter__():
+			body.kill()
 
+			
 def aktivat(de):
 	b= grid.get(cursor.prime.b.h())
 	b= b==focus() or b==None

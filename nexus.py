@@ -2,6 +2,8 @@
 #	handles OS intercho, io, updates
 #logic here should be kept minimal and moved into modules as needed
 
+#todo all inputs must be converted into atomic runes
+
 from com import *
 import pygame
 import pygame.key
@@ -128,6 +130,9 @@ chords= [cho(*c) for c in [
 	(_all,{bf0},pk0,spem('bus'),[rch('bus'),' bus']),
 
 	#systemic
+#	(_all,{bf5},pk0,atom.word,['word']),
+	(_all,{bf2},pk0,atom.eval,['eval']),
+
 	(_all,{bf5},pk4,space.load,['load']),
 	(_all,{bf2},pk4,space.save,['save']),
 ]]
@@ -153,22 +158,10 @@ def ui():
 			p= cd.pick
 			fr= [False]*4
 
-			if cd.fret_eval():#full match
-				m= space.mod.active#active
-			elif _any(cd.frets)():#partial match
-				m= space.mod.highlight#spicey
-				if cd.fret_eval==_any:
-					m= space.mod.active
-			else:
-				m= space.mod.none
-
-			#mark static mask
-			for x,f in en(frets[:16]):
-				fr[x%4]|= f in cd.frets
-
 			x=0
-			def put(r):
+			def put(r, m=space.mod.none):
 				nonlocal x
+				assert(m!=None)
 				r= r if type(r)==rune.rune else rune.dic[r]
 				space.body(ivec2(x,y+6)+1,r,z=-2,mod=m)
 				x+=1
@@ -176,12 +169,24 @@ def ui():
 				for r in rune.strnrm(s):
 					put(r)
 
+			if cd.fret_eval():#full match
+				m= space.mod.aktiv
+			elif _any(cd.frets)():#partial match
+				m= space.mod.highlight
+				if cd.fret_eval==_any:
+					m= space.mod.bland
+			else:
+				m= space.mod.none
+
+			#mark static mask
+			for x,f in en(frets[:4*4]):
+				fr[x%4]|= f in cd.frets
+
+
 			#prime fret
-			_m=m
 			for f in fr:
-				#m= space.mod.h if ch in kstate else space.mod.none 
-				put('square' if f else 'box')
-			m=_m
+				_m= space.mod.h if f in kstate else space.mod.none 
+				put('square' if f else 'box',_m)
 
 			#lower fret
 			_x=x
@@ -289,6 +294,7 @@ def loop():
 				focus().inp(isdown,ch,sc)
 
 			change=1
+		atom._loop()
 		change|= space.step()!=None
 		if change or RENDER_ALWAYS:
 			change=0

@@ -12,6 +12,9 @@ def focus(o=0):
 
 en= enumerate
 ra= range
+true= True
+fals= False
+null= None
 
 from dataclasses import dataclass as dcls
 immut= dcls(frozen=True)
