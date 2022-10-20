@@ -17,6 +17,8 @@ from OpenGL.GL import shaders
 
 import numpy
 
+from inspect import currentframe, getframeinfo
+lineno= lambda: getframeinfo(currentframe()).lineno
 
 def setwh(_w,_h):
 	global w
@@ -91,7 +93,7 @@ def prog_c(prog):
 	return self
 
 
-_LOCALHEADER= '''
+_LOCALHEADER= f'#line {lineno()}'+'''
 layout(location=0) uniform ivec4 tr;
 layout(location=1) uniform vec2 res;
 layout(location=2) uniform long tick;

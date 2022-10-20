@@ -30,47 +30,31 @@ grid= {}
 #
 _i=0
 def i(n=1):
-	r=i
-	i+=n
+	global _i
+	r=_i
+	_i+=n
 	return ((1<<n)-1)<<r
 
 mods= {
-	'none':      0,
-	'bland':     1<<i(),
-	'aktiv':     1<<i(),
-	'unaktiv':   1<<i(),
-	'verboten':  1<<i(),
-	'spicey':    1<<i(),
-	'highlight': 1<<i(),
-	'achtung':   1<<i(),
-	'warning':   1<<i(),
-	'danger':    1<<i(),
-	'primary':   1<<i(),
-	'cursor':    1<<i(),
-	#ortho,parallax,perspective,skew //projection
-	#axp3 //arity-count per side [0,8]
-	#axn3 //where 0u is void-ary 
-	#ayp3 //      4u is 16-ary
-	#ayn3 
-	#rot2 rotation, cardinal
-	'a'=    i(2)
-	'h'=    i(1)
-	'v'=    i()
-	'p'=    i()
-	'c'=    i()
-	'w'=    i(2)
-	'w0'=   i()
-	'axp' = i(3)
-	'axp0'= i()
-	'axn' = i(3)
-	'axn0'= i()
-	'ayp' = i(3)
-	'ayp0'= i()
-	'ayn' = i(3)
-	'ayn0'= i()
-	'rot' = i(2)
-	'rot0'= i()
-	'smol'= i()
+	'none':     0,
+	'bland':    i(),
+	'aktiv':    i(),
+	'unaktiv':  i(),
+	'verboten': i(),
+	'spicey':   i(),
+	'highlight':i(),
+	'achtung':  i(),
+	'warning':  i(),
+	'danger':   i(),
+	'primary':  i(),
+	'cursor':   i(),
+	'smol':     i(),
+	'proj':     i(2),#ortho,parallax,perspective,skew
+	'axp':      i(4),#right //arity-count per side [0, 1<<4 = 8 ]
+	'axn':      i(4),#left
+	'ayp':      i(4),#north
+	'ayn':      i(4),#south
+	'rot':      i(2),#rotation, cardinal [0,1,2,3]->[right,north,left,south]
 }
 class mod:
 	pass
