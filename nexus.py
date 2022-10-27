@@ -15,6 +15,7 @@ import rune
 import space
 import atom
 import gl_backend
+import transpiler
 if audio_enable:
 	import audio
 else:
@@ -240,6 +241,8 @@ if audio:
 #rune.tests()
 #atom.tests()
 #space.tests()
+transpiler.tests()
+exit()
 
 RENDER_ALWAYS= True
 

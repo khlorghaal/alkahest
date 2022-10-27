@@ -21,7 +21,7 @@ from com import *
 from space import *
 import rune
 
-import compiler
+import transpiler
 
 #word: str= ''
 
@@ -101,7 +101,7 @@ class proc:
 	bnd: bound
 
 	def invoke(self):
-		compiler.repl()
+		transpiler.repl()
 
 	def loop(self,rate:int):
 		_proc_loops+=[self]
@@ -126,7 +126,7 @@ def eval():
 	y1= self.org.y+self.dim.y
 	
 	l= [[grid.get((ivec2(x,y),z)) for x in ra(x0,x1)] for y in ra(y0,y1)]
-	compiler.rep(l)
+	transpiler.rep(l)
 
 
 def tests():

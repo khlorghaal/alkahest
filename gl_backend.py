@@ -167,7 +167,7 @@ glVertexAttribDivisor(0,1)
 glVertexAttribDivisor(1,1)
 glVertexAttribDivisor(2,1)
 
-prog_rune= prog_vf('''
+prog_rune= prog_vf(f'#line {lineno()}'+'''
 layout(location=0) in ivec4 in_p;
 layout(location=1) in uvec2 in_rune;
 layout(location=2) in uint  in_mod;
@@ -198,7 +198,7 @@ void main(){
 	v_rune= in_rune;
 	v_mod= in_mod;
 }
-''','''
+''',f'#line {lineno()}'+'''
 smooth in vec2 v_uv;
 flat in uvec2 v_rune;
 flat in uint v_mod;
@@ -284,7 +284,7 @@ glVertexAttribDivisor(1,1)
 glVertexAttribDivisor(2,1)
 glVertexAttribDivisor(3,1)
 prog_bound= prog_vf
-('''
+(f'#line {lineno()}'+'''
 layout(location=0) in ivec3 in_xyz;
 layout(location=1) in uvec2 in_wh;
 layout(location=2) in uint in_proj;
@@ -323,7 +323,7 @@ void main(){
 		in_xyz.xy + lxy[gl_VertexID],
 		in_xyz.z);
 }
-	''','''
+	''',f'#line {lineno()}'+'''
 flat in vec4 vcol;
 out vec4 col;
 void main(){
