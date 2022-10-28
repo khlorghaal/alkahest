@@ -196,10 +196,9 @@ def aktivat(de):
 
 def tests():
 	#z
-	if 0:
-		for i in range(-4,4):
-			for p in bound(ivec2(0,-4),ivec2(1,8)):
-				body(p,runedic['coplanrect'],i,0)
+	for i in range(-4,4):
+		for p in bound(ivec2(0,-4),ivec2(1,8)):
+			body(p,runedic['coplanrect'],i,0)
 
 filename= 'default.grid.png'
 

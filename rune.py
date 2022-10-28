@@ -122,12 +122,11 @@ def load_font(file):
 
 load_font('./font/lunatic.rmf')
 
-def tests():
-	import space
+class tests:
 	#import atom
 
-	#font
-	if 1:
+	def font():
+		import space
 		i=0
 		l= dic.values()
 		l= tuple({e:None for e in l}.keys())#ordered dup eliminate
@@ -142,8 +141,8 @@ def tests():
 				space.body(ivec2(x,y),l[i])
 				i+=1
 
-	#descrs
-	if 0:
+	def descritpions():#of runes
+		import space
 		i=0
 		l= dic.values()
 		l= tuple({e:None for e in l}.keys())
@@ -164,16 +163,16 @@ def tests():
 			#atom.text(s,ivec2(x+2,y))
 			i+=1
 
-	#rand
-	if 0:
+	def rune_rng_a():
+		import space
 		i=256
 		for y in ra(-16,8):
 			for x in ra(-16,16):
 				r= rune('gen_%i'%i,int(1.055**i)&((1<<32)-1))
 				space.body(ivec2(x*1,y*1),r)
 				i+=1
-
-	if 0:
+	def rune_rng_b():
+		import space
 		i= 256
 		for y in ra(-2,2):
 			for x in ra(-2,2):

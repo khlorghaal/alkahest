@@ -58,9 +58,7 @@ def parse(runes:list[list[str]]):
 	def line(l):
 		nonlocal src
 		src+= l+'\n'
-		print(l)
 
-	print(runes)
 	for y,l in en(runes):
 		for x,tok in en(l):
 			#generate the line and add it to the stack
@@ -100,22 +98,33 @@ def parse(runes:list[list[str]]):
 				op= sym_op[opstak[-1]]#only most recent op may consume
 				if len(varstak)>=op.ai:
 					consume(op)
-					opstak.pop()	
+					opstak.pop()
 
 	if len(varstak)<=0:
-		print('ERRR: no varstack returned')
+		print('WARN: no varstack returned')
+		varstak+= [[]]
 	if len(opstak)>0:
 		print('WARN: opstak remainder: %s'%opstak)
 
-	src+= 'ret= [%s]'%(','.join(varstak))#output
-	return src+'\n'
+	src+= 'ret    = [ %s ]\n'%(' , '.join(varstak))#output value
+	src+= 'ret_sym= [%s]\n'%(','.join([f'\'{s}\'' for s in varstak]))#output symbol
+	return src
 
-def rep(syms:list[list[str]]):
-	cpl= compile(parse(syms),'rep','exec')#builtin::compile
+def rpep(syms:list[list[str]]):
+	print('read')
+	print(syms)
+
+	print('parse')
+	p= parse(syms)
+	print(p)
+
+	cpl= compile(p,'rep','exec')#builtin::compile
 	out={}
 	exec(cpl,globals(),out)
-	print('%s\n'%out['ret'])
-	#all variables may be accessed
+
+	print('eval')
+	print('ret= %s\n'%out['ret'])
+	#all symbols may be accessed from `out`
 	# ret is the output variable reserved/fixed name in read eval print
 	return out
 
@@ -123,10 +132,8 @@ def repl():
 	pass
 
 def tests():
-	#okay after trying this its fucking awful
-	rep(gtok('''
+	rpep(gtok('''
 1 add 2 3 4 add
 5 mul 6
 div 2 69
 	'''))
-tests()

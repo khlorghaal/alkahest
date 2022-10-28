@@ -153,6 +153,8 @@ def ui():
 				r= box if on else square
 				space.body(ivec2(x,y)+1,r,z=-1)
 
+		if 1:
+			return
 
 		#chord index
 		for y,cd in en(chords):
@@ -238,11 +240,10 @@ focus(ROOT)
 if audio:
 	audio.start()
 
-#rune.tests()
-#atom.tests()
+rune.tests.font()
 #space.tests()
-transpiler.tests()
-exit()
+#atom.tests()
+#transpiler.tests()
 
 RENDER_ALWAYS= True
 
