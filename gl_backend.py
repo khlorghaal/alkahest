@@ -358,7 +358,7 @@ def invoke():
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE)
 
 	tr= space.curppos()
-	z= 1<<space.curpz()
+	z= 1<<space.curpzoom()
 	def unf():
 		glUniform4i(0,tr.x,tr.y,0,z)
 		glUniform2f(1,w,h)

@@ -75,7 +75,7 @@ sputmul= lambda: 1<<(2*len(fstate&{f00,f01,f02,f03}))
 sput= lambda *d: lambda: space.thrust(ivec2(*d)*sputmul())
 spem= lambda c:  lambda: space.emplace(c)
 def zch():
-	space.cursor.prime.z= len(fstate&{f00,f01,f02,f03})
+	space.cursor.prime.zoom= len(fstate&{f00,f01,f02,f03})
 rch= lambda s: rune.dic[s]
 
 chords= [cho(*c) for c in [
@@ -241,9 +241,9 @@ if audio:
 	audio.start()
 
 rune.tests.font()
-#space.tests()
 #atom.tests()
 #transpiler.tests()
+#space.tests()
 
 RENDER_ALWAYS= True
 
@@ -263,7 +263,7 @@ def loop():
 				if e.button==1:#LMB
 					#todo cleanup
 					p= space.cursor.prime.b.p
-					z= 1<<space.cursor.prime.z
+					z= 1<<space.cursor.prime.zoom
 					w,h = pygame.display.get_surface().get_size()
 					c= ivec2(*pygame.mouse.get_pos())
 					c.x=   c.x -w//2
@@ -275,9 +275,9 @@ def loop():
 					print(c)
 					space.cursor.prime.place(c)
 				if e.button==4:#wheel
-					space.cursor.prime.zoom( 1)
+					space.cursor.prime.zoomd( 1)
 				if e.button==5:#wheel
-					space.cursor.prime.zoom(-1)
+					space.cursor.prime.zoomd(-1)
 			if e.type==KEYDOWN or e.type==KEYUP:
 				isdown= e.type==KEYDOWN
 

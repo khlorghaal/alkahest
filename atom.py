@@ -5,6 +5,7 @@ the naive witnesses indivision
 yet there is further nature
 advance onto the nuclear forge
 violate composability for true power
+	what the fuck was i talking about?
 
 a name is merely location
 a location within chaos is necessarily phenoumenal
@@ -14,10 +15,11 @@ goedel's incompleteness applies to the arithmetic of language
 
 a name within pure environment, is a z-tunnel between namespace layers
 completeness requires name as a static location or static boundary
+
+i need to stop writing docs while high
 '''
 
 from com import *
-
 from space import *
 import rune
 
@@ -130,12 +132,12 @@ def eval():
 
 
 def tests():
-	if 1:
+	if 1:#textbox
 		b= bound(ivec2(0,0),ivec2(16,4))
 		t= text(b,True)
 		focus(t)
 
-	if 0:
+	if 0:#transpiler
 		b= bound(ivec2(-8,-8),ivec2(8,8))
 		#p= proc(b)
 		#p.invoke()

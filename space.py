@@ -67,9 +67,9 @@ del i
 class body:
 	p: ivec2
 	rune: rune
-	z: int=0
-	mod: int=0
-	ptr: object= None
+	z: int=0 #layer, only 0 is nonvolatile (serialized)
+	mod: int=0 #modifier visual status
+	ptr: object= None #dynamic datum
 
 	h= lambda s:(s.p,s.z)
 
@@ -91,20 +91,21 @@ class cursor:
 	v:ivec2= ivec2(0,0)
 	vel_active:bool= 0
 	b: body= 0
-	z= 0#zoom, unrelated to body-z
+	zoom= 2 #unrelated to body-z
 	word:str= ''#accumulator for multichars
-	#multichars being a rune with a name longer than 1 character
+	#	multichars being a rune with a name longer than 1 character
+	#	may also map onto any of multiple names per rune
 
 	def __post_init__(s):
 		s.place(ivec2(0,0))
 		cursor.insts+=[s]
 
-	def zoom(s, d):
-		z=s.z
+	def zoomd(s, d):#differential
+		z=s.zoom
 		z+= d
 		z= max(z,0)
 		z= min(z,4)
-		s.z=z
+		s.zoom=z
 
 	def place(s,p):
 		if s.b:
@@ -130,7 +131,7 @@ setattr(cursor,'prime',cursor())#because dcls
 
 #prime cursor pos
 curppos= lambda: cursor.prime.b.p
-curpz=   lambda: cursor.prime.b.z
+curpzoom=   lambda: cursor.prime.zoom
 
 
 def thrust(d:ivec2):
@@ -164,7 +165,7 @@ class bound:
 		x1= self.org.x+self.dim.x
 		y1= self.org.y+self.dim.y
 		p= (ivec2(x,y) for y in range(y0,y1) for x in (range(x0,x1)))
-		b= (grid[(p_,z)] for p_ in p)
+		b= (grid[(p_,self.z)] for p_ in p)
 		return zip(b,p)
 	def within(self,p:ivec2):
 		x0= self.org.x
@@ -199,6 +200,9 @@ def tests():
 	for i in range(-4,4):
 		for p in bound(ivec2(0,-4),ivec2(1,8)):
 			body(p,runedic['coplanrect'],i,0)
+
+
+
 
 filename= 'default.grid.png'
 
@@ -270,14 +274,16 @@ def save():
 	#print(rast)
 	img= png.Writer(
 		w,h,
-		bitdepth=16,
+		bitdepth=1,
 		greyscale=False,
-		alpha= True,
+		alpha= False,
 		compression=5
 		)
 	img.write_array( open('default.grid.png','wb'), rast.flatten() )
 	print('saved %s'%filename)
 
+
+
 def step():
-	#motion
+	#motion / time-integration
 	return cursor.step()
