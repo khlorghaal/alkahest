@@ -105,20 +105,22 @@ vec4 project(ivec2 xy, int z){
 	if(z==0)
 		z=1;
 
-	if(z<0){
+	if(z<0){ //negative z is screenspace
 		z= -z;
-		//negative z is screenspace
 		tr_.xy=ivec2(0);
 		tr_.w=       z ;
 		xy-= ivec2(res)/2/z;
+		//todo what mapping for screenspace <-> projspace ?
 	}
 
 	//case PERSP
 	//case ORTHO
 	//case PARLX
 
+	xy-= tr_.xy*2; ///uhhhhhhh???
+
 	return vec4(
-		vec2(xy)/res*tr_.w*2.,
+		vec2(xy)/res*tr_.w*2. *8. ,
 		z/256.,
 		1.);
 }
@@ -158,17 +160,17 @@ glBindBuffer(GL_ARRAY_BUFFER, vbo_runes)
 glEnableVertexAttribArray(0)
 glEnableVertexAttribArray(1)
 glEnableVertexAttribArray(2)
-s= (4+2+1)*4
-glVertexAttribIPointer(0, 4, GL_INT,          s, void_p(0))
-glVertexAttribIPointer(1, 2, GL_UNSIGNED_INT, s, void_p(4*(4)))
-glVertexAttribIPointer(2, 1, GL_UNSIGNED_INT, s, void_p(4*(4+2)))
+s= (3+2+1)*4
+glVertexAttribIPointer(0, 3, GL_INT,          s, void_p(0))
+glVertexAttribIPointer(1, 2, GL_UNSIGNED_INT, s, void_p(4*(3)))
+glVertexAttribIPointer(2, 1, GL_UNSIGNED_INT, s, void_p(4*(3+2)))
 del s
 glVertexAttribDivisor(0,1)
 glVertexAttribDivisor(1,1)
 glVertexAttribDivisor(2,1)
 
 prog_rune= prog_vf(f'#line {lineno()}'+'''
-layout(location=0) in ivec4 in_p;
+layout(location=0) in ivec3 in_p;
 layout(location=1) in uvec2 in_rune;
 layout(location=2) in uint  in_mod;
 smooth out vec2 v_uv;//ints cant smooth
@@ -176,15 +178,14 @@ flat out uvec2 v_rune;
 flat out uint  v_mod;
 void main(){
 	const int W= 8;
-	const int W2= W/2;
 	const ivec2[] lxy= ivec2[](
-		ivec2(-W2,-W2),
-		ivec2(-W2, W2),
-		ivec2( W2, W2),
-		ivec2( W2,-W2)
+		ivec2(-1,-1),
+		ivec2(-1, 1),
+		ivec2( 1, 1),
+		ivec2( 1,-1)
 	);
 	gl_Position= project(
-		in_p.xy*W + lxy[gl_VertexID],
+		in_p.xy*2 + lxy[gl_VertexID],
 		in_p.z);
 
 	const vec2[] luv= vec2[](
@@ -360,9 +361,9 @@ def invoke():
 	tr= space.curppos()
 	z= 1<<space.curpzoom()
 	def unf():
-		glUniform4i(0,tr.x,tr.y,0,z)
-		glUniform2f(1,w,h)
-		glUniform1ui(2,_tick)
+		glUniform4i (0, tr.x,tr.y,z,z)
+		glUniform2f (1, w,h)
+		glUniform1ui(2, _tick)
 
 	#runes
 	if 1:
@@ -372,7 +373,7 @@ def invoke():
 		def rrast(b):
 			r= b.rune.bin
 			return (
-				b.p.x,b.p.y,b.z,0,
+				b.p.x,b.p.y,b.z,
 				r&0xFFFFFFFF,r>>32,
 				b.mod
 				)
