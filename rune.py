@@ -30,7 +30,7 @@ from numpy import array
 from com  import *
 from math import *
 
-def arrarr_wh(a):
+def aawh(a):
 	return (len(a[0]),len(a))
 
 class lib:
@@ -48,7 +48,7 @@ class rune:
 		else:
 			assert(type(dat   )==tuple)
 			assert(type(dat[0])==tuple)
-			assert(arrarr_wh(dat)==(8,8))
+			assert(aawh(dat)==(8,8))
 
 			l= lambda x,y: dat[y][x]<<( x+y*8 )
 			r= array([([ l(x,y) for x in ra(8)]) for y in ra(8)])

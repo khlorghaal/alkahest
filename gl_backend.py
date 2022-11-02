@@ -2,6 +2,7 @@ from com import *
 
 import rune
 import space
+import atom
 
 import numpy as np
 import png
@@ -112,17 +113,17 @@ vec4 project(ivec2 xy, int z){
 		xy-= ivec2(res)/2/z;
 		//todo what mapping for screenspace <-> projspace ?
 	}
+	else
+		xy-= tr_.xy;
 
 	//case PERSP
 	//case ORTHO
 	//case PARLX
 
-	xy-= tr_.xy*2; ///uhhhhhhh???
-
 	return vec4(
-		vec2(xy)/res*tr_.w*2. *8. ,
+		vec2(xy)/res*2.,
 		z/256.,
-		1.);
+		1./tr_.w);
 }
 
 //const vec4 COLOR_= vec4(.,.,.,1.);
@@ -177,22 +178,21 @@ smooth out vec2 v_uv;//ints cant smooth
 flat out uvec2 v_rune;
 flat out uint  v_mod;
 void main(){
-	const int W= 8;
 	const ivec2[] lxy= ivec2[](
-		ivec2(-1,-1),
-		ivec2(-1, 1),
-		ivec2( 1, 1),
-		ivec2( 1,-1)
+		ivec2(-4,-4),
+		ivec2(-4, 4),
+		ivec2( 4, 4),
+		ivec2( 4,-4)
 	);
 	gl_Position= project(
-		in_p.xy*2 + lxy[gl_VertexID],
+		in_p.xy*8 + lxy[gl_VertexID],
 		in_p.z);
 
 	const vec2[] luv= vec2[](
 		ivec2( 0, 0),
-		ivec2( 0, W),
-		ivec2( W, W),
-		ivec2( W, 0)
+		ivec2( 0, 8),
+		ivec2( 8, 8),
+		ivec2( 8, 0)
 	);
 	v_uv= luv[gl_VertexID];
 
@@ -358,10 +358,10 @@ def invoke():
 
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE)
 
-	tr= space.curppos()
-	z= 1<<space.curpzoom()
+	tr= atom.cursor.prime.b.p
+	z= 1<<atom.cursor.prime.zoom
 	def unf():
-		glUniform4i (0, tr.x,tr.y,z,z)
+		glUniform4i (0, tr.x*8,tr.y*8,z,z)
 		glUniform2f (1, w,h)
 		glUniform1ui(2, _tick)
 
@@ -369,7 +369,7 @@ def invoke():
 	if 1:
 		glBindBuffer(GL_ARRAY_BUFFER, vbo_runes)
 		bodies= space.grid.values()
-		cursors= space.cursor.insts
+		cursors= atom.cursor.insts
 		def rrast(b):
 			r= b.rune.bin
 			return (

@@ -1,8 +1,13 @@
-#nexus is the entry point
-#	handles OS intercho, io, updates
-#logic here should be kept minimal and moved into modules as needed
+'''
+nexus is the entry point
+	handles
+		platform multiplex (OS)
+		io, keybinding
+		macroscale control flow
+logic here should be kept minimal and moved into modules as needed
 
-#todo all inputs must be converted into atomic runes
+todo all inputs must be converted into atomic runes
+'''
 
 from com import *
 import pygame
@@ -72,10 +77,10 @@ class cho:
 		s.fret_eval= s.fret_eval(s.frets)#collapse outer lambda
 
 sputmul= lambda: 1<<(2*len(fstate&{f00,f01,f02,f03}))
-sput= lambda *d: lambda: space.thrust(ivec2(*d)*sputmul())
-spem= lambda c:  lambda: space.emplace(c)
+sput= lambda *d: lambda: atom.cursor.thrust(ivec2(*d)*sputmul())
+spem= lambda c:  lambda: atom.cursor.prime.emit(c)
 def zch():
-	space.cursor.prime.zoom= len(fstate&{f00,f01,f02,f03})
+	atom.cursor.prime.zoom= len(fstate&{f00,f01,f02,f03})
 rch= lambda s: rune.dic[s]
 
 chords= [cho(*c) for c in [
@@ -127,7 +132,7 @@ chords= [cho(*c) for c in [
 	#bwr
 
 	#morphic
-	(_non,{},pk0,space.deplace,['del' ]),
+	(_non,{},pk0,space.kill,['del' ]),
 	(_all,{bf0},pk0,spem('bus'),[rch('bus'),' bus']),
 
 	#systemic
@@ -262,22 +267,21 @@ def loop():
 			if e.type==MOUSEBUTTONDOWN:
 				if e.button==1:#LMB
 					#todo cleanup
-					p= space.cursor.prime.b.p
-					z= 1<<space.cursor.prime.zoom
+					p= atom.cursor.prime.b.p
+					z= 1<<atom.cursor.prime.zoom
 					w,h = pygame.display.get_surface().get_size()
 					c= ivec2(*pygame.mouse.get_pos())
-					c.x=   c.x -w//2
-					c.y= h-c.y -h//2
+					c.x=   c.x - w//2
+					c.y= h-c.y - h//2
 					c+= 4*z
-					c//= 8
-					c//= z
-					c+= p
+					c//=8*z
+					c+= p #relative to present, not origin
 					print(c)
-					space.cursor.prime.place(c)
+					atom.cursor.prime.move(c)
 				if e.button==4:#wheel
-					space.cursor.prime.zoomd( 1)
+					atom.cursor.prime.zoomd( 1)
 				if e.button==5:#wheel
-					space.cursor.prime.zoomd(-1)
+					atom.cursor.prime.zoomd(-1)
 			if e.type==KEYDOWN or e.type==KEYUP:
 				isdown= e.type==KEYDOWN
 
@@ -299,7 +303,7 @@ def loop():
 
 			change=1
 		atom._loop()
-		change|= space.step()!=None
+		change|= atom.step()!=None
 		if change or RENDER_ALWAYS:
 			change=0
 			ui()

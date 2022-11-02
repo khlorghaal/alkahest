@@ -1,3 +1,7 @@
+#space is grid and mapping of ordinates onto objects
+#space does not concern itself with the behavior of contained objects
+#	only mapping of intoactions onto objects
+
 from com import *
 from rune import dic as runedic
 from rune import rune
@@ -84,71 +88,20 @@ class body:
 		ptr= self.ptr
 		ptr and ptr.kill and ptr.kill()
 
-origin= body(ivec2(0,0),runedic['empty'])
-
-@dcls
-class cursor:
-	v:ivec2= ivec2(0,0)
-	vel_active:bool= 0
-	b: body= 0
-	zoom= 2 #unrelated to body-z
-	word:str= ''#accumulator for multichars
-	#	multichars being a rune with a name longer than 1 character
-	#	may also map onto any of multiple names per rune
-
-	def __post_init__(s):
-		s.place(ivec2(0,0))
-		cursor.insts+=[s]
-
-	def zoomd(s, d):#differential
-		z=s.zoom
-		z+= d
-		z= max(z,0)
-		z= min(z,4)
-		s.zoom=z
-
-	def place(s,p):
-		if s.b:
-			s.b.kill()
-		s.b= body(
-			p,
-			runedic['cursor'],
-			1,
-			mods['cursor'])
-
-	def step():
-		r=None#dirty
-		for c in cursor.insts:
-			if c.v!=ivec2(0,0):
-				r= True
-				d= c.v
-				c.v*=0#halt
-				c.place(c.b.p+d)
-		return r
-
-setattr(cursor,'insts',[])
-setattr(cursor,'prime',cursor())#because dcls
-
-#prime cursor pos
-curppos= lambda: cursor.prime.b.p
-curpzoom=   lambda: cursor.prime.zoom
 
 
-def thrust(d:ivec2):
-	cursor.prime.v+= d
-
-
-def deplace():
-	g= grid.get((cursor.prime.b.p,0))
+def kill(p:ivec2,z:int=0):
+	g= grid.get((p,z))
 	if g:
 		g.kill()
-def emplace(name):
-	body(cursor.prime.b.p, runedic[name])
 
 def search_emplace():
 	#create and focus gui
 	pass
 	#destruct
+
+
+origin= body(ivec2(0,0),runedic['empty'])
 
 snake=   lambda p,w:   int(p.y*w+p.x)
 snakent= lambda i,w: ivec2(  i%w,i/w)
@@ -282,8 +235,3 @@ def save():
 	img.write_array( open('default.grid.png','wb'), rast.flatten() )
 	print('saved %s'%filename)
 
-
-
-def step():
-	#motion / time-integration
-	return cursor.step()

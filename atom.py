@@ -1,5 +1,9 @@
 '''
-runes or vescicles which cannot be composed from others
+logic of runes with behavior
+
+sigils are entry points
+
+remember- when writing docs when high, provide a translation
 
 the naive witnesses indivision
 yet there is further nature
@@ -16,7 +20,6 @@ goedel's incompleteness applies to the arithmetic of language
 a name within pure environment, is a z-tunnel between namespace layers
 completeness requires name as a static location or static boundary
 
-i need to stop writing docs while high
 '''
 
 from com import *
@@ -24,6 +27,65 @@ from space import *
 import rune
 
 import transpiler
+
+
+@dcls
+class cursor:
+	v:ivec2= ivec2(0,0)
+	vel_active:bool= 0
+	b: body= 0
+	zoom= 2 #unrelated to body-z
+	#magnification by 1<<zoom
+	#big zoom == big glyphs
+
+	word:str= ''#accumulator for multichars
+	#	multichars being a rune with a name longer than 1 character
+	#	may also map onto any of multiple names per rune
+
+	def __post_init__(s):
+		s.move(ivec2(0,0))
+		cursor.insts+=[s]
+
+	def zoomd(s, d):#differential
+		z=s.zoom
+		z+= d
+		z= max(z,0)
+		z= min(z,4)
+		s.zoom=z
+
+	def move(s,p:ivec2):
+		if s.b:
+			s.b.kill()
+		s.b= body(
+			p,
+			runedic['cursor'],
+			1,
+			mods['cursor'])
+
+	def emit(s,r):
+		if type(r)==str:
+			r= runedic[r]
+		else:
+			assert(type(r)==rune.rune)
+		body(s.b.p,r,0)
+
+	def step():
+		r=None#dirty
+		for c in cursor.insts:
+			if c.v!=ivec2(0,0):
+				r= True
+				d= c.v
+				c.v*=0#halt
+				c.move(c.b.p+d)
+		return r
+	def thrust(d:ivec2):
+		cursor.prime.v+= d
+
+setattr(cursor,'insts',[])
+setattr(cursor,'prime',cursor())#because dcls
+
+
+
 
 #word: str= ''
 
@@ -115,7 +177,7 @@ def eval():
 	#ran on either a boundary or proc
 	#on a proc would allow precompile
 	#on a raw boundary would be interpreter only
-	p= curppos()
+	p= cursor.prime.b.p()
 	z= 0
 	b= grid[(p,z)]
 	bnd= b.ptr and type(b.ptr)==bound and b.ptr
@@ -146,13 +208,17 @@ def tests():
 		1 1 1
 		add add
 		''')
-		#space.cursor.prime.place(t.bnd.org)
+		#space.cursor.prime.move(t.bnd.org)
 
 		#cursor.prime.p= ivec2(-8,-8)
 		#eval()
 
 
 
+
+def step():
+	#motion / time-integration
+	return cursor.step()
 '''
 focus membrane
 repl
