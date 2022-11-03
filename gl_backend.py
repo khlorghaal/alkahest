@@ -18,9 +18,6 @@ from OpenGL.GL import shaders
 
 import numpy
 
-from inspect import currentframe, getframeinfo
-lineno= lambda: getframeinfo(currentframe()).lineno
-
 def setwh(_w,_h):
 	global w
 	global h

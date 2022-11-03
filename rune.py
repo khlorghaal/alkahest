@@ -40,25 +40,18 @@ dic={}
 #dic[runename]
 #	equivalent
 
-class rune:
-	_rune_idit=0
-	def __init__(self, names, dat):
+class glyph:
+	def __init__(self, dat):
 		if type(dat)==int:
 			self.bin= dat
 		else:
-			assert(type(dat   )==tuple)
-			assert(type(dat[0])==tuple)
-			assert(aawh(dat)==(8,8))
+			ass(type(dat   ),tuple)
+			ass(type(dat[0]),tuple)
+			ass(aawh(dat   ),(8,8))
 
 			l= lambda x,y: dat[y][x]<<( x+y*8 )
 			r= array([([ l(x,y) for x in ra(8)]) for y in ra(8)])
 			self.bin= int(numpy.sum(r,dtype='uint64'))&0xFFFFFFFFFFFFFFFF
-
-		self.names= names
-		for n in names:
-			setattr(lib,n,self)
-			dic[n]= self
-		dic[self.bin]= self
 
 	def __str__(self):
 		s= self.name
@@ -68,6 +61,15 @@ class rune:
 				lum= ((1<<(x+y*8))&i)!=0
 				s+= 'X' if lum else '.'
 		return s
+
+class rune(glyph):
+	def __init__(self, names, dat):
+		super().__init__(dat)
+		self.names= names
+		for n in names:
+			setattr(lib,n,self)
+			dic[n]= self
+		dic[self.bin]= self
 
 
 def strnrm(pile:list[str,rune]):

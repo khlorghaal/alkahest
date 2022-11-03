@@ -5,6 +5,7 @@
 from com import *
 from rune import dic as runedic
 from rune import rune
+from rune import glyph
 
 grid= {}
 
@@ -162,38 +163,46 @@ filename= 'default.grid.png'
 def load():
 	from numpy import array
 	from numpy import zeros
+	from numpy import flip
+	from numpy import uint8
 	import png
+
 	try:
-		img= png.Reader(filename).read()
+		w,h, img, meta= png.Reader(filename).read()
 	except:
 		print('gridfile not found')
 		return
-	(w,h)= img[:2]
-	rast= array(list(img[2]))
 
-	for y,l in en(rast):
-		px=[(int(b0)    )|\
-			(int(b1)<<16)|\
-			(int(b2)<<32)|\
-			(int(b3)<<48)
-			for b0,b1,b2,b3 in 
-			zip(l[0::4],
-				l[1::4],
-				l[2::4],
-				l[3::4],)]
-		for x,b in en(px):
-			if b!=0:
-				if b in runedic:
-					body(ivec2(x,y),runedic[b])
+	ass(w%8,0)
+	ass(h%8,0)
+	ass(meta['bitdepth'],1)
+	ass(meta['planes'  ],1)
+
+	rast= array(list(img),dtype=uint8).transpose()
+	rast= flip(rast,1)
+
+	for y in ra(0,h,8):
+		for x in ra(0,w,8):
+			n=0
+			for ry in ra(8):
+				for rx in ra(8):
+					i=rast[x+rx,
+					       y+ry]
+					i= int(i==1)
+					n|= i<<(rx+ry*8)
+			if n!=0:
+				if n in runedic:
+					body(ivec2(x//8,y//8),runedic[n])
 				else:
-					print('warn, rune not in dict 0x%16x'%b)
+					body(ivec2(x//8,y//8),glyph(n))
+					continue#warn('rune not in dict 0x%16x'%n)
+
 	print('loaded %s'%filename)
 
 def save():
 	from numpy import array
 	from numpy import zeros
-	from numpy import uint16
-	from numpy import uint64
+	from numpy import uint8
 	import png
 
 	Z= 0 #z 0 is only nonvolatile layer saved
@@ -221,10 +230,11 @@ def save():
 				on= ((1<<(rx+ry*8))&i)!=0
 				rast[
 					   rx+p.x-o.x,
-					h-(ry+p.y-o.y)-1
+					   ry+p.y-o.y
 					]= on
 
 	rast= rast.transpose().flatten()
+	rast= flip(rast,1)
 
 	#print(rast)
 	img= png.Writer(

@@ -245,10 +245,12 @@ focus(ROOT)
 if audio:
 	audio.start()
 
-rune.tests.font()
+space.load()
+#rune.tests.font()
 #atom.tests()
 #transpiler.tests()
 #space.tests()
+
 
 RENDER_ALWAYS= True
 
@@ -312,6 +314,6 @@ def loop():
 		time.sleep(1./60.)
 loop()
 
-space.save()
+#space.save()
 
 exit()

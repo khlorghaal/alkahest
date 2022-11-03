@@ -16,6 +16,22 @@ true= True
 fals= False
 null= None
 
+from inspect import currentframe, getframeinfo
+lineno= lambda: getframeinfo(currentframe()).lineno
+srcframe= lambda: getframeinfo(currentframe())
+srcframe_outer= lambda: getframeinfo(currentframe())
+
+
+def warn(s):
+	print(f'warn: {srcframe_outer()}: {s}')
+def  err(s):
+	raise AssertionError(f'errr: {srcframe_outer()}: {s}')
+
+def ass(v,p):
+	if v==p:
+		return
+	err(f'assnt {v} != {p}')
+
 from dataclasses import dataclass as dcls
 immut= dcls(frozen=True)
 from enum import Enum
