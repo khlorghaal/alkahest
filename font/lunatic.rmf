@@ -1283,15 +1283,15 @@ x     x0
 x xxx x0
 x     x0
 xxxxxxx0
-spaceman amogus
+spaceman amogus spesman spesmang
 00000000
 xxxxxx 0
 x    x 0
-xxxxxx 0
+x xx x 0
 x    x 0
 x    x 0
 xxxxxx 0
- x  x  0
+x    x 0
 ∞ inf infinity
 00000000
        0
@@ -1337,7 +1337,7 @@ x     x0
   xxx  0
     x  0
  xxxx  0
-σ sigma
+σ sigma gauss_distribution
 00000000
        0
        0
@@ -1409,7 +1409,7 @@ xxxxxx 0
   x x  0
   x x  0
 xxx xxx0
-Α ALPHA
+Α ALPHA first
 00000000
  xxxxx 0
  x  x  0
@@ -1427,6 +1427,42 @@ xxx xxx0
      x 0
      x 0
  xxxxx 0
+Σ SIGMA sum
+00000000
+xxxxxxx0
+       0
+       0
+xxx    0
+       0
+       0
+xxxxxxx0
+Π PI prod product
+00000000
+xxxxxxx0
+ x    x0
+ x    x0
+ x    x0
+ x    x0
+ x    x0
+ x    x0
+Ω OMEGA final
+00000000
+ xxxxx 0
+ x   x 0
+ x   x 0
+ x   x 0
+       0
+ x   x 0
+xx   xx0
+Γ GAMMA
+00000000
+xxxxxxx0
+x     x0
+x      0
+x      0
+x      0
+x      0
+x      0
 Δ delta
 00000000
        0
@@ -1481,6 +1517,33 @@ flux
 xxxxxxx0
        0
 xxxxxxx0
+irradiance
+00000000
+       0
+ xx xx 0
+ x   x 0
+   x   0
+ x   x 0
+ xx xx 0
+       0
+luminance
+00000000
+       0
+  x x  0
+ x   x 0
+   x   0
+ x   x 0
+  x x  0
+       0
+apparent_magnitude
+00000000
+       0
+  x    0
+     x 0
+   x   0
+ x     0
+    x  0
+       0
 shoom
 00000000
        0
@@ -1508,42 +1571,6 @@ x  x  x0
 x  x  x0
    x   0
    x   0
-Σ SIGMA
-00000000
-xxxxxxx0
-       0
-       0
-xxx    0
-       0
-       0
-xxxxxxx0
-Π PI
-00000000
-xxxxxxx0
- x    x0
- x    x0
- x    x0
- x    x0
- x    x0
- x    x0
-Ω OMEGA
-00000000
- xxxxx 0
- x   x 0
- x   x 0
- x   x 0
-       0
- x   x 0
-xx   xx0
-Γ GAMMA
-00000000
-xxxxxxx0
-x     x0
-x      0
-x      0
-x      0
-x      0
-x      0
 fee
 00000000
        0
@@ -1553,7 +1580,7 @@ fee
        0
      x 0
    xxx 0
-τ tau
+τ tau torque
 00000000
        0
        0
@@ -1571,7 +1598,7 @@ omicron
   x  x 0
   x  x 0
   xxxx 0
-ρ rho
+ρ rho pressure
 00000000
        0
        0
@@ -1598,7 +1625,7 @@ omicron
  x x x 0
  xxxxx 0
    x   0
-ω omega
+ω omega angular_velocity
 00000000
        0
        0
@@ -1625,6 +1652,42 @@ administrator
 xx x xx0
  x x x 0
    x   0
+array
+00000000
+xx x xx0
+x  x  x0
+xx x xx0
+       0
+       0
+       0
+       0
+vector
+00000000
+xxxxxxx0
+x x   x0
+xxxxxxx0
+       0
+       0
+       0
+       0
+matrix
+00000000
+xxxxxxx0
+x x   x0
+xxxxxxx0
+x x    0
+x x    0
+x x    0
+xxx    0
+tensor
+00000000
+xxxxxxx0
+x x   x0
+xxxxxxx0
+x x   x0
+x x xxx0
+x x x  0
+xxxxx  0
 thok
 00000000
   x    0
@@ -2210,6 +2273,87 @@ xxxxxx 0
      x 0
  xxxxx 0
      x 0
+rad_gamma gamma_rad
+00000000
+       0
+       0
+       0
+       0
+       0
+       0
+       0
+ultraviolet hyperviolet
+00000000
+       0
+       0
+       0
+       0
+       0
+       0
+       0
+light visible light_visible visible_light
+00000000
+       0
+       0
+       0
+       0
+       0
+       0
+       0
+infrared hypored rad_heat heat_rad
+00000000
+       0
+       0
+       0
+       0
+       0
+       0
+       0
+incandescence blackbody
+00000000
+       0
+       0
+       0
+       0
+       0
+       0
+       0
+microwave
+00000000
+       0
+       0
+       0
+       0
+       0
+       0
+       0
+radio
+00000000
+       0
+       0
+       0
+       0
+       0
+       0
+       0
+acoustic
+00000000
+       0
+       0
+       0
+       0
+       0
+       0
+       0
+signal
+00000000
+xxx xxx0
+x x x x0
+xxxxxxx0
+  x x  0
+xxxxxxx0
+x x x x0
+xxx xxx0
 neutron
 00000000
        0
@@ -2228,7 +2372,16 @@ proton
        0
        0
        0
-electron
+electron rad-beta
+00000000
+       0
+       0
+       0
+       0
+       0
+       0
+       0
+rad-alpha
 00000000
        0
        0

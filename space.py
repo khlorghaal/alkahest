@@ -201,36 +201,38 @@ def save():
 		list(filter(
 			lambda b: b.z==Z,
 			grid.values())))
-	(w,h)= (bnd.dim.x,bnd.dim.y)
+	(w,h)= (
+		bnd.dim.x*8,
+		bnd.dim.y*8)
+	o= bnd.org*8
 	#print(b)
 	if w==0 or h==0:
 		return
-	rast= zeros((w,h),dtype=uint64)
+	rast= zeros((w,h),dtype='uint8')
 	for b in grid.values():
 		if b.z!=Z:
 			continue
-		i= b.rune.bin
+		i= int(b.rune.bin)
 		#print('{0:064b}'.format(i))
-		p= b.p
-		o= bnd.org
-		rast[
-			p.x-o.x,
-			p.y-o.y
-			]= i
+		p= b.p*8
+		for ry in ra(8):
+			for rx in ra(8):
+				#snake
+				on= ((1<<(rx+ry*8))&i)!=0
+				rast[
+					   rx+p.x-o.x,
+					h-(ry+p.y-o.y)-1
+					]= on
 
-	rast= array((
-		(rast    )&0xffff,
-		(rast>>16)&0xffff,
-		(rast>>32)&0xffff,
-		(rast>>48)&0xffff
-		),dtype=uint16).transpose((2,1,0))
+	rast= rast.transpose().flatten()
+
 	#print(rast)
 	img= png.Writer(
 		w,h,
 		bitdepth=1,
-		greyscale=False,
+		greyscale=True,
 		alpha= False,
-		compression=5
+		compression=2
 		)
 	img.write_array( open('default.grid.png','wb'), rast.flatten() )
 	print('saved %s'%filename)

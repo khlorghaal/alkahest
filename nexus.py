@@ -312,4 +312,6 @@ def loop():
 		time.sleep(1./60.)
 loop()
 
+space.save()
+
 exit()
