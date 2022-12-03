@@ -115,7 +115,7 @@ class text:
 	def inp(self,b,ch,sc):
 		if not b:
 			return
-		p= self.cur.p
+		p= self.cur.b.p
 		o= self.bnd.org 
 		w= self.bnd.dim.x
 
@@ -135,16 +135,15 @@ class text:
 
 		p= snakent(d+snake(p*ivec2(1,-1)-o,w),w)*ivec2(1,-1)+o
 		#p.x+= d
-		self.cur.p= p
+		self.cur.move(p)
 
 		if ch=='\b':
 			g= grid.get(p)
-			print(g)
 			if g:
 				g.kill()
 
 @dcls
-class raster:
+class raster:#the entity
 	@unique
 	class colorform(Enum):
 		NATIVE=0#sRGB8
@@ -160,37 +159,57 @@ def _loop():
 	for e in _proc_loops:
 		e.invoke()
 
+'''
+entry point for
+	eval
+		manual invocation through cursor
+			void-ary
+				cursor in the future may carry state?
+		emits output to console
+	loop
+		monoidal
+			states emitted at end, repassed to self
+		initiated with
+		python method of outer-eval passing initial state
+		emits output via
+			impure functions
+			media (displays, audio, text, etc)
+	api
+		todo some decorator bullshit idk
+		abi socketed through python, until python subsumed
+
+
+switch of these is determined by subrunes
+	direction is too ambiguous and messy, rejected
+
+
+possible approaches for mode selection
+	-outer functor, with sigil as input
+	-subrunes, of the sigil itself
+	-constex inputs, as double-lambda
+		ie sigil(mode.loop)(initstate)
+
+	subrunes selected for being most sorcerous
+		functors may operate on sigils to change subrunes
+			this can and will be messy but whatever
+
+'''
 @dcls
-class proc:
-	bnd: bound
+class sigil:
+	body_main: body #the sigil itself
+	body_args: list[body] #macro parameters
+	entry: body #first runes evaluated
 
-	def invoke(self):
-		transpiler.repl()
+	def eval(self):
+		#the sigil itself
+		self.body_main
 
-	def loop(self,rate:int):
-		_proc_loops+=[self]
+		#sigil behavior
+		self.body_args
+		self.entry
 
-	def kill(self):
-		_proc_loops.remove(self)
 
-def eval():
-	#ran on either a boundary or proc
-	#on a proc would allow precompile
-	#on a raw boundary would be interpreter only
-	p= cursor.prime.b.p()
-	z= 0
-	b= grid[(p,z)]
-	bnd= b.ptr and type(b.ptr)==bound and b.ptr
-	if not bnd:
-		return 1
 
-	x0= self.org.x
-	y0= self.org.y
-	x1= self.org.x+self.dim.x
-	y1= self.org.y+self.dim.y
-	
-	l= [[grid.get((ivec2(x,y),z)) for x in ra(x0,x1)] for y in ra(y0,y1)]
-	transpiler.rep(l)
 
 
 def tests():

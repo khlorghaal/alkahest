@@ -54,12 +54,13 @@ class glyph:
 			self.bin= int(numpy.sum(r,dtype='uint64'))&0xFFFFFFFFFFFFFFFF
 
 	def __str__(self):
-		s= self.name
+		s= ''
 		i= self.bin
-		for y in ra(8):
+		for y in ra(8)[::-1]:
 			for x in ra(8):
 				lum= ((1<<(x+y*8))&i)!=0
-				s+= 'X' if lum else '.'
+				s+= '█' if lum else '▒'
+			s+='\n'
 		return s
 
 class rune(glyph):
@@ -70,6 +71,9 @@ class rune(glyph):
 			setattr(lib,n,self)
 			dic[n]= self
 		dic[self.bin]= self
+
+	def __str__(self):
+		return str(self.names)+'\n'+super().__str__()
 
 
 def strnrm(pile:list[str,rune]):

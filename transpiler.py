@@ -1,3 +1,9 @@
+#im ditching this for now in favor of a python vm
+#its just the best thing for prototyping
+
+
+
+
 #text itself is dead stone
 #a compiler brings life to symbols
 #the living symbols are the catalyst of omega
@@ -40,6 +46,10 @@ mul 2 1 _mul
 div 2 1 _div
 pow 2 1 _pow
 log 2 1 _log
+fft 1 1 fft
+rfft 1 1 rfft
+ifft 1 1 irfft
+irfft 1 1 rfft
 ''')}
 
 isnop= lambda s: s=='nop'
@@ -75,7 +85,7 @@ def parse(runes:list[list[str]]):
 				#generate output symbols
 				out= lambda i: f'{sym}_o_{i}'
 				if op.ao==1:
-					line(f'{sym}_o_0= {sym}_o')
+					line(f'{sym}_o_0= #assume whatever the fuck this is can be ignored{sym}_o')
 				else:
 					for i in ra(op.ao):
 						line( out(i)+f'= sym[{i}]')

@@ -2338,14 +2338,14 @@ radio
        0
 acoustic
 00000000
-       0
-       0
-       0
-       0
-       0
-       0
-       0
-signal
+     xx0
+  xx  x0
+x  x  x0
+x  x  x0
+x  x  x0
+  xx  x0
+     xx0
+oscillator carrier_wave
 00000000
 xxx xxx0
 x x x x0

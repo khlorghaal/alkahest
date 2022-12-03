@@ -1,22 +1,44 @@
 TODO
 how the fuck is it homoiconic
 	what do is even???
+	what is via what isnt
 how do functors work
 fix how i confused closure and environment
+internalization
+	glyph and rune editor
+		git compatability
+			use txt instead of png
+			for serialization of boundaries
+			serialization of world still uses png for
+				maybe this is not good?
+				view within alk instead of from image editor
+				this will cause editor-editor issues
+	rune-example creation capability
+what exactly is is the boundary between
+	program:process:thread:function:invocation
 
+
+metadoc grammar
+	lazy tree notation
+	see cheesecake.txt for example of howto this
+	minimal sentences
 
 paradigms
 	type
 		strong implicit with generics, haskell style
 		homoiconic functor macros
+		uses python-type until py subsumed
 	evaluation order
 		sequential, greedy
 		no operator precedence
+			trivial inversion
 	memory
-		borrow-checked references, rust style
 		container-based heap
+		allow the graph to determine lifecycle via scope
 	mutability
-		managed
+		python-style, for now
+			allow the host lang to determine behavior where trivial
+			simple for both engineering and intuitiion
 	async
 		polling loop, manual, no inversion of control
 		high priority threads are isolated, use locked queues for io
@@ -82,8 +104,15 @@ tokens
 
 		types
 			idfk just containers and c structs i guess
+			python-embedded for now
 
-
+serialization
+	glyph grids are stored as text files
+	first example being fonts
+	is friendly towards git
+		glyphs should be arranged vertically when possible
+		to reduce line width
+	boundaries are each their own set of lines
 
 trexpr tree expression
 	trivially convertable to lisp

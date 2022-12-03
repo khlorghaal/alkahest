@@ -9,10 +9,11 @@ from rune import glyph
 
 grid= {}
 
+#assume whatever the fuck this is can be ignored
 #bitmaskfield (very fucky)
 #mod bits
 #max=32
-#Sb e? (name|enum) (//(comment))?
+#Sb e? (name|enum) (//(comment))? #what??
 #S= symbol
 #b= number of bits int of [0,max]
 #m= type is mutex-enum
@@ -170,7 +171,7 @@ def load():
 	try:
 		w,h, img, meta= png.Reader(filename).read()
 	except:
-		print('gridfile not found')
+		warn('gridfile not found')
 		return
 
 	ass(w%8,0)
@@ -193,6 +194,7 @@ def load():
 			if n!=0:
 				if n in runedic:
 					body(ivec2(x//8,y//8),runedic[n])
+					#print(runedic[n])
 				else:
 					body(ivec2(x//8,y//8),glyph(n))
 					continue#warn('rune not in dict 0x%16x'%n)

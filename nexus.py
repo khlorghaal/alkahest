@@ -7,6 +7,37 @@ nexus is the entry point
 logic here should be kept minimal and moved into modules as needed
 
 todo all inputs must be converted into atomic runes
+
+contexts
+	the context is the currently routed input reciever
+	-cursor: the root context
+		escape always returns control to the cursor
+		nesting of contexts is probably not.
+	-text: traditional textbox allowing typing
+		characters converted into runes within a bound
+		bound expands dynamically as able without overwriting neighbors
+		multichars also supported via [multichar bind]
+	-raster:
+		visually similar to a display but very different
+		each px of the raster is a glyph for on|off
+		abstract class
+		-subclass glyphraster
+			8x8 strictly
+			can be invoked upon any glyph
+				this materializes a z=2 bound
+			submitted glyph checked for rune match
+			-subclass runeraster
+				font editing
+				application is global
+				all glyphs matching old rune updated to new rune
+
+				todo
+				howto new a rune?
+				should be a program
+					what even is a program?
+				will be ignored since text based editor is fine
+
+	
 '''
 
 from com import *
@@ -144,7 +175,9 @@ chords= [cho(*c) for c in [
 ]]
 
 
-def ui():
+#screenspace glyphs
+#internally stateless, used to display state
+def hud():
 	if focus()==ROOT:
 		square= rune.lib.square
 		box= rune.lib.box
@@ -245,9 +278,9 @@ focus(ROOT)
 if audio:
 	audio.start()
 
-space.load()
+#space.load()
 #rune.tests.font()
-#atom.tests()
+atom.tests()
 #transpiler.tests()
 #space.tests()
 
@@ -308,7 +341,7 @@ def loop():
 		change|= atom.step()!=None
 		if change or RENDER_ALWAYS:
 			change=0
-			ui()
+			hud()
 			gl_backend.invoke()
 
 		time.sleep(1./60.)
