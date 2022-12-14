@@ -58,7 +58,7 @@ class cursor:
 			s.b.kill()
 		s.b= body(
 			p,
-			runedic['cursor'],
+			runedic['cursor'].gph,
 			1,
 			mods['cursor'])
 
@@ -102,7 +102,7 @@ class text:
 		self.cur.rune= rune.dic['|']
 
 	def str(self):
-		return str('o nyo??')
+		return todo
 
 	def fromstr(bnd,s):
 		t= text(bnd)

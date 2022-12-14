@@ -62,7 +62,7 @@ tokens
 	kinds, determined by namemap
 
 		variables
-			glsl style
+			python style values
 			containers
 				allocation done via denotated methods
 

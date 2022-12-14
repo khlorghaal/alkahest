@@ -23,7 +23,7 @@ xxxxxxxx
 xxxxxxxx
 xxxxxxxx
 xxxxxxxx
-square
+■ square
 00000000
 xxxxxxx0
 xxxxxxx0
@@ -32,7 +32,7 @@ xxxxxxx0
 xxxxxxx0
 xxxxxxx0
 xxxxxxx0
-border
+▯ border
 xxxxxxxx
 x      x
 x      x
@@ -41,13 +41,22 @@ x      x
 x      x
 x      x
 xxxxxxxx
-box
+□ box
 00000000
 xxxxxxx0
 x     x0
 x     x0
 x     x0
 x     x0
+x     x0
+xxxxxxx0
+▣ bbox
+00000000
+xxxxxxx0
+x     x0
+x xxx x0
+x xxx x0
+x xxx x0
 x     x0
 xxxxxxx0
 ⧈ concenrect

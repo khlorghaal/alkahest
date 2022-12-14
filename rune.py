@@ -40,18 +40,22 @@ dic={}
 #dic[runename]
 #	equivalent
 
+@immut
 class glyph:
-	def __init__(self, dat):
-		if type(dat)==int:
-			self.bin= dat
-		else:
-			ass(type(dat   ),tuple)
-			ass(type(dat[0]),tuple)
-			ass(aawh(dat   ),(8,8))
+	bin: int
 
-			l= lambda x,y: dat[y][x]<<( x+y*8 )
-			r= array([([ l(x,y) for x in ra(8)]) for y in ra(8)])
-			self.bin= int(numpy.sum(r,dtype='uint64'))&0xFFFFFFFFFFFFFFFF
+	def __post_init__(self):
+		ass(type(self.bin),int)
+
+	def new(d:tuple[tuple]):
+		ass(aawh(d),(8,8))
+		b=0
+		for y in ra(8):
+			for x in ra(8):
+				b+= d[y][x]<<( x+y*8 )
+		assert(b<(1<<65))
+		return glyph(b)
+
 
 	def __str__(self):
 		s= ''
@@ -63,18 +67,36 @@ class glyph:
 			s+='\n'
 		return s
 
-class rune(glyph):
-	def __init__(self, names, dat):
-		super().__init__(dat)
-		self.names= names
-		for n in names:
+def rastint(r:list[list[bool]])->int:
+	n=0
+	for y in ra(8):#glyph bits
+		for x in ra(8):
+			i= r[y][x]
+			i= int(not not i)
+			n|= i<<(x+y*8)
+	return n
+
+@immut
+class rune:
+	names: list[str]
+	gph: glyph
+	def __post_init__(self):
+		ass(type(self.gph),glyph)
+		def a(k):
+			if k==0:
+				return
+			if k in dic:
+				pass#warn(f'runedic overwrite{k}')
+			dic[k]= self
+		a(self.gph.bin)
+		for n in self.names:
+			a(n)
 			setattr(lib,n,self)
-			dic[n]= self
-		dic[self.bin]= self
 
 	def __str__(self):
-		return str(self.names)+'\n'+super().__str__()
+		return f'{self.names}\n{self.gph}'
 
+dic['empty']= rune('empty',glyph(0))
 
 def strnrm(pile:list[str,rune]):
 	ret=[]
@@ -94,7 +116,8 @@ def load_font(file):
 	f= rmf.load(file)
 	assert(f.wh==(8,8))
 	for g in f.glyphs.values():
-		rune(g.names,g.raster)
+		b= rastint(g.raster)
+		rune(g.names,glyph(b))
 
 load_font('./font/lunatic.rmf')
 

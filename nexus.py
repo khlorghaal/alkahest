@@ -40,6 +40,10 @@ contexts
 	
 '''
 
+import sys
+from IPython.core import ultratb
+sys.excepthook = ultratb.FormattedTB(mode='Plain', color_scheme='Linux', call_pdb=False)
+
 from com import *
 import pygame
 import pygame.key
@@ -168,7 +172,7 @@ chords= [cho(*c) for c in [
 
 	#systemic
 #	(_all,{bf5},pk0,atom.word,['word']),
-	(_all,{bf2},pk0,atom.eval,['eval']),
+	#(_all,{bf2},pk0,atom.eval,['eval']),
 
 	(_all,{bf5},pk4,space.load,['load']),
 	(_all,{bf2},pk4,space.save,['save']),
@@ -189,7 +193,7 @@ def hud():
 					continue
 				on= c in kstate
 				r= box if on else square
-				space.body(ivec2(x,y)+1,r,z=-1)
+				space.body(ivec2(x,y)+1,r.gph,z=-1)
 
 		if 1:
 			return
@@ -278,12 +282,11 @@ focus(ROOT)
 if audio:
 	audio.start()
 
-#space.load()
+space.load()
 #rune.tests.font()
-atom.tests()
+#atom.tests()
 #transpiler.tests()
 #space.tests()
-
 
 RENDER_ALWAYS= True
 
@@ -311,7 +314,7 @@ def loop():
 					c+= 4*z
 					c//=8*z
 					c+= p #relative to present, not origin
-					print(c)
+					print('cursor@%s'%c)
 					atom.cursor.prime.move(c)
 				if e.button==4:#wheel
 					atom.cursor.prime.zoomd( 1)

@@ -362,19 +362,18 @@ def invoke():
 		glUniform2f (1, w,h)
 		glUniform1ui(2, _tick)
 
-	#runes
+	#glyphs
 	if 1:
 		glBindBuffer(GL_ARRAY_BUFFER, vbo_runes)
 		bodies= space.grid.values()
-		cursors= atom.cursor.insts
 		def rrast(b):
-			r= b.rune.bin
+			g= b.glyph.bin
 			return (
 				b.p.x,b.p.y,b.z,
-				r&0xFFFFFFFF,r>>32,
+				g&0xFFFFFFFF,g>>32,
 				b.mod
 				)
-		bodies= [rrast(b) for b in [*bodies,*[c.b for c in cursors]]]
+		bodies= [rrast(b) for b in bodies]
 		rarr= numpy.array(bodies,dtype='int32').flatten()
 		glBufferData(GL_ARRAY_BUFFER, rarr, GL_DYNAMIC_DRAW)
 

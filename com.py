@@ -16,11 +16,9 @@ true= True
 fals= False
 null= None
 
-from inspect import currentframe, getframeinfo
-lineno= lambda: getframeinfo(currentframe()).lineno
-srcframe= lambda: getframeinfo(currentframe())
-srcframe_outer= lambda: getframeinfo(currentframe())
-
+import inspect
+srcframe= lambda: inspect.getframeinfo(inspect.currentframe())
+lineno= lambda: srcframe().lineno
 
 def warn(s):
 	print(f'warn: {srcframe_outer()}: {s}')
@@ -30,7 +28,14 @@ def  err(s):
 def ass(v,p):
 	if v==p:
 		return
-	err(f'assnt {v} != {p}')
+	#lineno= inspect.stack()[2].lineno
+	raise AssertionError(f'assnt {v} != {p}')#\n{lineno}')
+
+def plocals():
+	l= inspect.currentframe().f_back.f_locals.items()
+	for s,v in l:
+		print(f'{s}:{type(v)}={v}')
+		
 
 from dataclasses import dataclass as dcls
 immut= dcls(frozen=True)
@@ -43,6 +48,7 @@ PHI= (1+5**.5)/2
 TAU= 2*PI
 from math import exp
 from math import log2
+
 
 join2d= lambda a: '\n'.join([''.join(s) for s in a])
 
@@ -85,9 +91,10 @@ def ivec2op(op):
 				int(op(self.y,int(other))))
 	return ret
 
-for op in [
+arithmetic_list= [
 	'__add__','__sub__','__mul__','__floordiv__','__mod__',
 	'__divmod__','__pow__','__lshift__','__rshift__','__and__',
 	'__xor__','__or__','__neg__','__abs__',
-	'__round__','__trunc__','__floor__','__ceil__']:
+	'__round__','__trunc__','__floor__','__ceil__']
+for op in arithmetic_list:
 	setattr(ivec2,op,ivec2op(op))

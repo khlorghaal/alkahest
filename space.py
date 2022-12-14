@@ -4,6 +4,7 @@
 
 from com import *
 from rune import dic as runedic
+from rune import lib as runelib
 from rune import rune
 from rune import glyph
 
@@ -72,7 +73,7 @@ del i
 @immut
 class body:
 	p: ivec2
-	rune: rune
+	glyph: glyph
 	z: int=0 #layer, only 0 is nonvolatile (serialized)
 	mod: int=0 #modifier visual status
 	ptr: object= None #dynamic datum
@@ -80,6 +81,7 @@ class body:
 	h= lambda s:(s.p,s.z)
 
 	def __post_init__(self):
+		ass(type(self.glyph),glyph)
 		h= self.h()
 		o= grid.pop(h,None)
 		o and o.kill()
@@ -90,6 +92,9 @@ class body:
 		ptr= self.ptr
 		ptr and ptr.kill and ptr.kill()
 
+	#remake body with a rune if glyph matches one
+	def rune(self):
+		return runedic.get(self.glyph.bin,rune.EMPTY)
 
 
 def kill(p:ivec2,z:int=0):
@@ -103,7 +108,7 @@ def search_emplace():
 	#destruct
 
 
-origin= body(ivec2(0,0),runedic['empty'])
+origin= body(ivec2(0,0),runelib.empty.gph, 2, mods['spicey'])
 
 snake=   lambda p,w:   int(p.y*w+p.x)
 snakent= lambda i,w: ivec2(  i%w,i/w)
@@ -136,7 +141,7 @@ class bound:
 		x1= max((i.x for i in bp))
 		y1= max((i.y for i in bp))
 		w,h=(
-			x1-x0+1,
+			x1-x0+1,#+1 because inclusive
 			y1-y0+1)
 		return bound(ivec2(x0,y0),ivec2(w,h))
 
@@ -159,7 +164,7 @@ def tests():
 
 
 
-filename= 'default.grid.png'
+filename= 'world.grid.txt'
 
 def load():
 	from numpy import array
@@ -169,35 +174,45 @@ def load():
 	import png
 
 	try:
-		w,h, img, meta= png.Reader(filename).read()
+		f= open(filename,'r')
+		f= list(f)
 	except:
 		warn('gridfile not found')
 		return
 
+	#flip y;
+	f= f[::-1]
+	w= len(f[0])-1
+	h= len(f)
+	#trailing \n is not a newline, it is not ''
+
+	rast=[]
+	for l in f:
+		#str->[chr]->[bool]
+		l= l[:-1]#trim \n
+		l= [c not in '. _□0' for c in l]
+		ass(len(l),w)
+		rast+= [l]
+
 	ass(w%8,0)
 	ass(h%8,0)
-	ass(meta['bitdepth'],1)
-	ass(meta['planes'  ],1)
 
-	rast= array(list(img),dtype=uint8).transpose()
-	rast= flip(rast,1)
-
-	for y in ra(0,h,8):
+	#load all as glyphs
+	for y in ra(0,h,8):#tile iteration
 		for x in ra(0,w,8):
 			n=0
-			for ry in ra(8):
+			for ry in ra(8):#glyph bits
 				for rx in ra(8):
-					i=rast[x+rx,
-					       y+ry]
+					i=rast[y+ry]\
+					      [x+rx]
 					i= int(i==1)
 					n|= i<<(rx+ry*8)
+			print(n)
 			if n!=0:
-				if n in runedic:
-					body(ivec2(x//8,y//8),runedic[n])
-					#print(runedic[n])
-				else:
-					body(ivec2(x//8,y//8),glyph(n))
-					continue#warn('rune not in dict 0x%16x'%n)
+				body(ivec2(x//8,y//8),glyph(n))
+
+	#for b in grid:
+	#	b= runedic.get(b,None) or b
 
 	print('loaded %s'%filename)
 
@@ -205,6 +220,7 @@ def save():
 	from numpy import array
 	from numpy import zeros
 	from numpy import uint8
+	from numpy import flip
 	import png
 
 	Z= 0 #z 0 is only nonvolatile layer saved
@@ -219,33 +235,33 @@ def save():
 	#print(b)
 	if w==0 or h==0:
 		return
-	rast= zeros((w,h),dtype='uint8')
+	rast= zeros((w,h),dtype='uint8',col='F')
 	for b in grid.values():
 		if b.z!=Z:
 			continue
-		i= int(b.rune.bin)
+		gph= int(b.glyph.bin)
 		#print('{0:064b}'.format(i))
-		p= b.p*8
+		p= b.p*8 - o
 		for ry in ra(8):
 			for rx in ra(8):
 				#snake
-				on= ((1<<(rx+ry*8))&i)!=0
+				i= rx+ry*8
+				on= ((1<<i)&gph)!=0
 				rast[
-					   rx+p.x-o.x,
-					   ry+p.y-o.y
+					   rx+p.x,
+					   ry+p.y
 					]= on
 
-	rast= rast.transpose().flatten()
-	rast= flip(rast,1)
+	#no fucking idea why its transposed
+	#dont know if numpy is transposing it or the iteration
+	rast= flip(rast,0)
 
-	#print(rast)
-	img= png.Writer(
-		w,h,
-		bitdepth=1,
-		greyscale=True,
-		alpha= False,
-		compression=2
-		)
-	img.write_array( open('default.grid.png','wb'), rast.flatten() )
+	with open(filename,'w') as f:
+		for l in rast:
+			for c in l:
+				c= '.' if not c else '■'
+				f.write(c)
+			f.write('\n')
+	ass()
 	print('saved %s'%filename)
 
