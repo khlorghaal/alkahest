@@ -207,12 +207,8 @@ def load():
 					      [x+rx]
 					i= int(i==1)
 					n|= i<<(rx+ry*8)
-			print(n)
 			if n!=0:
 				body(ivec2(x//8,y//8),glyph(n))
-
-	#for b in grid:
-	#	b= runedic.get(b,None) or b
 
 	print('loaded %s'%filename)
 

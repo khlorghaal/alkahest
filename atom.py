@@ -62,12 +62,10 @@ class cursor:
 			1,
 			mods['cursor'])
 
-	def emit(s,r):
-		if type(r)==str:
-			r= runedic[r]
-		else:
-			assert(type(r)==rune.rune)
-		body(s.b.p,r,0)
+	def emit(s,gph:glyph):
+		body(s.b.p,gph,0)
+	def emits(s,r:str):
+		body(s.b.p,runedic[r].gph,0)
 
 	def step():
 		r=None#dirty

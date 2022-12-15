@@ -113,7 +113,7 @@ class cho:
 
 sputmul= lambda: 1<<(2*len(fstate&{f00,f01,f02,f03}))
 sput= lambda *d: lambda: atom.cursor.thrust(ivec2(*d)*sputmul())
-spem= lambda c:  lambda: atom.cursor.prime.emit(c)
+spem= lambda c:  lambda: atom.cursor.prime.emits(c)
 def zch():
 	atom.cursor.prime.zoom= len(fstate&{f00,f01,f02,f03})
 rch= lambda s: rune.dic[s]
