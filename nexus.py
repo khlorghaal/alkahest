@@ -283,10 +283,11 @@ if audio:
 	audio.start()
 
 space.load()
-#rune.tests.font()
-#atom.tests()
+atom.tests()
 #transpiler.tests()
-#space.tests()
+space.tests()
+rune.tests.font()
+
 
 RENDER_ALWAYS= True
 

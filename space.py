@@ -94,8 +94,10 @@ class body:
 
 	#remake body with a rune if glyph matches one
 	def rune(self):
-		return runedic.get(self.glyph.bin,rune.EMPTY)
+		return runedic.get( self.glyph.bin,rune.EMPTY )
 
+def bodyrune(p:ivec2, n:str, z:int=0, mod:int=0,ptr:object=None):
+	return body(p,runedic.get(n).gph)
 
 def kill(p:ivec2,z:int=0):
 	g= grid.get((p,z))
@@ -125,7 +127,7 @@ class bound:
 		x1= self.org.x+self.dim.x
 		y1= self.org.y+self.dim.y
 		p= (ivec2(x,y) for y in range(y0,y1) for x in (range(x0,x1)))
-		b= (grid[(p_,self.z)] for p_ in p)
+		b= (grid.get((p_,self.z)) for p_ in p)
 		return zip(b,p)
 	def within(self,p:ivec2):
 		x0= self.org.x
@@ -159,7 +161,7 @@ def tests():
 	#z
 	for i in range(-4,4):
 		for p in bound(ivec2(0,-4),ivec2(1,8)):
-			body(p,runedic['coplanrect'],i,0)
+			bodyrune(p,'coplanrect',i,0)
 
 
 
