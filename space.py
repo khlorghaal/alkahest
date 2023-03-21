@@ -81,7 +81,7 @@ class body:
 	h= lambda s:(s.p,s.z)
 
 	def __post_init__(self):
-		ass(type(self.glyph),glyph)
+		assT(self.glyph,glyph)
 		h= self.h()
 		o= grid.pop(h,None)
 		o and o.kill()
@@ -94,15 +94,16 @@ class body:
 
 	#remake body with a rune if glyph matches one
 	def rune(self):
-		return runedic.get( self.glyph.bin,rune.EMPTY )
+		return runedic.get( self.glyph.bin,runelib.empty )
 
-def bodyrune(p:ivec2, n:str, z:int=0, mod:int=0,ptr:object=None):
-	return body(p,runedic.get(n).gph)
+def bodys(p:ivec2, n:str , z:int=0, mod:int=0,ptr:object=None):
+	return body( p,runedic.get(n,runelib.empty).gph, z, mod, ptr )
+def bodyr(p:ivec2, r:rune, z:int=0, mod:int=0,ptr:object=None):
+	return body( p,r.gph,  z,       mod,      ptr )
 
 def kill(p:ivec2,z:int=0):
 	g= grid.get((p,z))
-	if g:
-		g.kill()
+	g and g.kill()
 
 def search_emplace():
 	#create and focus gui
@@ -110,7 +111,7 @@ def search_emplace():
 	#destruct
 
 
-origin= body(ivec2(0,0),runelib.empty.gph, 2, mods['spicey'])
+origin= bodyr(ivec2(0,0),runelib.empty, 2, mods['spicey'])
 
 snake=   lambda p,w:   int(p.y*w+p.x)
 snakent= lambda i,w: ivec2(  i%w,i/w)
@@ -151,7 +152,7 @@ class bound:
 		for body,p in self.__iter__():
 			body.kill()
 
-			
+
 def aktivat(de):
 	b= grid.get(cursor.prime.b.h())
 	b= b==focus() or b==None
@@ -161,7 +162,7 @@ def tests():
 	#z
 	for i in range(-4,4):
 		for p in bound(ivec2(0,-4),ivec2(1,8)):
-			bodyrune(p,'coplanrect',i,0)
+			bodys(p,'coplanrect',i,0)
 
 
 

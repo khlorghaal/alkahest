@@ -127,18 +127,15 @@ class tests:
 	def font():
 		import space
 		i=0
-		l= dic.values()
-		l= tuple({e:None for e in l}.keys())#ordered dup eliminate
+		l= dic.keys()
+		#l= tuple( {e[0]:None for e in dic.values()}.keys() )#ordered dup eliminate
+		#fixme lol
 
 		W= 12
 		ll= len(l)
-		assert(ll<W*W*4)
-		for y in ra(-W,W):
-			for x in ra(-W,W):
-				if i>=ll:
-					break
-				space.body(ivec2(x,y),l[i])
-				i+=1
+		for e in l:
+			space.bodys( ivec2(i%W,i//W), e)
+			i+= 1
 
 	def descritpions():#of runes
 		import space
@@ -154,7 +151,7 @@ class tests:
 			x= (y//64)*32
 			y= y%64
 			space.body(ivec2(x,y),r)
-			names= filter(lambda n: len(n)>1,r.names)
+			names= filter(lambda n: len(n)>1, r.names)
 			s= ','.join(names)
 			for x_,c in en(s):
 				space.body(ivec2(x_+x+2,y),dic[c])

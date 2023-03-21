@@ -1,12 +1,11 @@
 forms lose shape as geometries become pure symbols
 arrangement is a deterministic style function,
 real programming in a visual language
-eschew arabic numerals and pointedness
 
 keyboard discards all lexical notions
 expressions are a vestige of spoken language
 temporal nature used on a 2d raster is bastardized
-mathematics must not involve itself with speech
+mathematics must not conform to the constraints of speech
 
 key chords resemble between a keyboard and guitar
 and uses vocal input as modifier keys

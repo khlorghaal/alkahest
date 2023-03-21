@@ -31,6 +31,9 @@ def ass(v,p):
 	#lineno= inspect.stack()[2].lineno
 	raise AssertionError(f'assnt {v} != {p}')#\n{lineno}')
 
+def assT(v,t):
+	ass(type(v),t)
+
 def plocals():
 	l= inspect.currentframe().f_back.f_locals.items()
 	for s,v in l:
