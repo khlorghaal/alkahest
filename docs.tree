@@ -1,4 +1,5 @@
 TODO
+finish reading Interaction Graphs
 how the fuck is it homoiconic
 	what do is even???
 	what is via what isnt
@@ -139,7 +140,6 @@ litany
 						recurse morphic stack poking until none match
 		the tree output is an immediate display
 			this makes the implicit behavior observable
-
 
 
 intoned input

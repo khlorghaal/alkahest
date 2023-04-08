@@ -1,0 +1,62 @@
+self assemblers
+
+constraint approaches
+
+	cubic modular
+		orthonomality friendly to
+			data structures and specifications
+			human cognition
+			rendering
+			minecrafters and similar autists
+			prior works: von neumann, stevens, cubespawn
+		generative algos have little freedom, making fast computation
+		most pious
+		strict pow2 sizing
+		mandatory crystal uniformity
+			best roads and fractalization
+		cubic interfaces
+			modules fit within crystal boundaries
+
+	prints with insets for mass production blades
+		blades of high quality low cost
+			pow2 sizes
+			attain flexure properties with a configuration function
+		most complex topology
+		most design freedom
+		most error tolerant
+			good for realistic applications
+		blade anchors must be high rigidity
+		manifold interfaces
+			arbitrarily adapted to target needs
+
+	subtractive planar
+		best for in-situ and random materials
+		easiest component fabrication
+			friendly to average CNC
+			only 2 long axes
+		worst component assembly
+			plane-rotation mechanisms from planar devices
+			fastening geometries must facilitate rotational rigidity
+				maybe unknown simple universal solution?
+		best scaling when adapting to material properties
+		portal interfaces
+			plane with an extractor
+
+needed components
+	surface plate
+	power supply
+	controller
+	main axes
+		secondary axes
+		machine affector
+			w-axis
+			tool
+	affector cables and feeds
+	material supply
+		magazines
+			sensors
+		unloaders
+		loaders
+	roads, between assemblers
+		connectors
+	affector types
