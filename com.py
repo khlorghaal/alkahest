@@ -25,14 +25,15 @@ def warn(s):
 def  err(s):
 	raise AssertionError(f'errr: {srcframe_outer()}: {s}')
 
-def ass(v,p):
+def ass(v,p,arg=None):
 	if v==p:
 		return
-	#lineno= inspect.stack()[2].lineno
-	raise AssertionError(f'assnt {v} != {p}')#\n{lineno}')
+	raise AssertionError(f'assnt {v} != {p}')
 
-def assT(v,t):
-	ass(type(v),t)
+def assT(v,T):
+	if type(v)==T:
+		return
+	raise AssertionError(f'assTnt {type(v)} != {T}\n{v}')
 
 def plocals():
 	l= inspect.currentframe().f_back.f_locals.items()

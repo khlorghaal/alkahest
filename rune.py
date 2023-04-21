@@ -65,7 +65,10 @@ class glyph:
 				lum= ((1<<(x+y*8))&i)!=0
 				s+= '█' if lum else '▒'
 			s+='\n'
-		return s
+		r= ''
+		if i in dic:
+			r= dic[i].names
+		return f'{i} {r}\n{s}'
 
 def rastint(r:list[list[bool]])->int:
 	n=0
@@ -134,7 +137,11 @@ class tests:
 		W= 12
 		ll= len(l)
 		for e in l:
-			space.bodys( ivec2(i%W,i//W), e)
+			p= ivec2(i%W,i//W)
+			if   type(e)==str:
+				space.body_s( p, e)
+			elif type(e)==int:
+				space.body(   p, glyph(e))
 			i+= 1
 
 	def descritpions():#of runes

@@ -11,6 +11,7 @@ constraint approaches
 			prior works: von neumann, stevens, cubespawn
 		generative algos have little freedom, making fast computation
 		most pious
+		most expensive and systemically brittle
 		strict pow2 sizing
 		mandatory crystal uniformity
 			best roads and fractalization
@@ -31,11 +32,12 @@ constraint approaches
 
 	subtractive planar
 		best for in-situ and random materials
+		cheapest
 		easiest component fabrication
-			friendly to average CNC
+			friendly to average CNC cutters, lithography
 			only 2 long axes
 		worst component assembly
-			plane-rotation mechanisms from planar devices
+			rotation mechanisms needed for out-of-plane positioning
 			fastening geometries must facilitate rotational rigidity
 				maybe unknown simple universal solution?
 		best scaling when adapting to material properties

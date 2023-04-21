@@ -368,6 +368,9 @@ def invoke():
 		bodies= space.grid.values()
 		def rrast(b):
 			g= b.glyph.bin
+			if type(b.p)==tuple:
+				print(b)
+				return (0,0,0,0,0,0)
 			return (
 				b.p.x,b.p.y,b.z,
 				g&0xFFFFFFFF,g>>32,

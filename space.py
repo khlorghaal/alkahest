@@ -81,6 +81,7 @@ class body:
 	h= lambda s:(s.p,s.z)
 
 	def __post_init__(self):
+		assT(self.p,ivec2)
 		assT(self.glyph,glyph)
 		h= self.h()
 		o= grid.pop(h,None)
@@ -96,9 +97,15 @@ class body:
 	def rune(self):
 		return runedic.get( self.glyph.bin,runelib.empty )
 
-def bodys(p:ivec2, n:str , z:int=0, mod:int=0,ptr:object=None):
-	return body( p,runedic.get(n,runelib.empty).gph, z, mod, ptr )
-def bodyr(p:ivec2, r:rune, z:int=0, mod:int=0,ptr:object=None):
+	def __str__(s):
+		return f'{s.p} {str(s.glyph)} {s.z} {s.mod} {str(s.ptr)}'
+
+#alt ctors
+def body_s(p:ivec2, s:str , z:int=0, mod:int=0,ptr:object=None):
+	assT(s,str)
+	return body( p,runedic.get(s,runelib.empty).gph, z, mod, ptr )
+def body_r(p:ivec2, r:rune, z:int=0, mod:int=0,ptr:object=None):
+	assT(r,rune)
 	return body( p,r.gph,  z,       mod,      ptr )
 
 def kill(p:ivec2,z:int=0):
@@ -111,7 +118,7 @@ def search_emplace():
 	#destruct
 
 
-origin= bodyr(ivec2(0,0),runelib.empty, 2, mods['spicey'])
+origin= body_r(ivec2(0,0),runelib.empty, 2, mods['spicey'])
 
 snake=   lambda p,w:   int(p.y*w+p.x)
 snakent= lambda i,w: ivec2(  i%w,i/w)
@@ -129,7 +136,7 @@ class bound:
 		y1= self.org.y+self.dim.y
 		p= (ivec2(x,y) for y in range(y0,y1) for x in (range(x0,x1)))
 		b= (grid.get((p_,self.z)) for p_ in p)
-		return zip(b,p)
+		return zip(b,p)#body, position
 	def within(self,p:ivec2):
 		x0= self.org.x
 		y0= self.org.y
@@ -161,8 +168,8 @@ def aktivat(de):
 def tests():
 	#z
 	for i in range(-4,4):
-		for p in bound(ivec2(0,-4),ivec2(1,8)):
-			bodys(p,'coplanrect',i,0)
+		for b,p in bound(ivec2(0,-4),ivec2(1,8)):
+			body_s(p,'coplanrect',0,0)
 
 
 
