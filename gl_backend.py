@@ -174,6 +174,7 @@ layout(location=2) in uint  in_mod;
 smooth out vec2 v_uv;//ints cant smooth
 flat out uvec2 v_rune;
 flat out uint  v_mod;
+flat out vec4 v_col;
 void main(){
 	const ivec2[] lxy= ivec2[](
 		ivec2(-4,-4),
@@ -195,11 +196,28 @@ void main(){
 
 	v_rune= in_rune;
 	v_mod= in_mod;
+
+	#define L(C,N) case N: v_col= C; break;
+	switch(in_mod){
+		L(COLOR_BASE,     0)
+		L(COLOR_BLAND,    1<< 0)
+		L(COLOR_AKTIV,    1<< 1)
+		L(COLOR_UNAKTIV,  1<< 2)
+		L(COLOR_VERBOTEN, 1<< 3)
+		L(COLOR_SPICEY,   1<< 4)
+		L(COLOR_HIGHLIGHT,1<< 5)
+		L(COLOR_ACHTUNG,  1<< 6)
+		L(COLOR_WARNING,  1<< 7)
+		L(COLOR_DANGER,   1<< 8)
+		L(COLOR_PRIMARY,  1<< 9)
+		L(COLOR_CURSOR,   1<<10)
+	}
 }
 ''',f'#line {lineno()}'+'''
 smooth in vec2 v_uv;
 flat in uvec2 v_rune;
 flat in uint v_mod;
+flat in vec4 v_col;
 out vec4 col;
 void main(){
 	const int W= 8;
@@ -237,22 +255,7 @@ void main(){
 	if(maxv(iuv)==W-1)
 		col+= 2./255;
 
-
-	#define L(C,N) case N: col*= C; break;
-	switch(v_mod){
-		L(COLOR_BASE,     0)
-		L(COLOR_BLAND,    1<< 0)
-		L(COLOR_AKTIV,    1<< 1)
-		L(COLOR_UNAKTIV,  1<< 2)
-		L(COLOR_VERBOTEN, 1<< 3)
-		L(COLOR_SPICEY,   1<< 4)
-		L(COLOR_HIGHLIGHT,1<< 5)
-		L(COLOR_ACHTUNG,  1<< 6)
-		L(COLOR_WARNING,  1<< 7)
-		L(COLOR_DANGER,   1<< 8)
-		L(COLOR_PRIMARY,  1<< 9)
-		L(COLOR_CURSOR,   1<<10)
-	}
+	col*= v_col;
 
 	//col.a= 1.-abs(gl_FragCoord.z);
 	//col.a*= lum;
@@ -368,9 +371,7 @@ def invoke():
 		bodies= space.grid.values()
 		def rrast(b):
 			g= b.glyph.bin
-			if type(b.p)==tuple:
-				print(b)
-				return (0,0,0,0,0,0)
+			assT(b.p,ivec2)
 			return (
 				b.p.x,b.p.y,b.z,
 				g&0xFFFFFFFF,g>>32,

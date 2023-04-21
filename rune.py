@@ -107,6 +107,10 @@ def strnrm(pile:list[str,rune]):
 		if type(e)==rune:
 			ret+= [e]
 		elif type(e)==str:
+			if e not in dic:
+				if type(e)==str:
+					ret+= strnrm(list(e))
+				continue
 			ret+= [dic[e]]
 		else:
 			assert(0)

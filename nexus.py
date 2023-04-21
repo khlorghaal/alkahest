@@ -107,8 +107,10 @@ class cho:
 	pick: str
 	fun: callable
 	tags: list[str]#for user searches
+	fret_eval_eval: callable= None #pre lambda collapse
 
 	def __post_init__(s):
+		s.fret_eval_eval= s.fret_eval#woe
 		s.fret_eval= s.fret_eval(s.frets)#collapse outer lambda
 
 sputmul= lambda: 1<<(2*len(fstate&{f00,f01,f02,f03}))
@@ -122,7 +124,7 @@ chords= [cho(*c) for c in [
 	#pick:(frets,effect)
 	#commas on single element are necessary to form tuples
 
-	(_all,{bf2},pk0,space.search_emplace,['search emplace']),
+	#(_all,{bf2},pk0,space.search_emplace,['search emplace']),
 
 	#kinetic
 	#cursor
@@ -195,36 +197,38 @@ def hud():
 				r= box if on else square
 				space.body(ivec2(x,y)+1,r.gph,z=-1)
 
-		if 1:
-			return
-
 		#chord index
 		for y,cd in en(chords):
 			p= cd.pick
 			fr= [False]*4
 
-			x=0
-			def put(r, m=space.mod.none):
+			if cd.fret_eval():#full match
+				m= space.mod.aktiv
+			elif _any(cd.frets)():#partial match
+				m= space.mod.highlight
+				#if cd.fret_eval_eval==_any:
+				#	m= space.mod.none
+			else:
+				m= space.mod.none
+
+			if cd.fret_eval_eval==_may and len(fstate)==0:
+				m= space.mod.none
+
+			x=0#print column
+			def put(r, _m=None):
 				nonlocal x
-				assert(m!=None)
+				if _m==None:
+					nonlocal m
+					assert(m!=None)
 				r= r if type(r)==rune.rune else rune.dic[r]
-				space.body(ivec2(x,y+6)+1,r,z=-2,mod=m)
+				space.body_r(ivec2(x,y+6)+1,r,z=-2,mod=m)
 				x+=1
 			def puts(s):
 				for r in rune.strnrm(s):
 					put(r)
 
-			if cd.fret_eval():#full match
-				m= space.mod.aktiv
-			elif _any(cd.frets)():#partial match
-				m= space.mod.highlight
-				if cd.fret_eval==_any:
-					m= space.mod.bland
-			else:
-				m= space.mod.none
-
-			#mark static mask
-			for x,f in en(frets[:4*4]):
+			#fret mask
+			for x,f in en(frets[:4*4]): #fixme make 2d
 				fr[x%4]|= f in cd.frets
 
 
@@ -240,11 +244,11 @@ def hud():
 			if _x==x:
 				x+=3
 
-			#pick
+			#pick labal
 			puts(p)
 			x+=1
 
-			#tags
+			#tags labal
 			s= [' ',*cd.tags]
 			puts(s)
 
@@ -283,10 +287,10 @@ if audio:
 	audio.start()
 
 space.load()
-atom.tests()
+#atom.tests()
 #transpiler.tests()
-space.tests()
-rune.tests.font()
+#space.tests()
+#rune.tests.font()
 
 
 RENDER_ALWAYS= True

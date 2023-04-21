@@ -18,17 +18,19 @@ null= None
 
 import inspect
 srcframe= lambda: inspect.getframeinfo(inspect.currentframe())
+srcframe_outer= lambda: inspect.getframeinfo(inspect.currentframe().f_back)
 lineno= lambda: srcframe().lineno
+lineno_outer= lambda: srcframe_outer().lineno
 
 def warn(s):
-	print(f'warn: {srcframe_outer()}: {s}')
+	print(f'warn: {lineno_outer()}: {s}')
 def  err(s):
-	raise AssertionError(f'errr: {srcframe_outer()}: {s}')
+	raise AssertionError(f'errr: {lineno_outer()}: {s}')
 
 def ass(v,p,arg=None):
 	if v==p:
 		return
-	raise AssertionError(f'assnt {v} != {p}')
+	raise AssertionError(f'assnt {v} != {p} ; {arg}')
 
 def assT(v,T):
 	if type(v)==T:
