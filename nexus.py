@@ -211,7 +211,7 @@ def hud():
 			else:
 				m= space.mod.none
 
-			if cd.fret_eval_eval==_may and len(fstate)==0:
+			if cd.fret_eval_eval in [_may,_non] and len(fstate)==0:
 				m= space.mod.none
 
 			x=0#print column
