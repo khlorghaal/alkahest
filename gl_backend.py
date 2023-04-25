@@ -48,18 +48,16 @@ class prog:
 	def bind(self):
 		glUseProgram(self.pid)
 	def shex(e):
-		print('\nSHADERROR\n')
-		e= str(e)
-		e= e.replace('\\\\n','\n')
-		e= e.replace(  '\\n','\n')
-		e= e.replace(  '\\t','\t')
-		e= e.replace(  '\\t','\t')
-		e= e.replace(  '\\','')
-		e= e.replace('\\\\','')#fuck
-		e= re.sub(r'\(([0-9]+)\)', r'\nFile " ", line \1', e)
-		#sublime default error regex
-		print(e)
-		raise
+			print('\nSHADERROR\n')
+			e= str(e)[:500]
+			e= e.replace('\\\\n','\n')
+			e= e.replace(  '\\n','\n')
+			e= e.replace(  '\\t','\t')
+			e= e.replace(  '\\t','\t')
+			e= e.replace(  '\\','')
+			e= e.replace('\\\\','')#fuck
+			print(e)
+			raise
 	def shpp(src,flags=[]):
 		return '\n'.join([
 			'#version 450',
@@ -202,7 +200,7 @@ void main(){
 		L(COLOR_BASE,     0)
 		L(COLOR_BLAND,    1<< 0)
 		L(COLOR_AKTIV,    1<< 1)
-		L(COLOR_UNAKTIV,  1<< 2)
+		L(COLOR_UNAKTIV,  1<< 2)greshsghrts
 		L(COLOR_VERBOTEN, 1<< 3)
 		L(COLOR_SPICEY,   1<< 4)
 		L(COLOR_HIGHLIGHT,1<< 5)

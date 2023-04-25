@@ -16,6 +16,10 @@ true= True
 fals= False
 null= None
 
+import sys
+from IPython.core import ultratb
+sys.excepthook = ultratb.FormattedTB(mode='Plain', color_scheme='Linux', call_pdb=False)
+
 import inspect
 srcframe= lambda: inspect.getframeinfo(inspect.currentframe())
 srcframe_outer= lambda: inspect.getframeinfo(inspect.currentframe().f_back)
