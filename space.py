@@ -7,6 +7,7 @@ from rune import dic as runedic
 from rune import lib as runelib
 from rune import rune
 from rune import glyph
+from enum import Enum as enum
 
 grid= {}
 
@@ -77,7 +78,7 @@ class body:
 	z: int=0 #layer, only 0 is nonvolatile (serialized)
 	mod: int=0 #modifier visual status
 	ptr: object= None #dynamic datum
-
+	align: ivec2= ivec2(0,0)
 	h= lambda s:(s.p,s.z)
 
 	def __post_init__(self):
@@ -101,12 +102,12 @@ class body:
 		return f'{s.p} {str(s.glyph)} {s.z} {s.mod} {str(s.ptr)}'
 
 #alt ctors
-def body_s(p:ivec2, s:str , z:int=0, mod:int=0,ptr:object=None):
+def body_s(p:ivec2, s:str , z:int=0, mod:int=0,ptr:object=None, align=ivec2(0,0)):
 	assT(s,str)
-	return body( p,runedic.get(s,runelib.empty).gph, z, mod, ptr )
-def body_r(p:ivec2, r:rune, z:int=0, mod:int=0,ptr:object=None):
+	return body(p,  runedic.get(s,runelib.empty).gph, z, mod, ptr, align )
+def body_r(p:ivec2, r:rune, z:int=0, mod:int=0,ptr:object=None, align=ivec2(0,0)):
 	assT(r,rune)
-	return body( p,r.gph,  z,       mod,      ptr )
+	return body( p, r.gph,  z,       mod,      ptr,             align )
 
 def kill(p:ivec2,z:int=0):
 	g= grid.get((p,z))

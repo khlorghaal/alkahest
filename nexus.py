@@ -195,7 +195,7 @@ def hud():
 					continue
 				on= c in kstate
 				r= box if on else square
-				space.body(ivec2(x,y)+1,r.gph,z=-1)
+				space.body(ivec2(x,y)+1,r.gph,z=-1,align=ivec2(-1,-1))
 
 		#chord index
 		for y,cd in en(chords):
@@ -221,7 +221,7 @@ def hud():
 					nonlocal m
 					assert(m!=None)
 				r= r if type(r)==rune.rune else rune.dic[r]
-				space.body_r(ivec2(x,y+6)+1,r,z=-2,mod=m)
+				space.body_r(ivec2(x-6,y+6),r,mod=m,z=-1,align=ivec2(-1,-1))
 				x+=1
 			def puts(s):
 				for r in rune.strnrm(s):

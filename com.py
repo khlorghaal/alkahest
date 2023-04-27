@@ -21,10 +21,12 @@ from IPython.core import ultratb
 sys.excepthook = ultratb.FormattedTB(mode='Plain', color_scheme='Linux', call_pdb=False)
 
 import inspect
-srcframe= lambda: inspect.getframeinfo(inspect.currentframe())
-srcframe_outer= lambda: inspect.getframeinfo(inspect.currentframe().f_back)
-lineno= lambda: srcframe().lineno
-lineno_outer= lambda: srcframe_outer().lineno
+instack= lambda n: inspect.stack()[n+1]
+def lineno(n=0):
+	return instack(n).lineno
+def linestr(n=0):
+	s= instack(n)
+	f'{s.filename}:{s.lineno}:{s.function_name}'
 
 def warn(s):
 	print(f'warn: {lineno_outer()}: {s}')
@@ -42,7 +44,7 @@ def assT(v,T):
 	raise AssertionError(f'assTnt {type(v)} != {T}\n{v}')
 
 def plocals():
-	l= inspect.currentframe().f_back.f_locals.items()
+	l= instack().frame.f_locals.items()
 	for s,v in l:
 		print(f'{s}:{type(v)}={v}')
 		
