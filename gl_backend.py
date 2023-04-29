@@ -27,7 +27,7 @@ def setwh(_w,_h):
 	global whmin
 	whmax= max(w,h)
 	whmin= min(w,h)
-	glViewport(0,0,w,h)#todo
+	glViewport(0,0,w,h)
 setwh(*resolution)
 
 zoomin= lambda:	zoom(z+1)
@@ -104,17 +104,18 @@ layout(location=2) uniform long tick;
 vec4 project(ivec2 xy, int z, ivec2 align){
 	if(z==0)
 		z=1;
-	z= abs(z);//negative z fuckoff always
+	z= abs(z);//negative z unconditional fuckoff
 
-	const ivec2 iresh= ivec2(res)/2;
+	const ivec2 iresh= ivec2(res-8.)/2;
 	if(align==ivec2(0)){//world
+		xy*= z;
 		xy-= tr.xy;
 		xy*= tr.z;
 	}
 	else{
-		xy+= iresh*align;
+		xy*= z;
+		xy+= iresh*align/z;
 	}
-	xy*= z;
 	z=1;
 	//todo PERSP PARLX
 
@@ -126,7 +127,7 @@ vec4 project(ivec2 xy, int z, ivec2 align){
 
 //const vec4 COLOR_= vec4(.,.,.,1.);
 const vec4 COLOR_BASE  =   vec4(vec3(.45),1.);
-const vec4 COLOR_BLAND=    COLOR_BASE*.6;
+const vec4 COLOR_BLAND=    COLOR_BASE*.2;
 const vec4 COLOR_AKTIV=    v4pad(SKY);
 const vec4 COLOR_UNAKTIV=  v4pad(1.-SKY);
 const vec4 COLOR_SPICEY=   vec4(1. ,  .3,  .3, 1.);
@@ -269,7 +270,7 @@ void main(){
 ''')
 glBindVertexArray(0)
 
-#todo refactor vaos into a universal
+
 
 vbo_border= glGenBuffers(1)
 vao_border= glGenVertexArrays(1)

@@ -69,6 +69,7 @@ flatten2= lambda a: [_ for e in a for _ in e]
 from copy import copy
 #todo this will later be replaced by a more specialised hierarchical space
 #	whatever the fuck that means
+#	i think it means relative spaces with partitioning
 @dcls
 class ivec2:
 	x: int

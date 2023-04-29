@@ -84,9 +84,6 @@ setattr(cursor,'prime',cursor())#because dcls
 
 
 
-
-#word: str= ''
-
 @dcls
 class text:
 	bnd: bound
@@ -173,7 +170,7 @@ entry point for
 			impure functions
 			media (displays, audio, text, etc)
 	api
-		todo some decorator bullshit idk
+		some decorator bullshit idk
 		abi socketed through python, until python subsumed
 
 

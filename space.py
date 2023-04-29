@@ -76,6 +76,7 @@ class body:
 	p: ivec2
 	glyph: glyph
 	z: int=0 #layer, only 0 is nonvolatile (serialized)
+	#negative z is useful for second layer of same zoomlevel
 	mod: int=0 #modifier visual status
 	ptr: object= None #dynamic datum
 	align: ivec2= ivec2(0,0)
@@ -104,10 +105,10 @@ class body:
 #alt ctors
 def body_s(p:ivec2, s:str , z:int=0, mod:int=0,ptr:object=None, align=ivec2(0,0)):
 	assT(s,str)
-	return body(p,  runedic.get(s,runelib.empty).gph, z, mod, ptr, align )
+	return body(p,  runedic.get(s,runelib.empty).gph, z=z, mod=mod, ptr=ptr, align=align )
 def body_r(p:ivec2, r:rune, z:int=0, mod:int=0,ptr:object=None, align=ivec2(0,0)):
 	assT(r,rune)
-	return body( p, r.gph,  z,       mod,      ptr,             align )
+	return body(p,  r.gph,  z=z,       mod=mod,      ptr=ptr,                 align=align )
 
 def kill(p:ivec2,z:int=0):
 	g= grid.get((p,z))
@@ -119,7 +120,7 @@ def search_emplace():
 	#destruct
 
 
-origin= body_r(ivec2(0,0),runelib.empty, 2, mods['spicey'])
+origin= body_r(ivec2(0,0),runelib.dashborder, 2, mods['bland'])
 
 snake=   lambda p,w:   int(p.y*w+p.x)
 snakent= lambda i,w: ivec2(  i%w,i/w)

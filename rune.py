@@ -38,7 +38,7 @@ class lib:
 dic={}
 #lib.runename
 #dic[runename]
-#	equivalent
+#equivalent
 
 @immut
 class glyph:

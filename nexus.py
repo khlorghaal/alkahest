@@ -107,7 +107,7 @@ class cho:
 	pick: str
 	fun: callable
 	tags: list[str]#for user searches
-	fret_eval_eval: callable= None #pre lambda collapse
+	fret_eval_eval: callable= None #pre lambda-collapse
 
 	def __post_init__(s):
 		s.fret_eval_eval= s.fret_eval#woe
@@ -184,6 +184,7 @@ chords= [cho(*c) for c in [
 #screenspace glyphs
 #internally stateless, used to display state
 def hud():
+	#todo should probably use textbox
 	if focus()==ROOT:
 		square= rune.lib.square
 		box= rune.lib.box
@@ -195,8 +196,7 @@ def hud():
 					continue
 				on= c in kstate
 				r= box if on else square
-				space.body(ivec2(x,y)+1,r.gph,z=-1,align=ivec2(-1,-1))
-
+				space.body(ivec2(x,y),r.gph,z=-1,align=ivec2(-1,-1))
 		#chord index
 		for y,cd in en(chords):
 			p= cd.pick
@@ -214,15 +214,15 @@ def hud():
 			if cd.fret_eval_eval in [_may,_non] and len(fstate)==0:
 				m= space.mod.none
 
-			x=0#print column
+			c= 0# warn, loop vars do persist and will silently reassign
 			def put(r, _m=None):
-				nonlocal x
+				nonlocal c
 				if _m==None:
 					nonlocal m
 					assert(m!=None)
 				r= r if type(r)==rune.rune else rune.dic[r]
-				space.body_r(ivec2(x-6,y+6),r,mod=m,z=-1,align=ivec2(-1,-1))
-				x+=1
+				space.body_r(ivec2(c,y+7),r,mod=m,z=-1,align=ivec2(-1,-1))
+				c+=1
 			def puts(s):
 				for r in rune.strnrm(s):
 					put(r)
@@ -238,20 +238,17 @@ def hud():
 				put('square' if f else 'box',_m)
 
 			#lower fret
-			_x=x
-			for f in set(cd.frets)&frets_lower:
-				puts(f)
-			if _x==x:
-				x+=3
+			_x=x+3#const pad
+			#for f in set(cd.frets)&frets_lower:
+			#	puts(f)
+			#x=_x
 
 			#pick labal
-			puts(p)
-			x+=1
+			puts(p+' ')
 
 			#tags labal
 			s= [' ',*cd.tags]
 			puts(s)
-
 
 
 
