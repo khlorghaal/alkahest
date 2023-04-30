@@ -66,6 +66,8 @@ join2d= lambda a: '\n'.join([''.join(s) for s in a])
 
 flatten2= lambda a: [_ for e in a for _ in e]
 
+eqT= lambda a,b: type(a)==type(b)
+
 from copy import copy
 #todo this will later be replaced by a more specialised hierarchical space
 #	whatever the fuck that means
@@ -85,7 +87,7 @@ class ivec2:
 		raise IndexError(i)
 	def __iter__(self,i):
 		return iter((x,y))
-	def __eq__(self,other): return self.x==other.x and self.y==other.y
+	def __eq__(self,other): return eqT(self,other) and self.x==other.x and self.y==other.y
 	def __hash__(self): return hash(self.x)^hash(self.y)
 
 

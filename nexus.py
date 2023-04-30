@@ -71,7 +71,7 @@ kbinds={
 
 	53: 'bf5',43:'bf4', 225:'bf3',224:'bf2', 226:'bf1',44:'bf0',	           98:'pk0', 99:'pk1', 88:'pk2'
 	}
-for sym in kbinds.values():
+for sym in kbinds.values():#value str equal to varname
 	locals()[sym]=sym
 key_layout= [
 	[bf5, f33, f32, f31, f30,   0, 0,   0, pk6, pk5, pk4],
@@ -188,19 +188,17 @@ def hud():
 	if focus()==ROOT:
 		square= rune.lib.square
 		box= rune.lib.box
+		empty= rune.lib.empty
+		boxsmol= rune.lib.boxsmol
+		bbox= rune.lib.bbox
 
-		#keys pressed
-		for y,r in en(key_layout[::-1]):
-			for x,c in en(r):
-				if c==0:
-					continue
-				on= c in kstate
-				r= box if on else square
-				space.body(ivec2(x,y),r.gph,z=-1,align=ivec2(-1,-1))
+
+		pos= ivec2(0,0)
+		m= space.mod.none
+		
 		#chord index
-		for y,cd in en(chords):
+		for cd in chords:
 			p= cd.pick
-			fr= [False]*4
 
 			if cd.fret_eval():#full match
 				m= space.mod.aktiv
@@ -214,42 +212,46 @@ def hud():
 			if cd.fret_eval_eval in [_may,_non] and len(fstate)==0:
 				m= space.mod.none
 
-			c= 0# warn, loop vars do persist and will silently reassign
 			def put(r, _m=None):
-				nonlocal c
-				if _m==None:
+				nonlocal pos
+				if(_m==None):
 					nonlocal m
-					assert(m!=None)
+				else:
+					m=_m
 				r= r if type(r)==rune.rune else rune.dic[r]
-				space.body_r(ivec2(c,y+7),r,mod=m,z=-1,align=ivec2(-1,-1))
-				c+=1
+				space.body_r(copy(pos),r,mod=m,z=-1,align=ivec2(-1,-1))
+				pos.x+=1
 			def puts(s):
 				for r in rune.strnrm(s):
 					put(r)
 
-			#fret mask
-			for x,f in en(frets[:4*4]): #fixme make 2d
-				fr[x%4]|= f in cd.frets
+			pos.x= len(key_layout[0])+1
+			puts(cd.tags)
 
 
-			#prime fret
-			for f in fr:
-				_m= space.mod.h if f in kstate else space.mod.none 
-				put('square' if f else 'box',_m)
+			#keymap_print
+			b= [*cd.pick,*cd.frets]
+			for R in key_layout:
+				pos.x= 0
+				for c in R:
+					if c!=0:
+						has= c in b
+						does=c in kstate
+						r= box
+						if does and not has:
+							r= boxsmol
+						if has:
+							r= square
+						if has and does:
+							r= bbox
+					else:
+						r= empty
+					space.body(copy(pos),r.gph,mod=m,z=-1,align=ivec2(-1,-1))
+					pos.x+= 1
+				pos.y-=1
 
-			#lower fret
-			_x=x+3#const pad
-			#for f in set(cd.frets)&frets_lower:
-			#	puts(f)
-			#x=_x
-
-			#pick labal
-			puts(p+' ')
-
-			#tags labal
-			s= [' ',*cd.tags]
-			puts(s)
-
+			pos.x= 0
+			pos.y+= len(key_layout)*2+1
 
 
 class ROOT:

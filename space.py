@@ -85,6 +85,7 @@ class body:
 	def __post_init__(self):
 		assT(self.p,ivec2)
 		assT(self.glyph,glyph)
+		
 		h= self.h()
 		o= grid.pop(h,None)
 		o and o.kill()
