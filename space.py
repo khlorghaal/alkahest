@@ -70,7 +70,6 @@ for k,v in mods.items():
 	setattr(mod,k,v)
 del i
 
-
 @immut
 class body:
 	p: ivec2
@@ -85,7 +84,7 @@ class body:
 	def __post_init__(self):
 		assT(self.p,ivec2)
 		assT(self.glyph,glyph)
-		
+
 		h= self.h()
 		o= grid.pop(h,None)
 		o and o.kill()

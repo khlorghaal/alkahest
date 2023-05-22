@@ -1292,7 +1292,7 @@ face smil
        0
   x x  0
   xxx  0
-angor angery
+angor angery anger angry
 00000000
        0
  xxxxx 0
@@ -1301,6 +1301,15 @@ angor angery
        0
   xxx  0
   x x  0
+jej lul kek
+00000000
+xxx xxx0
+  x x  0
+       0
+xxxxxxx0
+       0
+x     x0
+xxxxxxx0
 dorf dwarf
 00000000
 xxxxxxx0
@@ -1341,11 +1350,11 @@ x     x0
 00000000
        0
        0
-  x    0
-  x    0
-  xxx  0
-       0
-  xxx  0
+ x     0
+ x     0
+ xxxx  0
+  x x  0
+ xx x  0
 α alpha
 00000000
        0
@@ -1472,7 +1481,7 @@ xxxxxxx0
  x    x0
  x    x0
  x    x0
-Ω OMEGA final
+Ω OMEGA last final
 00000000
  xxxxx 0
  x   x 0
@@ -1494,20 +1503,20 @@ x      0
 00000000
        0
        0
+  xxx  0
   x x  0
-       0
-       0
+ xx xx 0
  x   x 0
  xxxxx 0
 ∇ nabla grad gradient
 00000000
  xxxxx 0
  x   x 0
-       0
-       0
-       0
+ x   x 0
+ xx xx 0
   x x  0
   xxx  0
+   x   0
 dvrg divergence
 00000000
   x x  0
@@ -1562,7 +1571,7 @@ luminance
  x   x 0
   x x  0
        0
-apparent_magnitude
+apparent_magnitude tile_skew caltrop
 00000000
        0
   x    0
@@ -1580,7 +1589,7 @@ x     x0
 x     x0
 x     x0
 xxxxxxx0
-thoon
+thon
 00000000
        0
 x xxx x0
@@ -1598,7 +1607,7 @@ x  x  x0
 x  x  x0
    x   0
    x   0
-fee
+feef
 00000000
        0
        0
@@ -1634,7 +1643,7 @@ omicron
   x x  0
   xxx  0
   x    0
-μ mu
+μ mu micro
 00000000
        0
        0
@@ -1679,7 +1688,7 @@ administrator
 xx x xx0
  x x x 0
    x   0
-array
+list
 00000000
 xx x xx0
 x  x  x0
@@ -1712,9 +1721,9 @@ xxxxxxx0
 x x   x0
 xxxxxxx0
 x x   x0
-x x xxx0
-x x x  0
-xxxxx  0
+x x   x0
+x x   x0
+xxxxxxx0
 thok
 00000000
   x    0
@@ -1790,11 +1799,20 @@ xxx xxx0
 noig
 00000000
   xxx  0
-  x    0
+  x x  0
 x x x x0
 x x x x0
 x x x x0
     x  0
+  xxx  0
+noignt antinoig
+00000000
+  x x  0
+  x x  0
+xxx xxx0
+x x x  0
+x x xxx0
+x   x  0
   xxx  0
 voight
 00000000
@@ -2005,13 +2023,13 @@ xxx xxx0
 x x   x0
 א alef aleph
 00000000
-xxxx xx0
-   x x 0
+xxx  xx0
+  xx x 0
    x x 0
  x x x 0
  x x   0
- x x   0
-xx xxxx0
+ x xx  0
+xx  xxx0
 ב bet  
 00000000
 xxxxx  0

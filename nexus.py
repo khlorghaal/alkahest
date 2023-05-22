@@ -115,7 +115,7 @@ class cho:
 
 sputmul= lambda: 1<<(2*len(fstate&{f00,f01,f02,f03}))
 sput= lambda *d: lambda: atom.cursor.thrust(ivec2(*d)*sputmul())
-spem= lambda c:  lambda: atom.cursor.prime.emits(c)
+spem= lambda  c: lambda: atom.cursor.prime.emits(c)
 def zch():
 	atom.cursor.prime.zoom= len(fstate&{f00,f01,f02,f03})
 rch= lambda s: rune.dic[s]
@@ -191,14 +191,10 @@ def hud():
 		empty= rune.lib.empty
 		boxsmol= rune.lib.boxsmol
 		bbox= rune.lib.bbox
-
-
-		pos= ivec2(0,0)
-		m= space.mod.none
 		
-		#chord index
-		for cd in chords:
-			p= cd.pick
+		def chord_print(pos0):
+			m= space.mod.none
+			p= pos0
 
 			if cd.fret_eval():#full match
 				m= space.mod.aktiv
@@ -212,28 +208,21 @@ def hud():
 			if cd.fret_eval_eval in [_may,_non] and len(fstate)==0:
 				m= space.mod.none
 
-			def put(r, _m=None):
-				nonlocal pos
-				if(_m==None):
-					nonlocal m
-				else:
-					m=_m
-				r= r if type(r)==rune.rune else rune.dic[r]
-				space.body_r(copy(pos),r,mod=m,z=-1,align=ivec2(-1,-1))
-				pos.x+=1
-			def puts(s):
-				for r in rune.strnrm(s):
-					put(r)
+				
+			def puts(p,s):#string
+				for x,r in en(rune.strnrm(s)):
+					r= r if type(r)==rune.rune else rune.dic[r]
+					space.body_r(p+ivec2(x,0),r,mod=m,z=-1,align=ivec2(-1,-1))
 
-			pos.x= len(key_layout[0])+1
-			puts(cd.tags)
+			#p.x= p.x+len(key_layout[0])+1
+			puts(p,cd.tags)
+			p.y+=1
 
 
 			#keymap_print
 			b= [*cd.pick,*cd.frets]
-			for R in key_layout:
-				pos.x= 0
-				for c in R:
+			for y,R in en(key_layout):
+				for x,c in en(R):
 					if c!=0:
 						has= c in b
 						does=c in kstate
@@ -242,17 +231,19 @@ def hud():
 							r= boxsmol
 						if has:
 							r= square
-						if has and does:
+						if does and has:
 							r= bbox
 					else:
 						r= empty
-					space.body(copy(pos),r.gph,mod=m,z=-1,align=ivec2(-1,-1))
-					pos.x+= 1
-				pos.y-=1
+					space.body(p+ivec2(x,y),r.gph,mod=m,z=-1,align=ivec2(-1,-1))
+					
+			p.y+= len(key_layout)*2+1
 
-			pos.x= 0
-			pos.y+= len(key_layout)*2+1
+			return p
 
+		for y,cd in en(chords):
+			p= ivec2(0,y*(len(key_layout)+1))
+			chord_print(p)
 
 class ROOT:
 	def inp(b,ch,sc):

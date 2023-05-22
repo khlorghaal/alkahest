@@ -1,5 +1,5 @@
 forms lose shape as geometries become pure symbols
-arrangement is a deterministic style function,
+arrangement is a style function,
 real programming in a visual language
 
 keyboard discards all lexical notions

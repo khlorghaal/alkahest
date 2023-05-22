@@ -102,6 +102,7 @@ class rune:
 dic['empty']= rune('empty',glyph(0))
 
 def strnrm(pile:list[str,rune]):
+	#todo why is this weird
 	ret=[]
 	for e in pile:
 		if type(e)==rune:

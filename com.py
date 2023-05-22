@@ -15,6 +15,7 @@ ra= range
 true= True
 fals= False
 null= None
+none= None
 
 import sys
 from IPython.core import ultratb
@@ -69,41 +70,35 @@ flatten2= lambda a: [_ for e in a for _ in e]
 eqT= lambda a,b: type(a)==type(b)
 
 from copy import copy
-#todo this will later be replaced by a more specialised hierarchical space
-#	whatever the fuck that means
-#	i think it means relative spaces with partitioning
-@dcls
+from copy import deepcopy
+
 class ivec2:
-	x: int
-	y: int
-	def __post_init__(self):
-		self.x= int(self.x)
-		self.y= int(self.y)
-	def __getitem__(self, i): 
-		if i==0:
-			return self.x
-		if i==1:
-			return self.y
+	def __init__(s,x,y=None):
+		s.x= int(x)
+		s.y= int(y) if y!=None else s.x
+		assT(s.x,int)
+		assT(s.y,int)
+	def __getitem__(s, i): 
+		if i==0: return s.x
+		if i==1: return s.y
 		raise IndexError(i)
-	def __iter__(self,i):
+	def __iter__(s,i):
 		return iter((x,y))
-	def __eq__(self,other): return eqT(self,other) and self.x==other.x and self.y==other.y
-	def __hash__(self): return hash(self.x)^hash(self.y)
+	def __eq__(s,other): return eqT(s,other) and s.x==other.x and s.y==other.y
+	def __hash__(s): return hash(s.x)^hash(s.y)
 
 
-def ivec2op(op):
+def ivec2opform(op):
 	op= int.__dict__[op]
-	def ret(self, other):
-		if type(other)==ivec2:
+	def ret(this,that):
+		if type(that)==ivec2:
 			return ivec2(
-				int(op(self.x,other.x)),
-				int(op(self.y,other.y)))
+				op(this.x,that.x),
+				op(this.y,that.y))
 		else:#scalar
-			assert(isinstance(self,ivec2))
-			assert(isinstance(other,(int,float)))
 			return ivec2(
-				int(op(self.x,int(other))),
-				int(op(self.y,int(other))))
+				op(this.x,int(that)),
+				op(this.y,int(that)))
 	return ret
 
 arithmetic_list= [
@@ -112,4 +107,4 @@ arithmetic_list= [
 	'__xor__','__or__','__neg__','__abs__',
 	'__round__','__trunc__','__floor__','__ceil__']
 for op in arithmetic_list:
-	setattr(ivec2,op,ivec2op(op))
+	setattr(ivec2,op,ivec2opform(op))
