@@ -169,7 +169,7 @@ chords= [cho(*c) for c in [
 	#bwr
 
 	#morphic
-	(_non,{},pk0,space.kill,['del' ]),
+	(_non,{},pk0,atom.cursor.prime.killat(),['del' ]),
 	(_all,{bf0},pk0,spem('bus'),[rch('bus'),' bus']),
 
 	#systemic
@@ -254,12 +254,13 @@ class ROOT:
 		else:#is pick
 			p=k
 			if b:
-				for n in chords:#chot
+				for n in chords:
 					if n.pick!=p:
 						continue
 					if n.fret_eval():
 						if audio:#todo actual frets
 							audio.chord(fstate)
+						assnn(n.fun)
 						n.fun()
 						
 focus(ROOT)

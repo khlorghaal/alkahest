@@ -75,6 +75,7 @@ class body:
 	p: ivec2
 	glyph: glyph
 	z: int=0 #layer, only 0 is nonvolatile (serialized)
+	#z-axis is not graphical zoom
 	#negative z is useful for second layer of same zoomlevel
 	mod: int=0 #modifier visual status
 	ptr: object= None #dynamic datum
@@ -203,11 +204,11 @@ def load():
 		#str->[chr]->[bool]
 		l= l[:-1]#trim \n
 		l= [c not in '. _□0' for c in l]
-		ass(len(l),w)
+		asseq(len(l),w)
 		rast+= [l]
 
-	ass(w%8,0)
-	ass(h%8,0)
+	asseq(w%8,0)
+	asseq(h%8,0)
 
 	#load all as glyphs
 	for y in ra(0,h,8):#tile iteration
@@ -270,6 +271,5 @@ def save():
 				c= '.' if not c else '■'
 				f.write(c)
 			f.write('\n')
-	ass()
 	print('saved %s'%filename)
 

@@ -45,10 +45,10 @@ class glyph:
 	bin: int
 
 	def __post_init__(self):
-		ass(type(self.bin),int)
+		assT(self.bin,int)
 
 	def new(d:tuple[tuple]):
-		ass(aawh(d),(8,8))
+		asseq(aawh(d),(8,8))
 		b=0
 		for y in ra(8):
 			for x in ra(8):
@@ -84,7 +84,7 @@ class rune:
 	names: list[str]
 	gph: glyph
 	def __post_init__(self):
-		ass(type(self.gph),glyph)
+		assT(self.gph,glyph)
 		def a(k):
 			if k==0:
 				return

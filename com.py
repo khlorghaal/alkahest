@@ -34,11 +34,14 @@ def warn(s):
 def  err(s):
 	raise AssertionError(f'errr: {lineno_outer()}: {s}')
 
-def ass(v,p,arg=None):
+def asseq(v,p=None,arg=None):
 	if v==p:
 		return
 	raise AssertionError(f'assnt {v} != {p} ; {arg}')
-
+def assnn(v):
+	if v!=None:
+		return
+	raise AssertionError(f'assnt isnull')
 def assT(v,T):
 	if type(v)==T:
 		return

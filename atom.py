@@ -66,6 +66,8 @@ class cursor:
 		body(s.b.p,gph,0)
 	def emits(s,r:str):
 		body(s.b.p,runedic[r].gph,0)
+	def killat(s):
+		kill(s.b.p,s.b.z)
 
 	def step():
 		r=None#dirty
