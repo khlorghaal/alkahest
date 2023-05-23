@@ -188,7 +188,7 @@ def load(fname):
 			g= glyph(names,rast)
 			for n in names:
 				if f.glyphs.get(n)!=None:
-					warn('name is already assigned, replacing')
+					warn(f'name "{n}" is already assigned, replacing')
 				f.glyphs[n]= g
 
 			line_num+= stride

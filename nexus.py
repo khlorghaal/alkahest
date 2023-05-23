@@ -182,9 +182,8 @@ chords= [cho(*c) for c in [
 
 
 #screenspace glyphs
-#internally stateless, used to display state
+#stateless view
 def hud():
-	#todo should probably use textbox
 	if focus()==ROOT:
 		square= rune.lib.square
 		box= rune.lib.box
@@ -192,9 +191,10 @@ def hud():
 		boxsmol= rune.lib.boxsmol
 		bbox= rune.lib.bbox
 		
-		def chord_print(pos0):
+		wh= ivec2(len(key_layout[0]),len(key_layout))+2
+
+		def chord_print(p,cd):
 			m= space.mod.none
-			p= pos0
 
 			if cd.fret_eval():#full match
 				m= space.mod.aktiv
@@ -202,8 +202,6 @@ def hud():
 				m= space.mod.highlight
 				#if cd.fret_eval_eval==_any:
 				#	m= space.mod.none
-			else:
-				m= space.mod.none
 
 			if cd.fret_eval_eval in [_may,_non] and len(fstate)==0:
 				m= space.mod.none
@@ -213,37 +211,30 @@ def hud():
 				for x,r in en(rune.strnrm(s)):
 					r= r if type(r)==rune.rune else rune.dic[r]
 					space.body_r(p+ivec2(x,0),r,mod=m,z=-1,align=ivec2(-1,-1))
-
-			#p.x= p.x+len(key_layout[0])+1
 			puts(p,cd.tags)
-			p.y+=1
-
 
 			#keymap_print
-			b= [*cd.pick,*cd.frets]
+			pf= set(cd.frets)|set([cd.pick])
 			for y,R in en(key_layout):
 				for x,c in en(R):
 					if c!=0:
-						has= c in b
-						does=c in kstate
+						s = c in kstate
+						f = c in pf
 						r= box
-						if does and not has:
-							r= boxsmol
-						if has:
-							r= square
-						if does and has:
-							r= bbox
+						if f:
+							r= square#part of the binding not active
+						if s and f:
+							r= bbox#part of the binding and pressed
+						if s and not f:
+							r= boxsmol#pressed but not part of binding
 					else:
 						r= empty
-					space.body(p+ivec2(x,y),r.gph,mod=m,z=-1,align=ivec2(-1,-1))
+					space.body(p+ivec2(x,-1-y),r.gph,mod=m,z=-1,align=ivec2(-1,-1))
 					
-			p.y+= len(key_layout)*2+1
-
-			return p
-
-		for y,cd in en(chords):
-			p= ivec2(0,y*(len(key_layout)+1))
-			chord_print(p)
+		for i,cd in en(chords):
+			hh= 16
+			p= wh*ivec2(i//hh,i%hh)
+			chord_print(p+ivec2(1,wh.y-1),cd)
 
 class ROOT:
 	def inp(b,ch,sc):

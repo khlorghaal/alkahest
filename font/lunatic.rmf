@@ -52,14 +52,14 @@ x     x0
 xxxxxxx0
 □ boxsmol
 00000000
-00000000
+       0
  xxxxx 0
  x   x 0
  x   x 0
  x   x 0
  xxxxx 0
 00000000
-▣ bbox
+▣ bbox box_boxsolid
 00000000
 xxxxxxx0
 x     x0
@@ -68,7 +68,16 @@ x xxx x0
 x xxx x0
 x     x0
 xxxxxxx0
-⧈ concenrect
+boxsmol_bbox bbox_small
+00000000
+       0
+ xxxxx 0
+ x   x 0
+ x x x 0
+ x   x 0
+ xxxxx 0
+00000000
+⧈ concenrect box_box
 00000000
 xxxxxxx0
 x     x0

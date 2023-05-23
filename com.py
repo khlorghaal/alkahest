@@ -78,10 +78,6 @@ class ivec2:
 		s.y= int(y) if y!=None else s.x
 		assT(s.x,int)
 		assT(s.y,int)
-	def __getitem__(s, i): 
-		if i==0: return s.x
-		if i==1: return s.y
-		raise IndexError(i)
 	def __iter__(s,i):
 		return iter((x,y))
 	def __eq__(s,other): return eqT(s,other) and s.x==other.x and s.y==other.y
