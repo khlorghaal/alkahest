@@ -112,6 +112,7 @@ class cho:
 	def __post_init__(s):
 		s.fret_eval_eval= s.fret_eval#woe
 		s.fret_eval= s.fret_eval(s.frets)#collapse outer lambda
+		assnncls(s)
 
 sputmul= lambda: 1<<(2*len(fstate&{f00,f01,f02,f03}))
 sput= lambda *d: lambda: atom.cursor.thrust(ivec2(*d)*sputmul())
@@ -143,21 +144,21 @@ chords= [cho(*c) for c in [
 	(_all,(bf1,),d11, lambda: space.aktivat(ROOT),['focus']),
 
 	#arithmetic
-	(_all,{f10,   },pk0,spem('add' ),[rch('add' ),' add' ]),
-	(_all,{f10,bf0},pk0,spem('sub' ),[rch('sub' ),' sub' ]),
-	(_all,{f11,   },pk0,spem('mul' ),[rch('mul' ),' mul' ]),
-	(_all,{f11,bf0},pk0,spem('div' ),[rch('div' ),' div' ]),
-	(_all,{f12,   },pk0,spem('pow' ),[rch('pow' ),' pow' ]),
-	(_all,{f12,bf0},pk0,spem('log' ),[rch('log' ),' log' ]),
-	(_all,{f13,   },pk0,spem('mod' ),[rch('mod' ),' mod' ]),
-	(_all,{f10,   },pk2,spem('len' ),[rch('len' ),' len' ]),
-	(_all,{f11,   },pk2,spem('nrm' ),[rch('nrm' ),' nrm' ]),
-	(_all,{f10,   },pk3,spem('grad'),[rch('grad'),' grad']),
-	(_all,{f11,   },pk3,spem('dvrg'),[rch('dvrg'),' dvrg']),
-	(_all,{f12,   },pk3,spem('lapl'),[rch('lapl'),' lapl']),
-	(_all,{f13,   },pk3,spem('flux'),[rch('flux'),' flux']),
-	(_all,{f10,   },pk4,spem( 'fft'),[rch( 'fft'),'  fft']),
-	(_all,{f10,bf0},pk4,spem('ifft'),[rch('ifft'),' ifft']),
+	(_all,{f10,   },pk0,spem('add' ),[rch('add' ),'add' ]),
+	(_all,{f10,bf0},pk0,spem('sub' ),[rch('sub' ),'sub' ]),
+	(_all,{f11,   },pk0,spem('mul' ),[rch('mul' ),'mul' ]),
+	(_all,{f11,bf0},pk0,spem('div' ),[rch('div' ),'div' ]),
+	(_all,{f12,   },pk0,spem('pow' ),[rch('pow' ),'pow' ]),
+	(_all,{f12,bf0},pk0,spem('log' ),[rch('log' ),'log' ]),
+	(_all,{f13,   },pk0,spem('mod' ),[rch('mod' ),'mod' ]),
+	(_all,{f10,   },pk2,spem('len' ),[rch('len' ),'len' ]),
+	(_all,{f11,   },pk2,spem('nrm' ),[rch('nrm' ),'nrm' ]),
+	(_all,{f10,   },pk3,spem('grad'),[rch('grad'),'grad']),
+	(_all,{f11,   },pk3,spem('dvrg'),[rch('dvrg'),'dvrg']),
+	(_all,{f12,   },pk3,spem('lapl'),[rch('lapl'),'lapl']),
+	(_all,{f13,   },pk3,spem('flux'),[rch('flux'),'flux']),
+	(_all,{f10,   },pk4,spem( 'fft'),[rch( 'fft'),' fft']),
+	(_all,{f10,bf0},pk4,spem('ifft'),[rch('ifft'),'ifft']),
 	#shr
 	#shl
 	#clz
@@ -169,8 +170,8 @@ chords= [cho(*c) for c in [
 	#bwr
 
 	#morphic
-	(_non,{},pk0,atom.cursor.prime.killat(),['del' ]),
-	(_all,{bf0},pk0,spem('bus'),[rch('bus'),' bus']),
+	(_non,{   },pk0,atom.cursor.prime.killat,['del']),
+	(_all,{bf0},pk0,spem('bus')             ,[rch('bus'),'bus']),
 
 	#systemic
 #	(_all,{bf5},pk0,atom.word,['word']),
@@ -260,7 +261,8 @@ class ROOT:
 					if n.fret_eval():
 						if audio:#todo actual frets
 							audio.chord(fstate)
-						assnn(n.fun)
+						if n.fun==None:
+							print(vars(n))
 						n.fun()
 						
 focus(ROOT)

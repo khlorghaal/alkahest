@@ -50,7 +50,7 @@ x     x0
 x     x0
 x     x0
 xxxxxxx0
-□ boxsmol
+boxsmol
 00000000
        0
  xxxxx 0
@@ -58,7 +58,16 @@ xxxxxxx0
  x   x 0
  x   x 0
  xxxxx 0
+       0
+boxsmoler
 00000000
+       0
+       0
+  xxx  0
+  x x  0
+  xxx  0
+       0
+       0
 ▣ bbox box_boxsolid
 00000000
 xxxxxxx0

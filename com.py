@@ -38,10 +38,10 @@ def asseq(v,p=None,arg=None):
 	if v==p:
 		return
 	raise AssertionError(f'assnt {v} != {p} ; {arg}')
-def assnn(v):
+def assnn(v,arg=None):
 	if v!=None:
 		return
-	raise AssertionError(f'assnt isnull')
+	raise AssertionError(f'assnt null {arg}')
 def assT(v,T):
 	if type(v)==T:
 		return
@@ -51,7 +51,14 @@ def plocals():
 	l= instack().frame.f_locals.items()
 	for s,v in l:
 		print(f'{s}:{type(v)}={v}')
-		
+
+__obj_dir= dir(object())
+def assnncls(s):
+    for k in dir(s):
+    	if k.startswith('__'):#yes this is the best approach
+    		continue
+    	assnn(s.__getattribute__(k),k)
+
 
 from dataclasses import dataclass as dcls
 immut= dcls(frozen=True)
